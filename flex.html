@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 
+
+    /* 关键字值 */
+flex: auto;
+flex: initial;
+flex: none;
+
+/* 一个值, 无单位数字: flex-grow */
+flex: 2;
+
+/* 一个值, width/height: flex-basis */
+flex: 10em;
+flex: 30px;
+flex: min-content;
+
+/* 两个值: flex-grow | flex-basis */
+flex: 1 30px;
+
+/* 两个值: flex-grow | flex-shrink */
+flex: 2 2;
+
+/* 三个值: flex-grow | flex-shrink | flex-basis */
+flex: 2 2 10%;
+   -->
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    ul, li {
+      list-style: none;
+    }
+    ul{
+      display: flex;
+      outline: 1px solid red;
+      height: 100px;
+      justify-content:space-between;
+      align-items: center;
+      /* align-content 是指把父容器包含的所用内容 当做一个整体处理，就好像当做一个item一样 */
+      align-content: space-around;
+    }
+    li {
+      background-color: red;
+      flex: 1;
+      /* width: 50px; */
+    }
+    /* 如果item本身设置了宽度，那么flex-grow 它是指去掉本身宽度后，再按比例 */
+    li:nth-child(2) {
+      /* 控制台查看宽度 443 */
+      /* flex-grow: 1; */
+      /* flex-basis: 200px; */
+      background-color: yellow;
+      /* flex-basis: 100px; */
+    }
+    li:nth-child(3) {
+      /* 控制台查看宽度 843 ，为什么不和上面的元素宽度成比例 因为元素本身设置的有50px*/
+      /* 843-50 = 793  446-50 = 396  这样就是2：1 了 符合设置的grow比例*/
+      /* flex-grow: 2; */
+      /* flex-basis: 200px; */
+      background-color: yellowgreen;
+    }
+    /* li:first-child{
+      background-color: red;
+      width: 50px;
+    }
+    li:last-child{
+      flex-grow: 1;
+      background-color: yellow;
+    } */
+  </style>
+</head>
+<body>
+  <!-- 设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。 -->
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  </ul>
+</body>
+</html>

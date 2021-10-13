@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var __extends = (this && this.__extends) || (function () {
+      var extendStatics = function (d, b) {
+          extendStatics = Object.setPrototypeOf ||
+              ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+              function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+          console.log(extendStatics)
+
+          return extendStatics(d, b);
+      };
+      return function (d, b) {
+          var aa = extendStatics(d, b);
+          console.log(aa, this)
+          function __() { this.constructor = d; }
+          d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+      };
+  })();
+  var aa = {
+    name: 'xjp'
+  }
+  var bb = {
+    age: 19
+  }
+  var cc = Object.setPrototypeOf
+  __extends(bb, aa)
+  console.log(bb)
+  </script>
+</body>
+</html>

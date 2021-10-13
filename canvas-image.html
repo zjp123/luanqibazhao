@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> -->
+    <title>作图</title>
+    <meta name="description" content="随你心意，画你所想" />
+    <meta name="keywords" content="随心，画板，画你所想" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      .canvas{
+        display: block;
+        border: 1px solid red;
+        /* border-image:url('./aa.jpeg') 0 0 stretch; */
+        margin: 100px auto;
+      }
+      /* div{
+        width: 100px;
+        height: 200px;
+        border: 1px solid green;
+        margin: 100px auto;
+      } */
+      /* img{
+        visibility: hidden;
+      } */
+    </style>
+  </head>
+  <body>
+    <canvas class="canvas" width="800px" height="600px">
+      版本过低
+    </canvas>
+    <!-- <div></div> -->
+    <!-- <img src="./aa.jpeg" alt=""> -->
+    <div class="load">刷新</div>
+
+    <script>
+
+      var load = document.querySelector(".load");
+      //   点击刷新
+      load.onclick = function() {
+        location.reload();
+      };
+    </script>
+    <script>
+      // window.open('./css属性.html');
+      /** @type {HTMLCanvasElement}  */
+      var canvas2 = document.querySelector(".canvas");
+      // let image = document.images[0];
+      if (canvas2.getContext) {
+        var fontSize = 28; // 文字大小
+        var textMaxHeight = 0;
+        var wordNum = 5; // 一行5个名字
+        var maxFontSize = 90; // 文本的最大宽度
+        var lineNum = 0;
+        var ctx = canvas2.getContext("2d");
+        var arr = ['李    三', '重难点', '往    往', '睡觉觉', '宅男', '上海市', '赵    四', '小沈阳', '王麻子', '大哥走',
+          '大哥走', '林黛玉', '贾宝玉', '孙悟空', '猪八戒', '唐    生', '沙悟净', '白骨精', '女儿国', '兔子精', '小白鼠', '铁扇公主',
+          '李    三', '重难点', '往    往', '睡觉觉', '宅男', '上海市', '赵    四', '小沈阳', '王麻子', '大哥走',
+          '大哥走', '林黛玉', '贾宝玉', '孙悟空', '猪八戒', '唐    生', '沙悟净', '白骨精', '女儿国', '兔子精', '小白鼠', '铁扇公主',
+          '李    三', '重难点', '往    往', '睡觉觉', '宅男', '上海市', '赵    四', '小沈阳', '王麻子', '大哥走',
+          '大哥走', '林黛玉', '贾宝玉', '孙悟空', '猪八戒', '唐    生', '沙悟净', '白骨精', '女儿国', '兔子精', '小白鼠', '铁扇公主']
+        arr.forEach((ele, index, array) => {
+          if (ele.length === 2) {
+            // ele = ele.trim()
+            // var temp = ele.split().join()
+            array[index] = array[index].slice(0,1) + '    ' + array[index].slice(1)
+            // return ele
+          }
+        });
+        console.log(canvas2.width, canvas2.height)
+        while (lineNum < arr.length) {
+          lineNum%wordNum === 0 && textMaxHeight++ // 一行5个名字, 这么多名字 能排多少行
+          lineNum++
+        }
+        // console.log(textMaxHeight, 'textMaxHeight')
+        // x = 0; // 置为0，开始下面的循环
+        var maxDrawTextHeight = textMaxHeight * fontSize + (textMaxHeight - 1) * 22; // 所有文本绘制的最大高度(50 - 28)
+        var maxDrawTextWidth = wordNum * maxFontSize + (wordNum - 1) * 30; // 一行文本绘制的最大宽度
+
+        console.log(maxDrawTextWidth, maxDrawTextHeight, 'maxDrawTextWidth, maxDrawTextHeight')
+
+        //   设置画布宽高
+        canvas2.setAttribute("width", (maxDrawTextWidth + 300) + "px");
+        canvas2.setAttribute("height", (maxDrawTextHeight + 400) + "px");
+
+        draw()
+        // let imageData2 = ctx.getImageData(10, 10, 50, 50);
+        // console.log(imageData2, imageData2.data.length)
+        // setImgData()
+        
+        // 获取canvas上下文
+        function draw () {
+          var img = new Image()
+          img.src = './aa.jpeg'
+          img.onload = function () {
+            ctx.drawImage(img, 0, 0, canvas2.width, canvas2.height);
+            // setImgData(img)
+            var i = 0;
+            var n = 0;
+            var m = 0;
+            // var fontSize = 28; // 文字大小
+            // var textMaxHeight = 0;
+            // var wordNum = 5; // 一行5个名字
+            // var maxFontSize = 90; // 文本的最大宽度
+            // while (i < arr.length) {
+            //   i%wordNum === 0 && textMaxHeight++ // 一行5个名字, 这么多名字 能排多少行
+            //   i++
+            // }
+            // i = 0; // 置为0，开始下面的勋魂
+            // ctx.font = "bold 14px Arial";
+
+            // ctx.fillText('ooo', 0, 200, 50);
+
+            while (i < arr.length) {
+              ctx.font = `bold ${fontSize}px Arial`;
+              ctx.textAlign = "start";
+              ctx.textBaseline = "top";
+              (i !== 0 && i%wordNum === 0) && (n++, m = 0) // 一行5个名字
+              // console.log(n)
+              // ctx.fillText(arr[i], 150 + m * (maxFontSize + 30), 200 + n * 50, maxFontSize);
+              var x = 150 + m * (maxFontSize + 30)
+              var y = 200 + n * 50
+              ctx.strokeStyle = "red";
+              ctx.fillStyle = "#0000ff";
+              ctx.fillText(arr[i], x, y, maxFontSize);
+              
+              ctx.strokeRect(x, y, ctx.measureText(arr[i]).width, 30);
+              console.log(ctx.measureText(arr[i]).width, arr[i])
+              i++
+              m++
+            }
+            // var bloburl = canvas2.toDataURL('image/jpeg');
+            // var anchor = document.createElement('a');
+            // anchor.href = bloburl;
+            // anchor.download = '榜单下载';
+            // anchor.click()
+            // anchor = null;
+            // ctx.rect(0, 0, 2000, 800);
+            // ctx.fillStyle = "rgb(236,237,239)";
+            // ctx.fill();
+          }
+
+        }
+        // 设置画笔样式
+        // ctx.strokeStyle = "orange";
+        // ctx.lineWidth = 2;
+        function setImgData (img) {
+          console.log('width', img.width, img.height)
+          imageData = ctx.getImageData(0, 0, img.width, img.height); 
+          var imageData, data, i, len, average, red, green, blue, alpha;
+          data = imageData.data;
+          for (i=0, len=data.length; i < len; i+=4) {
+            red = data[i];
+            green = data[i+1];
+            blue = data[i+2];
+            alpha = data[i+3];
+            // 取得 RGB 平均值
+            average = Math.floor((red + green + blue) / 3);
+            // 设置颜色，不管透明度 
+            data[i] = average; 
+            data[i+1] = average; 
+            data[i+2] = average;
+          }
+          // 将修改后的数据写回 ImageData 并应用到画布上显示出来 
+          imageData.data = data; 
+          ctx.putImageData(imageData, 0, 0);
+          
+        }
+      } else {
+        alert("请升级浏览器版本");
+      }
+      setTimeout(() => {
+        let imageData1 = ctx.getImageData(100, 200, 50, 50);
+        console.log(imageData1, imageData1.data.length)
+      }, 500)
+    </script>
+<script>
+
+</script>
+
+  </body>
+</html>

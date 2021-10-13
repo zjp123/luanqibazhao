@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <section>
+      <main>
+        <ul id="list">
+          <li>打断点</li>
+          <li>付广告费</li>
+          <li>冬冬</li>
+          <li>哈哈</li>
+          <li>方法</li>
+        </ul>
+      </main>
+      <button id="btn">点我</button>
+      <p id="test">啦啦啦啦啦啦</p>
+    </section>
+  </div>
+  
+<script>
+  let observer = null;
+  const ele = document.getElementById('app')
+  const list = document.getElementById('list')
+  const btn = document.getElementById('btn')
+  function monitor() {
+    observer = new MutationObserver((mutationRecords) => {
+      console.log(mutationRecords)
+      console.log('<body> attributes changed')
+    });
+    observer.observe(ele, { childList: true, subtree: true });
+    // ele.dataset.aa = 'zjp'
+    // ele.setAttributeNS('baz', 'foo', 'bar');
+        
+  }
+  monitor()
+  setTimeout(() => {
+    ele.dataset.aa = 'zjp'
+    ele.dataset.bb = 'gggg'
+    list.lastElementChild.innerHTML = '思考思考思考开始看';
+
+    // observer.disconnect() // 紧接着取消就监控不到了
+  }, 2000)
+  btn.onclick = function () {
+    monitor();
+  }
+</script>
+<script>
+
+</script>
+</body>
+</html>

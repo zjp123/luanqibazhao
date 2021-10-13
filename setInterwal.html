@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p>(Disconnect your network temporarily and watch your Net tab if you want to really see things pile up.)</p>
+  <div id="reqs"></div>
+  <div id="req2"></div>
+  <script>
+    var n = 0, t = 0, u = 0, i, s = 'Stopping after 25 requests, to avoid killing jsfiddle’s server';
+function a() {
+    $.post('/ajax_html_echo/', function() {
+        --n;
+    });
+    
+    ++n; ++t;
+    $('#reqs').html(n + ' a() requests in progress!');
+    
+    if(t > 25)
+    {
+        clearInterval(i);
+        $('#reqs').html(s);
+    }
+}
+
+function b() {
+    ++u;
+    $.post('/ajax_html_echo/', function() {
+        $('#req2').html('b(): ' + new Date().toString());
+        if(u <= 25)
+        {
+            setTimeout(b, 500);
+        }
+        else
+        {
+            $('#req2').html(s);
+        }
+    });
+}
+
+i = setInterval(a, 500);
+setTimeout(b, 500);
+
+  </script>
+</body>
+</html>

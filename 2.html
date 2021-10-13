@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Include stylesheet -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.core.css"> -->
+</head>
+<body>
+  <!-- Create the editor container -->
+  <div id="editor">
+    <p>Hello World!</p>
+    <p>Some initial <strong>bold</strong> text</p>
+    <p><br></p>
+  </div>
+  <div id="editor2">
+    <p>skksksksksks dddd</p>
+    <!-- <p><br></p> -->
+  </div>
+  
+  <div id="toolbar" class="ql-toolbar ql-snow" slot="toolbar">
+    <span class="ql-formats">
+      <button class="ql-bold" title="加粗">Bold</button>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-image" title="图片">..</button>
+    </span>
+    <select class="ql-header" title="段落格式">
+        <option selected>正文</option>
+        <option value="2">标题1</option>
+        <option value="3">标题2</option>
+        <option value="4">标题3</option>
+    </select>
+    <button class="ql-list" value="ordered" title="有序列表"></button>
+    <button class="ql-list" value="bullet" title="无序列表"></button>
+    <select class="ql-color" value="color" title="字体颜色"></select>
+    <!-- <span class="ql-pic icon-pic custom-icon" title="图片" @click="insertImgClick($event)"></span>  
+    <span class="icon-video custom-icon" title="视频" @click="insertImgClick($event)"></span> 
+    <input style="display: none;" type="file" id="insert_image" onChange="fileInsert($event)">  
+    <input style="display: none;" type="file" id="insert_video" onChange="fileInsert($event)">   -->
+</div>
+<div id="editor3" class="ql-container ql-snow">
+  <p>diy editor</p>
+</div>
+  <!-- Include the Quill library -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <!-- Initialize Quill editor -->
+  <script>
+    function showImageUI () {}
+    var options = {
+      theme: 'snow',
+      placeholder: '请输入...',
+      modules: {
+        // toolbar: true    // Snow includes toolbar by default
+        // toolbar: '#toolbar'
+        toolbar: {
+          container: [
+                ['bold'],
+                // ['blockquote', 'code-block'],
+                [{ 'align': [] }],
+                // [{ 'color': [] }, { 'background': [] }],
+                ['image', 'video'],
+                ['voice'] // 音频
+              ],
+        }
+      },
+    }
+    var quill = new Quill('#editor', options);
+    var quill2 = new Quill('#editor2', {
+      theme: 'snow',
+      modules: {
+        // clipboard: {
+        //   matchers: [
+        //     [Node.TEXT_NODE, customMatcherB]
+        //   ]
+        // },
+        // toolbar: true    // Snow includes toolbar by default
+        // toolbar: '#toolbar'
+        toolbar: {
+          container: [
+                ['bold'],
+                // ['blockquote', 'code-block'],
+                [{ 'align': [] }],
+                // [{ 'color': [] }, { 'background': [] }],
+                ['image', 'video'],
+                ['voice'] // 音频
+              ],
+          handlers: {
+            'voice': function (value) {
+            // 添加工具方法，即点击时模仿点击上传组件的按钮
+              // document.querySelector('.uploadId input').click();
+              // document.querySelector('.uploadVoiceBtn').click();
+            },
+            'bold': function (value) {
+              // console.log(this);
+              // for (var key in this.quill) {
+              //  console.log(key);
+                
+              // }
+              quill2.format('bold', 'true');
+            }
+          }
+        }
+      },
+      
+    });
+    const contents ={
+        "ops": [
+          {
+            "insert": "Gandalf the Grey\n"
+          }
+        ]
+    }
+    quill.setContents(contents);
+    var toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('image', showImageUI);
+    quill.enable(true);
+    setTimeout(function () {
+      let aa = quill.getSelection();
+      // console.log('aa', quill.selection.savedRange);
+
+      
+    }, 2000)
+    quill2.enable(true);
+    var delta = quill2.getContents();
+    console.log(delta);
+    // quill2.deleteText(0, 1000);
+    var length = quill2.getLength();
+    console.log(length)
+    var text = quill2.getText()
+    console.log(text)
+    var bound = quill2.getBounds(0)
+    console.log(bound);
+    quill2.setSelection(0, 5);
+    // quill2.clipboard.addMatcher(Node.TEXT_NODE, function(node, delta) {
+    //   console.log(node, 11111);
+    //   return delta.insert(node.data);
+    // });
+    try {
+      quill2.clipboard.addMatcher(Node.ELEMENT_NODE, function(node, delta) {
+        console.log(node, 2222);
+        if (node.nodeName === 'IMG') {
+          try {
+            // node.defaultPrevented();
+            quill2.setSelection(null);
+            return ;
+            
+          } catch (error) {
+            console.log(7777)
+            
+          }
+          // debugger;
+        }
+        console.log(3333);
+        return delta.insert(node.innerText);
+        // return;
+      });
+
+    } catch (err) {
+      console.log(1111)
+    }
+    
+    quill2.update()
+    // quill2.on('text-change', function(delta, oldDelta, source) {
+    //   // if (source == 'api') {
+    //   //   console.log("An API call triggered this change.");
+    //   // } else if (source == 'user') {
+    //   //   console.log("A user action triggered this change.");
+
+    //   // }
+    //   console.log(delta, source, 999999);
+    // });
+    quill2.on('selection-change', function(range, oldRange, source) {
+      // if (range) {
+      //   if (range.length == 0) {
+      //     console.log('User cursor is on', range.index);
+      //   } else {
+      //     var text = quill.getText(range.index, range.length);
+      //     console.log('User has highlighted', text);
+      //   }
+      // } else {
+      //   console.log('Cursor not in the editor');
+      // }
+      console.log(range, oldRange, source)
+    });
+    // quill.on('editor-change', function(eventName, ...args) {
+    //   // if (eventName === 'text-change') {
+    //   //   // args[0] will be delta
+    //   // } else if (eventName === 'selection-change') {
+    //   //   // args[0] will be old range
+    //   // }
+    //   console.log(eventName, args , 888888888);
+
+    // });
+    var linkNode = document.querySelector('#container a');
+    // var linkBlot = Quill2.find(linkNode);
+    // let [line, offset] = quill2.getLine(18);
+    // console.log(line, offset);
+    quill2.setText('Hello\nWorld!');
+
+    let [line, offset] = quill2.getLine(7);
+    console.log(line, offset);
+
+    var Module = Quill.import('core/module');
+
+    class CustomModule extends Module {}
+
+    Quill.register('modules/custom-module', CustomModule);
+    var container = quill2.addContainer('ql-custom');
+    var toolbar = quill2.getModule('toolbar');
+  </script>
+  <script>
+    var quill3 = new Quill('#editor3', {
+      modules: {
+        toolbar: '#toolbar'
+      }
+    });
+    const target = document.querySelector('#editor3');
+
+    target.addEventListener('paste', (e) => {
+        // let paste = (event.clipboardData || window.clipboardData).getData('element');
+        // console.log("CustomModule -> showImageUI -> paste", paste);
+        // paste = paste.toUpperCase();
+    
+        // const selection = window.getSelection();
+        // if (!selection.rangeCount) return false;
+        // selection.deleteFromDocument();
+        // selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+
+        if ( !(e.clipboardData && e.clipboardData.items) ) {
+            return;
+        }
+        for (var i = 0, len = e.clipboardData.items.length; i < len; i++) {
+            var item = e.clipboardData.items[i];
+
+            if (item.kind === "string") {
+                item.getAsString(function (str) {
+                    console.log(str);
+                })
+            } else if (item.kind === "file") {
+                var f= item.getAsFile();
+                console.log(f);
+            }
+        }
+
+        event.preventDefault();
+    });
+  </script>
+</body>
+</html>

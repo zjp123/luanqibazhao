@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+     var depart= [
+          {name: '小学辅导老师1', id:1,
+            child: [
+              {name: '小学语文组1', id:2, child: [{name: '老师a', id: 3}, {name: '老师b', id: 3}]}
+            ]},
+          {name: '小学辅导老师2', id:1,
+            child: [
+              {name: '小学语文组2', id:2, child: [{name: '老师c', id:3}, {name: '老师d', id:3}]}
+            ]}
+        ]
+
+        // var list =  [// 构建部门列表
+        //   {label: '1', value: true, departName: '二级部门', prop: 'secondLevelDepartmentName'},
+        //   {label: '2', value: false, departName: '三级部门', prop: 'thirdLevelDepartmentName'},
+        //   {label: '3', value: false, departName: '四级部门', prop: 'fourthLevelDepartmentName'},
+        //   {label: '4', value: false, departName: '辅导老师', prop: 'headTeacherName'},
+        //   {label: '5', value: false, departName: '大班名称', prop: 'className'},
+        //   {label: '6', value: false, departName: '小班名称', prop: 'subClassName'}
+        // ]
+
+        var list = {// 部门级别对应后端返回字段 映射关系
+          '1': 'secondLevelDepartmentName',
+          '2': 'thirdLevelDepartmentName',
+          '3': 'fourthLevelDepartmentName',
+          '4': 'headTeacherName',
+          '5': 'className',
+          '6': 'subClassName'
+        }
+  // console.log(depart);
+  // while
+  let arr = [];
+  function deep(obj) {
+    // let num = 3;
+    for(var i in obj){
+      arr.push({
+        name: obj[i].name, id: obj[i].id
+      })
+      if(obj[i].child){
+        deep(obj[i].child);
+      }
+    }
+  }
+  deep(depart);
+  console.log(arr);
+
+
+
+  var deNum = 3
+  // var newList = [];
+  function getNewList () {
+    for (const item of arr) {
+      // console.log(item)
+      if (deNum == 0) deNum = 3;
+      while (deNum > 0) {
+        // console.log(deNum)
+        if (deNum !== item.id) {
+          item[list[`${deNum}`]] = null;
+        }
+        deNum--
+      }
+    }
+  }
+  getNewList()
+  console.log(arr);
+
+  // do {
+  //   console.log('走了吗');
+  // } while (false);
+  </script>
+</body>
+</html>

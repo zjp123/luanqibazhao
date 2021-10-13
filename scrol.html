@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #box{
+      width: 100px;
+      height: 200px;
+      border: 1px solid red;
+      /* white-space: pre-wrap; */
+      word-wrap: break-word;
+      overflow: scroll;
+    }
+    body{
+      height: 1000px;
+    }
+  </style>
+</head>
+<body>
+  <div id="box"> 
+    kskskskskkskskskskksksksksk
+    kskskskskkskskskskkskskskskksksksksk
+    kskskskskkskskskskkskskskskksksksksk
+    kskskskskkskskskskkskskskskksksksksk
+    ksksksksk
+  </div>
+  <script>
+    var obj = document.getElementById('box')
+    obj.onscroll = function () {
+      console.log('9999');
+    }
+    window.addEventListener('scroll', function(){
+      console.log('8888');
+    })
+  </script>
+  <script>
+      //等同于
+      window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = "\o/";
+
+        (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+        return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+      });
+  </script>
+</body>
+</html>

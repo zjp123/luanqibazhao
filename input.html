@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="file" name="filewrap" >
+  <script>
+    function changehandle (file) {
+        // alert(999);
+        // console.log(file);
+        // console.log(this)
+        return function (e) {
+          console.log(e, file)
+        }
+    }
+    window.onload = function () {
+      let ele = document.getElementsByName('filewrap')[0];
+      // console.log(ele)
+      ele.onchange = changehandle('99')
+    }
+  </script>
+  <script src="js/1.js"></script>
+  <script src="js/2.js"></script>
+  <script src="js/3.js"></script>
+  <script src="js/4.js"></script>
+  <script src="js/5.js"></script>
+  <script src="js/6.js"></script>
+  <script src="js/7.js"></script>
+  <script>
+    function dataURLtoBlob(dataurl) {
+      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+          // console.log('bstr:ggg', bstr);
+      while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    }
+    function downloadImg (url) {
+      console.log(url);
+      let elCanvas = document.createElement('canvas');
+      let downLink = document.createElement('a');
+      // downLink.href = elCanvas.toDataURL(url);
+      // downLink.download = '海报.png';
+      // document.body.appendChild(downLink);
+      const img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.onload = () => {
+        const ctx = elCanvas.getContext('2d');
+        elCanvas.width = img.width;
+        elCanvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        downLink.href = elCanvas.toDataURL('image/png');
+        let to_blob = dataURLtoBlob(downLink.href);
+        console.log('downLink.href', downLink.href);
+        downLink.download = '海报.png';
+        document.body.appendChild(downLink);
+        downLink.click();
+        document.body.removeChild(downLink);
+        // document.removeChild(elCanvas);
+        // downLink = null;
+        elCanvas = null;
+        // Uncaught DOMException: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+        // saveAs(imageDataUrl, '附件');
+      };
+      img.src = url;
+      // elCanvas = null;
+      // downLink = null;
+    }
+    // downloadImg('https://imgdev.lexue.com/image/wechat12824452851601288410155.jpg?x-oss-process=image/resize,fixed,w_825,h_1320/rounded-corners,r_20/format,png/watermark,image_cmVmZXJyYWwvcG9zdGVyLzE5NjY1OTE3LWNvbW11bml0eV9vcGVyYXRpb24tMi16ay1rZmMucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLGZpeGVkLHdfMTY4LGhfMTY4L2Zvcm1hdCxwbmc=,t_100,g_sw,x_513,y_106');
+  </script>
+  <script>
+    let betaCalc1 = {
+      currentValue: 0,
+      
+      setValue(newValue) {
+        this.currentValue = newValue;
+        console.log(this.currentValue);
+      },
+      
+      plus(addend) {
+        this.setValue(this.currentValue + addend);
+      },
+      
+      minus(subtrahend) {
+        this.setValue(this.currentValue - subtrahend);
+      },
+      register(plugin) {
+        const { name, exec } = plugin;
+        this[name] = exec;
+      }
+    };
+    // 定义插件
+    const squaredPlugin1 = {
+      name: 'squared',
+      exec: function() {
+        console.log('1', this);
+        this.setValue(this.currentValue * this.currentValue)
+      }
+    };
+    // 注册插件
+    betaCalc1.register(squaredPlugin1);
+    betaCalc1.squared(3); // => 3
+  </script>
+  <script>
+    // 计算器
+    let betaCalc = {
+      currentValue: 0,
+      
+      setValue(value) {
+        this.currentValue = value;
+        console.log(this.currentValue);
+      },
+    
+      core: {
+        'plus': (currentVal, addend) => currentVal + addend,
+        'minus': (currentVal, subtrahend) => currentVal - subtrahend
+      },
+
+      plugins: {
+        aa () {
+          console.log(this, 'aaaaa');
+        }
+      },    
+
+      press(buttonName, newVal) {
+        const func = this.core[buttonName] || this.plugins[buttonName];
+        this.setValue(func(this.currentValue, newVal));
+      },
+
+      register(plugin) {
+        const { name, exec } = plugin;
+        this.plugins[name] = exec;
+      }
+    };
+      
+    // 我们得插件，平方插件
+    const squaredPlugin = { 
+      name: 'squared',
+      exec: function(currentValue) {
+        console.log('2', this);
+        return currentValue * currentValue;
+      }
+    };
+
+    betaCalc.register(squaredPlugin);
+
+    // 使用计算器
+    // betaCalc.setValue(3);      // => 3
+    // betaCalc.press('plus', 2); // => 5
+    // betaCalc.press('squared'); // => 25
+    betaCalc.press('squared'); // => 625
+    betaCalc.press('aa'); // => 625
+    // console.log()
+  </script>
+</body>
+</html>

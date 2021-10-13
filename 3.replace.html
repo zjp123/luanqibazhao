@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var str = "http://gk-dev-image.oss-cn-beijing.aliyuncs.com/homeworklist/VID_20200421_192930.mp4?uploadId=495F48A65AB34918A0EC82314C038CAF"
+    // var reg = /([^]*)(\?uploadId=\w*)/ig;
+    var reg = /(\?uploadId=\w*)/ig;
+    // console.log(99999)
+    str = str.replace(reg, function(a,b,c,d){
+      // console.log(a,b,c)
+      // alert(999);
+      return ''
+    })
+    console.log(str)
+    
+  </script>
+  <script src="./promise-runder.js"></script>
+</body>
+</html>

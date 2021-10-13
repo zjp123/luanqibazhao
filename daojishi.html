@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    clearInterval(this.startLiveTime);
+    var currentTime = new Date();
+    var tenTime = new Date();
+    var n = 0;
+    tenTime = tenTime.setMinutes(currentTime.getMinutes() + 2);
+    this.startLiveTime = setInterval(() => {
+      if ((tenTime - new Date().getTime()) < 1000 * 60 * 1) {
+        console.log('到点了！！！！！！');
+        clearInterval(this.startLiveTime);
+      }
+      console.log(tenTime - new Date().getTime(), n++)
+    }, 1000);
+    // var stt = new Date()
+    // var ett = new Date()
+    // ett = ett.setMinutes(stt.getMinutes() + 10);
+    // console.log(stt.getTime(), ett);
+    // console.log(ett - new Date().getTime());
+    // console.log(stt, new Date(ett));
+  </script>
+</body>
+</html>

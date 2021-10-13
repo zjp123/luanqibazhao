@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <title>随心画板</title>
+    <meta name="description" content="随你心意，画你所想" />
+    <meta name="keywords" content="随心，画板，画你所想" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      .canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #ddd;
+      }
+      .load {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background: #fff;
+        cursor: pointer;
+      }
+      .load:hover,
+      .load:focus {
+        background: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="canvas" width="800px" height="600px">
+      版本过低
+    </canvas>
+    <div class="load">刷新</div>
+
+    <script>
+      console.log("小成出品");
+
+      var load = document.querySelector(".load");
+      //   点击刷新
+      load.onclick = function() {
+        location.reload();
+      };
+    </script>
+    <script>
+      /** @type {HTMLCanvasElement}  */
+      var canvas = document.querySelector(".canvas");
+      if (canvas.getContext) {
+        //   设置画布宽高
+        canvas.setAttribute("width", document.body.offsetWidth + "px");
+        canvas.setAttribute("height", document.body.offsetHeight + "px");
+        // 获取canvas上下文
+        var ctx = canvas.getContext("2d");
+
+        // 设置画笔样式
+        ctx.strokeStyle = "orange";
+        ctx.lineWidth = 2;
+
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+          //移动端
+          canvas.ontouchstart = function(e) {
+            ctx.beginPath();
+            var x = e.changedTouches[0].clientX;
+            var y = e.changedTouches[0].clientY;
+            ctx.moveTo(x, y);
+
+            canvas.ontouchmove = function(e) {
+              var x = e.changedTouches[0].clientX;
+              var y = e.changedTouches[0].clientY;
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            };
+            document.ontouchend = function() {
+              canvas.ontouchmove = null;
+            };
+          };
+        } else {
+          canvas.onmousedown = function(e) {
+            ctx.beginPath();
+            var x = e.clientX;
+            var y = e.clientY;
+            ctx.moveTo(x, y);
+
+            canvas.onmousemove = function(e) {
+              var x = e.clientX;
+              var y = e.clientY;
+
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            };
+            document.onmouseup = function() {
+              canvas.onmousemove = null;
+            };
+          };
+        }
+      } else {
+        alert("请升级浏览器版本");
+      }
+    </script>
+<script>
+
+</script>
+
+  </body>
+</html>

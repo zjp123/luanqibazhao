@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    window.onerror = function (message, url, line, column, error) {
+      console.log('log---onerror::::',message, url, line, column, error);
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET","demo_get.html",true);
+    xhr.send()
+    xhr.onreadystatechange=function() {
+      if (xhr.readyState==4 && xhr.status==200){
+        // document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+        console.log('okkkk')
+      }
+    }
+    xhr.addEventListener('error', function (err) {
+      // try {
+      //   console.log(err)
+      // } catch (error) {
+      //   // console.log(error)
+      //   throw (error)
+      // }
+      // console.log(err)
+      throw (error)
+    });
+    xhr.addEventListener('abort', function (err) {
+      try {
+        console.log(88)
+      } catch (error) {
+        // console.log(error)
+        throw (error)
+      }
+    });
+    xhr.addEventListener('timeout', function (err) {
+      try {
+        console.log(77)
+      } catch (error) {
+        // console.log(error)
+        throw (error)
+      }
+    });
+    // xhr.addEventListener('error', (err) => {throw (err)});
+    // xhr.addEventListener('abort', (err) => {throw (err)});
+    // xhr.addEventListener('timeout', (err) => {throw (err)});
+    // new Promise((resolve, reject) => {
+    //   reject('errrrrrr')
+    // }).then(res => {
+    //   console.log(res, 'cccc')
+    // }).catch(rej => {
+    //   // console.log(rej, 'ccccddd')
+    //   // throw (rej)
+    // });
+    // try {
+    //   let b = 9;
+    //   console.log(a);
+    //   // let a = 9;
+    // } catch (error) {
+    //   throw (error)
+    //   // console.log(err, 'errerr');
+    // }
+    // console.log(b);
+    // let b = 9;
+    
+  </script>
+</body>
+</html>

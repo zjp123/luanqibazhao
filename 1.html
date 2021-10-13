@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .target {
+            mask: url(#mask-1);
+        }
+
+        p {
+            width: 300px;
+            border: 1px solid #000;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <svg height="0">
+        
+        <mask id="mask-1">
+            <linearGradient id="gradient-1" y2="1">
+                <stop stop-color="white" offset="0" />
+                <stop stop-opacity="0" offset="1" />
+            </linearGradient>
+            <circle cx="0.25" cy="0.25" r="0.25" id="circle" fill="white" />
+            <rect x="0.5" y="0.2" width="300" height="100" fill="url(#gradient-1)" />
+        </mask>
+    </svg>
+    <p class="target" style="background:lime;">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+    </p>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing
+        <b class="target">elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua.</b>
+        Ut enim ad minim veniam.
+    </p>
+    <script>
+        var ele = document.getElementById('mask-1');
+        ele.addEventListener('click', function () {
+            console.log('88888');
+        },false)
+    </script>
+    <script>
+        // 一,用正则表达式来将字符串"I?���love�??�the�?great�?�?wall�in��?beijing"
+        // 更改为:"I love the Great Wall in Beijing",主要是为了解决编码的问题导致的问题,规律:
+
+        // 1,乱码只有两种特殊字符分别是'?'和'�';
+
+        // 2,如果乱码的末尾是'?'则它的下一位字母肯定是大写;
+        var str = "I?���love�??�the�?great�?�?wall�in��?beijing"
+        // var str = "I??beijing"
+        //更改为:"I love the Great Wall in Beijing";
+        var reg = /(\?|�)(\?*�*)\?*�*/ig
+
+
+        str = str.replace(reg, function(match, p1, p2, offset, string){
+
+        let num = offset;
+
+        if (match[match.length-1] === '?'){
+
+            let n = offset-1 + match.length + 1;
+
+            return " *"
+        }
+        return ' '
+        });
+
+        str = str.replace(/\*\w+\s?/ig, function(match, offset, string){
+        console.log(match);
+        let rr = match.slice(1);
+        
+        return (rr[0].toUpperCase()).concat(rr.slice(1))
+        });
+
+        console.log(str);
+    </script>
+    <script>
+        var arr = [];
+        var newArr = [];
+        for (let index = 0; index < 30; index++) {
+            arr.push(index);
+        }
+        var n = 10;
+        if (arr.length<10) {
+            newArr = arr
+        } else {
+            for (let y = 0; y < arr.length / n; y++) {
+                let tem = arr.slice(n*y, n*(y+1));
+                newArr.push(tem)
+            }
+        }
+        
+        console.log(newArr);
+    </script>
+    <script>
+        var arr = [];
+        var newArr = [];
+        for (let index = 0; index < 31; index++) {
+            arr.push(index);
+        }
+        var n = 10;
+        if (arr.length<10) {
+            newArr = arr
+        } else {
+            for (let y = 0; y < arr.length / n; y++) {
+                let tem = arr.slice(n*y, n*(y+1));
+                newArr.push(tem)
+            }
+        }
+        
+        console.log(newArr);
+    </script>
+    <script>
+        
+        var ttArray = [
+            {"priority":1,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":2,"questionId":186,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":3,"questionId":187,"questionType":"judge","answerUserNum":2,"answerRightRate":100.00,"subQuestionAnswerRates":null},
+            {"priority":4,"questionId":188,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":5,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":6,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":7,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":8,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":6,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":7,"questionId":186,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":8,"questionId":187,"questionType":"judge","answerUserNum":2,"answerRightRate":100.00,"subQuestionAnswerRates":null},
+            {"priority":9,"questionId":188,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":10,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":11,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":12,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":13,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":11,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":12,"questionId":186,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":13,"questionId":187,"questionType":"judge","answerUserNum":2,"answerRightRate":100.00,"subQuestionAnswerRates":null},
+            {"priority":14,"questionId":188,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":15,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":16,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":17,"questionId":186,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":18,"questionId":187,"questionType":"judge","answerUserNum":2,"answerRightRate":100.00,"subQuestionAnswerRates":null},
+            {"priority":19,"questionId":188,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":20,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":21,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":22,"questionId":186,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":23,"questionId":187,"questionType":"judge","answerUserNum":2,"answerRightRate":100.00,"subQuestionAnswerRates":null},
+            {"priority":24,"questionId":188,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":25,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":26,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":27,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":28,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":29,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":30,"questionId":189,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":[
+                    {"priority":19,"questionId":190,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":20,"questionId":191,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+                    {"priority":21,"questionId":192,"questionType":"composite","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null}
+                ]
+            },
+            {"priority":31,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+            {"priority":32,"questionId":185,"questionType":"judge","answerUserNum":0,"answerRightRate":0.00,"subQuestionAnswerRates":null},
+
+
+        ];
+        console.log('ttArray>>>', ttArray);
+        var num = 10
+        var l = 0; // 记录从0开始，打到num长度，达到后重新置零  重新截取
+        var zl = 0; // 嵌套的小题数组的长度
+        var level = 1; // 这个数组已经截取的次数 10个小题为一组
+        var zjpArray = []; // 截取后放在新的数组里面
+        var lIndex = 0; // 记录 长度为10时的下标
+        var newLength = 0;
+        for (let x = 0; x < ttArray.length; x++) {
+            // const element = array[x];
+            newLength += 1
+            if (ttArray[x].subQuestionAnswerRates && ttArray[x].subQuestionAnswerRates.length) {
+                newLength -= 1;
+
+                newLength += ttArray[x].subQuestionAnswerRates.length;
+            }
+            
+        }
+        console.log(newLength, 'newLength');
+        for (let index = 0; index < ttArray.length; index++) {
+
+            // if (l >= 10) {
+            //     let tem = arr.slice(num*index, num*(index+1));
+            //     newArr.push(tem)
+            // }
+            if (l < num) {
+                l += 1;
+                if (ttArray[index].subQuestionAnswerRates && ttArray[index].subQuestionAnswerRates.length) {
+                    // debugger;
+                    l -= 1; // 这里是个坑
+                    zl = ttArray[index].subQuestionAnswerRates.length;
+                    l += zl; 
+                    if (l < num) {
+                        if (level === Math.ceil(newLength / num) && index < ttArray.length - 1) { // 最后的那几个
+                            let tem = ttArray.slice(index);
+                            zjpArray.push(tem);
+                            // debugger;
+                            break
+                            // debugger;
+                            // return ;
+                        }
+                    }else{ // 正常的
+                        // let tem = ttArray.slice(level*index, index + 1);
+                        let tem = ttArray.slice(lIndex, index + 1);
+                        zjpArray.push(tem);
+                        // debugger;
+
+                        level += 1;
+                        zl = 0;
+                        lIndex = index + 1;
+                        // alert(`lIndex:${lIndex}`)
+
+                        l = 0;
+                    }
+                    // debugger;
+
+                } else {
+                    if (l < num) {
+                        if (level === Math.ceil(newLength / num) && index < ttArray.length - 1) { // 最后的那几个
+                            let tem = ttArray.slice(index);
+                            zjpArray.push(tem);
+                            // debugger;
+                            break
+                            // return;
+                            // debugger;
+                        }
+                    }else{ // 正常的
+                        // let tem = ttArray.slice(level*index, index + 1);
+                        let tem = ttArray.slice(lIndex, index + 1);
+
+                        // debugger;
+                        zjpArray.push(tem);
+                        level += 1;
+                        zl = 0;
+                        lIndex = index + 1;
+                        // alert(`lIndex:${lIndex}`)
+
+
+                        l = 0;
+                    }
+                    // debugger;
+                } 
+                // else {
+                //     // console.log(index);
+                //     if (l < num) {
+                //         if (level === ttArray.length / num) { // 最后的那几个
+                //             let tem = ttArray.slice(index);
+                //             zjpArray.push(tem);
+                //         }
+                //     }else{ // 正常的
+                //         let tem = ttArray.slice(level*index, index);
+                //         // debugger;
+                //         zjpArray.push(tem);
+                //         level += 1;
+                //         zl = 0;
+                //         l = 0;
+                //     }
+                //     // debugger;
+                // }
+            } else {
+                // let tem = ttArray.slice(level*index, index + 1);
+                // let tem = ttArray.slice(level*(lIndex + 1), index + 1);
+                let tem = ttArray.slice(lIndex, index + 1);
+
+                zjpArray.push(tem);
+                level += 1;
+                zl = 0;
+                lIndex = index + 1;
+                // alert(`lIndex:${lIndex}`)
+
+                l = 0;
+                // debugger;
+
+            }
+            
+        }
+        console.log('zjpArray>>>>:', zjpArray);
+        
+    </script>
+</body>
+
+</html>

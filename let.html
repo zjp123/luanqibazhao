@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <select name="" id="" style="width: 100px;">
+    <option value="" label="请选择"></option>
+    <option value="1" label="1"></option>
+    <option value="2" label="2"></option>
+    <option value="3" label="3"></option>
+  </select>
+  <script>
+    'user strict'
+    let name = 'Nicholas';
+    let age = 26;
+    // 那它可以假设还没有声明过 7
+  </script>
+  <script>
+    'user strict'
+
+    // let name = 'rrrr';
+    // let age = 36;
+    // 假设脚本不确定页面中是否已经声明了同名变量 11
+  </script>
+  <script>
+   // 那它可以假设还没有声明过
+  if (true) {
+    let name  = 123;
+  }
+  // name 被限制在 if {} 块的作用域内 // 因此这个赋值形同全局赋值
+  name = 'rrrr';
+  for (let name = 0; name < 8; name++) {
+    const element = name;
+    // console.log(name)
+  }
+  try {
+    let name = 456
+  }
+  catch(error) {
+     let age;
+   }
+  // age 被限制在 catch {}块的作用域内 // 因此这个赋值形同全局赋值
+  age = 56;
+  // console.log(name, age)
+
+  // var b = 10;
+  // console.log(b)
+  // ;(function b(){ 
+  // console.log(b)
+
+  // b = 20;
+  // console.log(this.b);
+  // })();
+
+  // var b = 10;
+  // // console.log(b);
+  // (function b(){ 
+  //   console.log(b)
+
+  //   b = 20;
+  //   console.log(b);
+  // }());
+  // console.log(b);// undefind
+
+var aa = (function cc () {
+  cc = 99
+  console.log(cc)
+})()
+// cc()
+console.log(aa)
+
+//   function aa () {
+
+//   for (let index = 0; index < 5; index++) {
+//     console.log(index, 'a')
+//     for (let x = 0; x < 5; x++) {
+//       if (x >=1) {
+//         console.log(x, 'b')
+
+//         return;
+//       }
+      
+      
+//     }
+    
+//   }
+// }
+
+// aa()
+  
+  // var aa = function () {
+  //   console.log(99)
+  // }
+  // function aa () {
+  //   console.log(88)
+  // }
+  // aa()
+  var data = [
+    {
+      id:1,
+      title: '课程1',
+      children: [
+        {
+          id:5,
+          title: '课程5',
+        },
+        {
+          id:6,
+          title: '课程6',
+          children: [
+            {
+              id:7,
+              title: '课程7',
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id:3,
+      title: '课程3',
+    },
+    {
+      id:9,
+      title: '课程9',
+    }
+  ]
+  let newArr = [];
+  function flat (arr) {
+    let len = arr.length
+    for (let index = 0; index < len; index++) {
+      const ele = arr[index];
+      if (ele.children) {
+        newArr.push({id: ele.id, title: ele.title})
+        flat(ele.children)
+      } else {
+        newArr.push(ele)
+      }
+      
+    }
+    return newArr;
+  }
+
+  function Dou(fn, time) {
+
+      let timer;
+      let self = this;
+      return function () {
+        if (timer) {
+          clearTimeout(timer);
+        };
+        timer = setTimeout(() => {
+          fn.apply(self, arguments);
+        }, time);
+      }
+    }
+  console.log(flat(data))
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function htmlEscape(text) {
+      return text.replace(/e(ll)(o)/g, function(mache,$0,$1, pos, originalText) {
+            console.log(mache, $0,$1, pos, originalText)
+      })
+    }
+            
+      console.log(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
+
+      for (const key in [null, undefined, 1, 2]) {
+        console.log(key)
+      }
+      window.addEventListener("popstate", (event) => { 
+       let state = event.state;
+       console.log('sss')
+       if (state) { // 第一个页面加载时状态是null
+          // processState(state);
+          console.log(state, 'state')
+        }
+      });
+  </script>
+</body>
+</html>
