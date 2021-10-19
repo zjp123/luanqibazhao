@@ -65,7 +65,7 @@ function *main() {
         console.error( err );
 } }
 
-var f = run(main, 1,2,3)
+// var f = run(main, 1,2,3)
 // var p = f.value
 // console.log(p, 'ff');
 // f.then((res) => {
@@ -82,3 +82,26 @@ var f = run(main, 1,2,3)
 // console.log(1)
 // Promise.resolve().then( () => console.log(99))
 // console.log(8);
+
+function *foo(x) {
+
+    if (x < 3) {
+        x = yield *foo( x + 1 );
+        console.log(x);
+
+    }
+   return x * 2; 
+   
+}
+
+function *main2() {
+    var r1 = yield *foo( 1 );
+    console.log( r1 );
+}
+
+var f2 = run(main2)
+f2.then(res => {
+    console.log(res);
+}).catch(err => {
+        console.log(err);
+})

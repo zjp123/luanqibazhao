@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            outline: 1px solid red;
+        }
+        svg{
+            width: 300px;
+            height: 300px;
+        }
+        div.progress{								 /*让文字居中*/
+            position:absolute;            
+            text-align: center;
+            outline: 1px solid red;
+            line-height: 100px;
+            width: 100px;
+            height: 100px;      
+            left:50%;
+            top:50%;
+            font-size: 2em;
+            transform: translate(-50%,-50%);
+        }
+        circle{                             /*圆的通用设置*/
+            fill:none;                      /*填充颜色为无*/
+            stroke: red;                  /*笔触颜色*/
+            stroke-width: 4px;              /*笔触宽度*/
+        }
+        circle:last-child{				/*伪选择器最后一个圆*/
+            stroke-width: 5px;
+            stroke: yellow;
+            stroke-dashoffset: 0px;         /*笔触偏移*/
+            stroke-dasharray: 5px 10px;          /*笔触间距*/
+        }
+        /* circle:last-child{
+            animation: name1 2s linear forwards;
+        }
+        @keyframes name1{
+            to{
+                stroke-dashoffset: 0;		
+            }
+        } */
+    </style>
+</head>
+<body>
+    <div id="box">
+        <svg>       										 <!--svg动画-->
+            <circle cx="50%" cy="50%" r="100px" ></circle>   <!--画两个圆 -->
+            <circle cx="50%" cy="50%" r="100px" ></circle>
+        </svg>     
+        <div class="progress">0%</div>
+    </div>
+    <script>
+        var cir=document.querySelector("circle:last-of-type");
+        var leg=Math.ceil(cir.getTotalLength());		  //就当成获得圆的周长
+        //在js中结算，这样是最准确的
+        cir.style.strokeDasharray=leg+1;                 //+1是为了避免最后有一点没有闭合
+        cir.style.strokeDashoffset=leg;					//js设置偏移
+        var index=0;
+        var timeout=setInterval(()=>{       
+            index++;
+            //下面这一条等于每秒减去周长的1%
+            cir.style.strokeDashoffset=leg-(index*leg/100);
+            document.querySelector('div.progress').innerHTML=index+"%"	//值传给div
+            if(index>=100){										//清楚定时器节省资源
+                clearInterval(timeout);
+            }
+        },100)  
+    </script>
+</body>
+</html>
