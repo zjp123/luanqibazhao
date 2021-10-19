@@ -41,8 +41,10 @@
         circle:last-child{				/*伪选择器最后一个圆*/
             stroke-width: 5px;
             stroke: yellow;
-            stroke-dashoffset: 0px;         /*笔触偏移*/
-            stroke-dasharray: 5px 10px;          /*笔触间距*/
+            /* 笔触间距 间距， 长度*/
+            stroke-dasharray: 628;
+            /* 笔触偏移         */
+            stroke-dashoffset: 628;         
         }
         /* circle:last-child{
             animation: name1 2s linear forwards;
@@ -63,21 +65,21 @@
         <div class="progress">0%</div>
     </div>
     <script>
-        var cir=document.querySelector("circle:last-of-type");
-        var leg=Math.ceil(cir.getTotalLength());		  //就当成获得圆的周长
-        //在js中结算，这样是最准确的
-        cir.style.strokeDasharray=leg+1;                 //+1是为了避免最后有一点没有闭合
-        cir.style.strokeDashoffset=leg;					//js设置偏移
-        var index=0;
-        var timeout=setInterval(()=>{       
-            index++;
-            //下面这一条等于每秒减去周长的1%
-            cir.style.strokeDashoffset=leg-(index*leg/100);
-            document.querySelector('div.progress').innerHTML=index+"%"	//值传给div
-            if(index>=100){										//清楚定时器节省资源
-                clearInterval(timeout);
-            }
-        },100)  
+        // var cir=document.querySelector("circle:last-of-type");
+        // var leg=Math.ceil(cir.getTotalLength());		  //就当成获得圆的周长
+        // //在js中结算，这样是最准确的
+        // cir.style.strokeDasharray=leg+1;                 //+1是为了避免最后有一点没有闭合
+        // cir.style.strokeDashoffset=leg;					//js设置偏移
+        // var index=0;
+        // var timeout=setInterval(()=>{       
+        //     index++;
+        //     //下面这一条等于每秒减去周长的1%
+        //     cir.style.strokeDashoffset=leg-(index*leg/100);
+        //     document.querySelector('div.progress').innerHTML=index+"%"	//值传给div
+        //     if(index>=100){										//清楚定时器节省资源
+        //         clearInterval(timeout);
+        //     }
+        // },100)  
     </script>
 </body>
 </html>
