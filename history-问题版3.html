@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+	<button id="bbtn">上一页</button>
+	<button id="dbtn">下一页</button>
+
+  <script>
+	let bbtn = document.getElementById('bbtn')
+	let dbtn = document.getElementById('dbtn')
+	dbtn.onclick = function () {
+		nextPage()
+	}
+	bbtn.onclick = function () {
+		upPage()
+	}
+    let pageIndex = 1
+	function makeRequest (pageNum) {
+		//
+		console.log('当前页码', pageNum)
+	}
+    function nextPage () {
+    	pageIndex++
+		  makeRequest(pageIndex)
+		  window.history.pushState({page: pageIndex}, null, window.location.href)
+    }
+	function upPage () {
+    	--pageIndex
+		  makeRequest(pageIndex)
+		  // window.history.pushState({page: pageIndex}, null, window.location.href)
+  }
+	// 如果用户 单击返回或者前进按钮
+// popstate 只会监听是自己 push进去的 不是自己push进去的  不会触发popState事件
+	window.addEventListener('popstate', function(e){
+		let page = 1
+		// 由于第一页没有pushstate 所以返回到第一页的时候是没有数据的
+		if (e.state !== null) {
+			page = e.state.page
+		}
+		makeRequest(page)
+		// 单击返回或者前进时，需要将page 放到 localStorage
+		pageIndex = page
+
+
+	})
+	window.addEventListener('onunload', function(e){
+		window.history.replaceState({page: pageIndex}, null, window.location.href)
+
+
+	})
+  </script>
+</body>
+</html>

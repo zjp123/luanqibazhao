@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+	<button id="bbtn">上一页</button>
+	<button id="dbtn">下一页</button>
+
+  <script>
+	let bbtn = document.getElementById('bbtn')
+	let dbtn = document.getElementById('dbtn')
+	dbtn.onclick = function () {
+		nextPage()
+	}
+	bbtn.onclick = function () {
+		upPage()
+	}
+    let pageIndex = window.localStorage.pageIndex || 0
+	function makeRequest (pageNum) {
+		//
+		console.log('当前页码', pageNum)
+	}
+    function nextPage () {
+    	window.localStorage.pageIndex = ++pageIndex
+		makeRequest(pageIndex)
+		window.history.pushState({page: pageIndex}, null, window.location.href)
+    }
+	function upPage () {
+    	window.localStorage.pageIndex = --pageIndex
+		makeRequest(pageIndex)
+		window.history.pushState({page: pageIndex}, null, window.location.href)
+    }
+	// 如果用户 单击返回或者前进按钮
+	window.addEventListener('popstate', function(e){
+		let page = 0
+		// 由于第一页没有pushstate 所以返回到第一页的时候是没有数据的
+		if (e.state !== null) {
+			page = e.state.page
+		}
+		makeRequest(page)
+		// 单击返回或者前进时，需要将page 放到 localStorage
+		window.localStorage.pageIndex = page
+
+
+	})
+  </script>
+</body>
+</html>
