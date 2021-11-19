@@ -13,6 +13,8 @@
         }
         .box{
             margin: 200px;
+            width: 100%;
+            height: 100%;
 
         }
         .box li {
@@ -21,13 +23,16 @@
             height: 74px;
             padding-left: 14px;
         }
-        .box li.active {
+        .box li:last-child {
+            border: none;
+        }
+        li.active {
             border-left: 1px solid red;
             position: relative;
             height: 74px;
             padding-left: 14px;
         }
-        .box li .dian.active{
+        .dian.active{
             position: absolute;
             width: 12px;
             height: 12px;
@@ -38,7 +43,7 @@
             left: -7px;
             text-align: center;
         }
-        .box li .dian.good{
+        .dian.good{
             position: absolute;
             width: 12px;
             height: 12px;
@@ -49,7 +54,7 @@
             left: -7px;
             text-align: center;
         }
-        .box li .dian{
+        .dian{
             position: absolute;
             width: 12px;
             height: 12px;
@@ -61,7 +66,7 @@
             left: -7px;
             text-align: center;
         }
-        .box li .dian p{
+        .dian p{
             width: 4px;
             height: 4px;
             border-radius: 50%;
@@ -70,7 +75,7 @@
             margin-left: 4px;
             margin-top: 4px;
         }
-        .box li .imgc{
+        .imgc{
             width: auto;
             height: auto;
             background-color: none !important;
@@ -96,7 +101,7 @@
             <div>分配日期</div>
         </li> -->
         <li>
-            <div class="dian imgc"><img src='./aa.jpeg' alt=""></div>
+            <div class="dian imgc"><img src='./矩形@2x.png' alt=""></div>
             <p>散了散了列是</p>
             <div>分配日期</div>
         </li>

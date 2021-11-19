@@ -148,54 +148,432 @@ flex: 2 2 10%;
             ]
         }
     ]
-    function dropDate (array) {
-      let newArr = []
-      // let obj = {}
-      let dateObj = {}
-      for (let index = 0; index < array.length; index++) {
-        const ele = array[index];
-        if (dateObj['date'] === ele.date) {
-          dateObj['value'].push({date: ele.date, value: ele.value})
-          // dateObj['value'].push(ele.value)
-        } else {
-          dateObj = {}
-          // dateObj[ele.date] = []
-          dateObj['date'] = ele.date
-          dateObj['value'] = []
-          dateObj['value'].push({date: ele.date, value: ele.value})
-          // dateObj['value'].push(ele.value)
-          newArr.push(dateObj)
+    let studentTrainEntities = [
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",  
+                "id": "897496382670110720",
+                "userId": "3506773177283903736",
+                "kemu": 2, 
+                "deviceType": 0, 
+                "deviceId": "MNQ001D001F001C1S99999970", 
+                "beginTime": 1634021412510, 
+                "endTime": 1634021465345, 
+                "totalTime": 52, 
+                "schoolId": "1110814159081070592", 
+                "lastCourseProgress": "科目二-测试五项联考-考试", 
+                "lastCourseKey": "K2WXLK",
+                "userName": "1134", 
+                "phone": "14600001134", 
+                "licenseType": "C1", // 驾考类型
+                "errorProjectCount": 0, // 错误项
+                "passCount": 32, // 通过次数 （练习+考试）
+                "totalCount": 39, // 累计总数（练习+考试）
+                "time": "10月12日",   //时间
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,  
+                "trainDesc": "",
+                "trainTime": 24, //训练时间
+                "addProgress": 0,
+                "addProficiency": 0 
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "897484796890972160",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999970",
+                "beginTime": 1634018650227,
+                "endTime": 1634018934166,
+                "totalTime": 283,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-测试五项联考-练习",
+                "lastCourseKey": "K2WXLK",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "10月12日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 191,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "897483004794896384",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999970",
+                "beginTime": 1634018222967,
+                "endTime": 1634018555901,
+                "totalTime": 332,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-倒车入库-练习",
+                "lastCourseKey": "K2DCRK",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "10月12日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 307,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "897481777868701696",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999970",
+                "beginTime": 1634017930457,
+                "endTime": 1634018055966,
+                "totalTime": 125,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-侧方停车-考试",
+                "lastCourseKey": "K2CFTC",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "10月12日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 90,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "897481534326439936",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999970",
+                "beginTime": 1634017872579,
+                "endTime": 1634017917517,
+                "totalTime": 44,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-侧方停车-考试",
+                "lastCourseKey": "K2CFTC",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "10月12日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 11,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893086190108934144",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632969940662,
+                "endTime": 1632969981325,
+                "totalTime": 40,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-侧方停车-考试",
+                "lastCourseKey": "K2CFTC",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 17,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893084385153122304",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632969510337,
+                "endTime": 1632969816865,
+                "totalTime": 306,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-直角转弯-考试",
+                "lastCourseKey": "K2ZJZW",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 185,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893083127054860288",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632969210366,
+                "endTime": 1632969361168,
+                "totalTime": 150,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-坡路定点与起步-考试",
+                "lastCourseKey": "K2PLDDYQB",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 23,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893082179309928448",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632968984413,
+                "endTime": 1632969045022,
+                "totalTime": 60,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-坡路定点与起步-教学",
+                "lastCourseKey": "K2PLDDYQB",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 0,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893081023145836544",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632968709438,
+                "endTime": 1632968881131,
+                "totalTime": 171,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-坡路定点与起步-教学",
+                "lastCourseKey": "K2PLDDYQB",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 46,
+                "addProgress": 0,
+                "addProficiency": 0
+            },
+            {
+                "isSchoolType": 1,
+                "studentId": "1443400441223192576",
+                "id": "893080686141898752",
+                "userId": "3506773177283903736",
+                "kemu": 2,
+                "deviceType": 0,
+                "deviceId": "MNQ001D001F001C1S99999973",
+                "beginTime": 1632968628438,
+                "endTime": 1632968681940,
+                "totalTime": 53,
+                "schoolId": "1110814159081070592",
+                "lastCourseProgress": "科目二-制动踏板-考试二次-考试",
+                "lastCourseKey": "K2YDZDTB",
+                "userName": "1134",
+                "phone": "14600001134",
+                "licenseType": "C1",
+                "errorProjectCount": 0,
+                "passCount": 0,
+                "totalCount": 0,
+                "time": "09月30日",
+                "lastForeCastRate": 0,
+                "thisForeCastRate": 0,
+                "lastCheckPointProgress": 0,
+                "thisCheckPointProgress": 0,
+                "trainType": 0,
+                "trainDesc": "",
+                "trainTime": 20,
+                "addProgress": 0,
+                "addProficiency": 0
+            }
+        ]
+    // function dropDate (array) {
+    //   let newArr = []
+    //   // let obj = {}
+    //   let dateObj = {}
+    //   for (let index = 0; index < array.length; index++) {
+    //     const ele = array[index];
+    //     if (dateObj['date'] === ele.date) {
+    //       dateObj['value'].push({date: ele.date, value: ele.value})
+    //       // dateObj['value'].push(ele.value)
+    //     } else {
+    //       dateObj = {}
+    //       // dateObj[ele.date] = []
+    //       dateObj['date'] = ele.date
+    //       dateObj['value'] = []
+    //       dateObj['value'].push({date: ele.date, value: ele.value})
+    //       // dateObj['value'].push(ele.value)
+    //       newArr.push(dateObj)
 
-        }
+    //     }
         
-      }
+    //   }
 
-      return newArr
-    }
+    //   return newArr
+    // }
     // console.log(dropDate(arr));
-    let newArr = []
-    function addDate (array) {
+    // let newArr = []
+    // function addDate (array) {
 
-        for (let x = 0; x < array.length; x++) {
-          let obj = {}
-          const ele = array[x];
-          // console.log(ele);
-          if (Array.isArray(ele.value)) {
-            obj.date = ele.date
-            obj.value = ''
-            newArr.push(obj)
-            addDate(ele.value)
-          } else {
-            obj.date = ''
-            obj.value = ele.value
-            obj.back = ele.date
-            newArr.push(obj)
-          }
+    //     for (let x = 0; x < array.length; x++) {
+    //       let obj = {}
+    //       const ele = array[x];
+    //       // console.log(ele);
+    //       if (Array.isArray(ele.value)) {
+    //         obj.date = ele.date
+    //         obj.value = ''
+    //         newArr.push(obj)
+    //         addDate(ele.value)
+    //       } else {
+    //         obj.date = ''
+    //         obj.value = ele.value
+    //         obj.back = ele.date
+    //         newArr.push(obj)
+    //       }
                     
+    //     }
+    // }
+    // addDate(arrObj)
+    // console.log(newArr);
+
+    // let transformArr = []
+    function transFormData (array) {
+
+        let newArr = []
+        // let obj = {}
+        let dateObj = {}
+        for (let index = 0; index < array.length; index++) {
+            const ele = array[index];
+            if (dateObj[ele.time]) {
+              newArr.push({...ele, level: 2, type: 'LIST_ITEM'})
+            } else {
+              dateObj[ele.time] = 1
+              newArr.push({...ele, level: 1, type: 'DATE_TIME'})
+              newArr.push({...ele, level: 2, type: 'LIST_ITEM'})
+            }
+            // if (dateObj['time'] === ele.time) {
+            //   // dateObj.level = 2
+            //   newArr.push({...ele, level: 2, type: 'LIST_ITEM'})
+            //   // dateObj['value'].push(ele.value)
+            // } else {
+            //   // dateObj = {}
+            //   // dateObj[ele.date] = []
+            //   dateObj[ele.time] = 1
+            //   // dateObj['value'] = []
+            //   dateObj.push({date: ele.date, value: ele.value})
+            //   // dateObj['value'].push(ele.value)
+            //   newArr.push(dateObj)
+
+            // }
         }
+        return newArr
     }
-    addDate(arrObj)
-    console.log(newArr);
+    
+    console.log(transFormData(studentTrainEntities));
 
   </script>
 </body>
