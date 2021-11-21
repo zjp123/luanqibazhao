@@ -53,16 +53,16 @@ flex: 2 2 10%;
     /* 如果item本身设置了宽度，那么flex-grow 它是指去掉本身宽度后，再按比例 */
     li:nth-child(2) {
       /* 控制台查看宽度 443 */
-      /* flex-grow: 1; */
-      /* flex-basis: 200px; */
+      flex-grow: 2;
+      flex-basis: 200px;
       background-color: yellow;
       /* flex-basis: 100px; */
     }
     li:nth-child(3) {
       /* 控制台查看宽度 843 ，为什么不和上面的元素宽度成比例 因为元素本身设置的有50px*/
       /* 843-50 = 793  446-50 = 396  这样就是2：1 了 符合设置的grow比例*/
-      /* flex-grow: 2; */
-      /* flex-basis: 200px; */
+      flex-grow: 2;
+      flex-basis: 200px;
       background-color: yellowgreen;
     }
     /* li:first-child{
