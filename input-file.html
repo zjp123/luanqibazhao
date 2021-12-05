@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file"><button>上传</button>
+    <script>
+        let searchIconGaryBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAACK1BMVEVHcEyzs7OysrKysrKvr6+ysrK/v7+ysrK1tbWysrKysrKysrKqqqqzs7OysrKysrK1tbWzs7Ozs7Ozs7OysrKxsbG0tLSurq60tLSysrKxsbGxsbG1tbWysrKysrKysrKzs7O0tLSqqqqzs7OysrL///+zs7OysrK1tbWysrK/v7+ysrKxsbGzs7OysrK0tLSzs7OysrKzs7OxsbGzs7OysrKysrKysrKysrKysrKzs7O2trazs7OysrKzs7Ozs7OysrKysrL///+zs7OysrKysrK0tLSzs7OxsbGzs7OxsbGysrK1tbW0tLSysrKysrIAAAC0tLSxsbGqqqqxsbG4uLizs7OxsbGzs7O1tbWqqqqZmZmysrK0tLSxsbGysrKysrKysrKzs7O0tLSysrKysrKvr6+zs7OysrKysrKysrKysrKzs7Ozs7Ozs7O1tbWxsbGzs7Ozs7OysrKxsbGysrKzs7OysrKysrK0tLSysrKurq6ysrKysrKysrKysrKxsbG/v7+zs7OysrKzs7OysrKysrKysrKxsbGzs7Ozs7Ozs7Ozs7OxsbG4uLiysrK1tbW0tLSzs7Ozs7O3t7e1tbWqqqqwsLCzs7OysrKysrKxsbGzs7O0tLSxsbGysrKxsbGysrKzs7Ozs7OysrKzs7Ozs7OxsbGysrKysrKzs7O2traysrKysrKysrKysrKqqqqxsbGysrKysrKysrK0tLSzs7Ozs7OysrJ16bOzAAAAuHRSTlMAvv3lI9wE4ib++zgMFN31WaQoXovsXxNOPPMnLdj81aopA1fpAp3eNOAIkqsK+SxhK7jFwuTupvBujQ618dMbtnQBz/btQTbp4M/fGERjrwGYGhX6JPEuJU8SBcNS9jKIhecz8s4QUa2yTJ6QW5pM/Ur0tdlx7ex+cPQWn4Go6zsM3duJZJXvPv67rmu4EsFxR0ZyIB8JHdrU+IqKOl/SnaV1b7Cyp5qi8+McHs3mkQ924cvIXMzqN1CsIgAAAihJREFUOMuNlOVbVFEQxg+17BK7LClKiCAhICFdEmIrit3d3d1gd4MBJnbH++f5nntY93K59zzMl5l55/ecmPOcEcJsZbX+n5WNVT8qBp5PFo4Wc7sJQQsNyR5vi407dgQWO7jHhhuzSRUnNr3xvy33hqps7GYrN2qj1PefvFOs8ti4A3ulkhc/lEuIorgwcYFZy9oqyaQNQ9aTXMQS6zarRlPOWWo6nxRCUoYfPG0WC5nFgdQ1U3Ir7FrRWcnS/EB2SO6bYt/b/NXsaLSKz7WzKWlOrzBX7qbCewwTHZ9r3iSW1ZI9wPFY54edQ3C3DEoY5AqNpQOH5au/InhXB54ikE9fDfQ+1IGXCV6n/wz06ThRfwUopP8CvNaC4gxQRPceeKcHzwM36GqAF3qwAGig+wA068FG4DQdO/9Yy53grbvo+/nqN3XgdoKl9KX02TqwkICb/pEH2KbhXNOBAiO6BWS4ncFkLrjOiHbJb+nITfACUeHq50eQXOYEPmXRPxhvYby4zJ6L4w18DwJZB0nvbDvu2RSWWv6ny2cwjVxjs57kGlqDQkkVBV+y9R5PuC/a6s3atCQ5PiqmmvuXIC+Jto8tdeZRGZ9uTK/Mo2djjBm1b+d6Q2j+9p2nCjdP0VyPmnSenAt5lwYHpO9lq/gKCylSV1rmaEb1fcqfwoaRInVHTRCLXLtIqW4bUriiay9eu1peVNedFRQN8pcYgUnyrxgR+af99z9WlAcUy6K+XwAAAABJRU5ErkJggg==';
+
+        const inputFile = document.getElementsByTagName('input')[0]
+        inputFile.onchange = function (e) {
+            // console.log(999);
+            console.log('value', this.form, this.files[0], this.value); // 这个value值是假的
+            const fileReader = new FileReader() // 当前form
+            let filename = this.files[0]
+            // console.log(this.files[0] === this.value);
+            let formdata = new FormData()
+            formdata.append('filename', this.files[0])
+            fileReader.onload = function () {
+                // console.log(fileReader.result);
+                // let buffer = fileReader.result
+                // let view = new Uint8Array(buffer)
+                // console.log(view);
+
+                let urlcreat = window.URL || window.webkitURL
+                let imgurl = urlcreat.createObjectURL(filename)
+                console.log(imgurl);
+
+            }
+            fileReader.readAsDataURL(this.files[0])
+            // fileReader.readAsArrayBuffer(this.files[0])
+
+        }
+    </script>
+</body>
+</html>
