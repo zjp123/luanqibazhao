@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      /* overflow: hidden; */
+    }
+    #box {
+      /* display: flex;
+      flex-direction: column; */
+      /* height: 100vh; */
+      /* height: 100%; */
+      /* flex: 1; */
+      display: flex;
+      height: 100%;
+      /* flex: 1; */
+      border: 1px solid red;
+    }
+    #level-box{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      /* flex: 1; */
+    }
+    header {
+      /* flex: 1; */
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      color: green;
+      border: 1px solid hotpink;
+    }
+    .contentBox{
+      flex: 1;
+      position: relative;
+      /* flex-direction: ; */
+    }
+    .tapList {
+      display: flex;
+      /* flex: 1; */
+      width: 100%;
+      flex-direction: row;
+      height: 40px;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #000;
+      overflow-y: scroll;
+
+    }
+    .tapList p {
+      text-align: center;
+      line-height: 40px;
+    }
+    .list {
+      /* display: flex; */
+      flex: 1;
+      /* height: 100%; */
+      background-color: hotpink;
+    }
+    .list p {
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #000;
+    }
+    .modalOpacity{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      /* background-color: yellow; */
+      /* opacity: 0.5; */
+      z-index: 100;
+    }
+    .modal{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      opacity: 0.5;
+      /* z-index: 100; */
+
+    }
+    .selectContent{
+      /* z-index: 1000; */
+      position: absolute;
+      width: 100%;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="box">
+    <div id="level-box">
+      <header>
+        呵呵哈哈哈
+      </header>
+      <div class="tapList">
+        <p>全部</p>
+        <p>进行中</p>
+        <p>未开始</p>
+      </div>
+      <div class="contentBox">
+        <div class="content">
+          <div class="modalOpacity">
+            <div class="modal"></div>
+            <div class="selectContent">
+              <p>上课看思考思考思考上课</p>
+              <p>上课看思考思考思考上课</p>
+            </div>
+          </div>
+          <div class="list">
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+            <p>看思考思考思考看</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <script>
+    const ele = document.getElementsByTagName('header')[0]
+    const modalOpacity = document.getElementsByClassName('modalOpacity')[0]
+    ele.onclick =  function () {
+      let str =  modalOpacity.style.display
+      if (str === 'none') {
+        modalOpacity.style.display = 'block'
+
+      } else {
+        modalOpacity.style.display = 'none'
+
+      }
+    }
+  </script>
+</body>
+</html>
