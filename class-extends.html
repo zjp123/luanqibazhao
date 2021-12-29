@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Bus {
+            constructor (name) {
+                this.name = 'lll'
+            }
+            getName () {
+                console.log(this.name, 'getName');
+            }
+        }
+        class Car {
+            constructor (age) {
+                this.age = age
+            }
+            getCar () {
+                console.log('carcar');
+            }
+        }
+        class Big extends Bus {
+            constructor(mel){
+                super()
+                this.mel = mel
+            }
+        }
+        let temp = new Big('男')
+        let bus1 = new Bus('anan')
+        console.log(temp.name, 'name');
+        console.log(temp.mel, 'mel');
+        console.log(temp.getName());
+        console.log('>>>>>>>>>>>>>>>>>>');
+        // console.log(bus1.name, 'name');
+        // // console.log(bus1.mel, 'mel');
+        // console.log(bus1.getName());
+        // extends 与 平时得原型 继承的区别？
+        // extends就是组合继承式的最终写法，就是那个完美写法，因为，如果使用extends方式，那么就必须执行super()，
+        // 这一步就对应着原来super(xxx).call()的方式，原型方法继承对应的就是object.create()那个方法，相当于class把这些都包含处理了
+    </script>
+</body>
+</html>
