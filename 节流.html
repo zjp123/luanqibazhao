@@ -25,9 +25,10 @@
             var timer,
             firstTime = true; // 是否是第一次调用
             return function () {
-                var args = arguments,
+                var args = arguments,// 这个实际上 是系统内置的参数，比如这是个事件，那么他就是 那个event对象，所以必须要传过去
+                // 并不是手动添加的参数  一直误解了...
                 __me = this;
-                console.log(this, 'thisssssskkk');
+                console.log(this, args, 'thisssssskkk');
                 if ( firstTime ) { // 如果是第一次调用，不需延迟执行 
                     fn.apply(__me, args);
                     // fn(args)
@@ -45,8 +46,8 @@
                 }, interval || 500 )
             }
         }
-        function handle() {
-            console.log(Math.random(), this);
+        function handle(e) {
+            console.log(Math.random(), e);
         }
         ele.addEventListener('mousemove', throttle(handle, 1000));
         // ele.addEventListener('mousemove',  () => {
