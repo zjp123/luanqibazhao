@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 300px;
+            height: 300px;
+            background-color: red;
+            margin: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        var ele = document.getElementById('box')
+        var throttle = function ( fn, interval ) {
+            console.log(this, 'kllll');
+            // var __self = fn, // 保存需要被延迟执行的函数引用, 
+            // 定时器
+            var timer,
+            firstTime = true; // 是否是第一次调用
+            return function () {
+                var args = arguments,
+                __me = this;
+                console.log(this, 'thisssssskkk');
+                if ( firstTime ) { // 如果是第一次调用，不需延迟执行 
+                    fn.apply(__me, args);
+                    // fn(args)
+                    return firstTime = false;
+                }
+                if ( timer ) { // 如果定时器还在，说明前一次延迟执行还没有完成 
+                    return false;
+                }
+                timer = setTimeout(function () { // 延迟一段时间执行 
+                    clearTimeout(timer);
+                    timer = null;
+                    fn.apply(__me, args)
+                    // fn(args)
+
+                }, interval || 500 )
+            }
+        }
+        function handle() {
+            console.log(Math.random(), this);
+        }
+        ele.addEventListener('mousemove', throttle(handle, 1000));
+        // ele.addEventListener('mousemove',  () => {
+        //     console.log(this);// window
+        // });
+        // ele.addEventListener('mousemove',  function () {
+        //     console.log(this);// div #box
+        // });
+
+    </script>
+    <!-- <script>
+        var throttle = function(func, delay) {
+        var timer = null;
+        var startTime = Date.now();  //设置开始时间
+        return function() {
+            var curTime = Date.now();
+            var remaining = delay - (curTime - startTime);  //剩余时间
+            var context = this;
+            console.log(this, 'this')
+            var args = arguments;
+            clearTimeout(timer);
+            if (remaining <= 0) {      // 第一次触发立即执行
+                    func.apply(context, args);
+                    startTime = Date.now();
+            } else {
+                    timer = setTimeout(func, remaining);   //取消当前计数器并计算新的remaining
+            }
+            }
+        }
+        function handle() {
+            console.log(Math.random());
+        }
+        // window.addEventListener('resize', throttle(handle, 1000));
+    </script> -->
+</body>
+</html>
