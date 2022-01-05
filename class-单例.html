@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Foo {
+            static single = null
+            constructor (name) {
+                this.name = name
+                if (Foo.single) {
+                    return Foo.single
+                } else {
+                    Foo.single = this
+                }
+            }
+            getName () {
+                console.log(this.name, 'lllll');
+            }
+        }
+        let abc = new Foo('维维')
+        let dd = new Foo('佳佳')
+
+        console.log(abc);
+        abc.getName()
+        dd.getName()
+    </script>
+</body>
+</html>
