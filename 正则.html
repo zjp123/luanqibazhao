@@ -7,25 +7,38 @@
 </head>
 <body>
   <script>
-    function htmlEscape(text) {
-      return text.replace(/e(ll)(o)/g, function(mache,$0,$1, pos, originalText) {
-            console.log(mache, $0,$1, pos, originalText)
-      })
-    }
+    // function htmlEscape(text) {
+    //   return text.replace(/e(ll)(o)/g, function(mache,$0,$1, pos, originalText) {
+    //         console.log(mache, $0,$1, pos, originalText)
+    //   })
+    // }
             
-      console.log(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
+    //   console.log(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
 
-      for (const key in [null, undefined, 1, 2]) {
-        console.log(key)
-      }
-      window.addEventListener("popstate", (event) => { 
-       let state = event.state;
-       console.log('sss')
-       if (state) { // 第一个页面加载时状态是null
-          // processState(state);
-          console.log(state, 'state')
-        }
-      });
+    //   for (const key in [null, undefined, 1, 2]) {
+    //     console.log(key)
+    //   }
+    //   window.addEventListener("popstate", (event) => { 
+    //    let state = event.state;
+    //    console.log('sss')
+    //    if (state) { // 第一个页面加载时状态是null
+    //       // processState(state);
+    //       console.log(state, 'state')
+    //     }
+    //   });
+
+    var ss = "??.17825888888   ???"
+    // var reg = /.+\..+s+.+/igs
+    var reg = /(\.)|(\s)/igs
+    console.log(reg.test(ss))
+    var newstr = ss.replace(/(\.)|(\s*)/igs, function(mache, $0, $1, pos, originalText) {
+          console.log('mache-' + mache, '$0-' + $0, '$1-' + $1, pos, originalText)
+          if (mache) {
+            return '-'
+          }
+          return ''
+    })
+    console.log(newstr);
   </script>
 </body>
 </html>
