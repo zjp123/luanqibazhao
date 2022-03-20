@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [1, 2, 3]
+        let m = 0
+        const fn = (arr) => {
+            const res = []
+            const backTrack = (path) => {
+                if (path.length === arr.length) {
+                    res.push(path)
+                    // debugger
+                    return
+                }
+                m++
+                arr.forEach(n => {
+                    console.log(path, n, m, res);
+                    if (path.includes(n)) {
+                        return
+                    }
+                    backTrack(path.concat(n))
+                });
+            }
+            backTrack([])
+            return res
+        }
+        console.log(fn(arr));
+    </script>
+</body>
+</html>
