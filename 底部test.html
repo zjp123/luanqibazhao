@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="divport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .exam-room {
+    width: 100%;
+    height: 100%;
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0; */
+    overflow: hidden;
+ }
+ .exam-mantle {
+   width: 100%;
+   height: 100%;
+   background-color: #000;
+   opacity: 0.7;
+   display: none;
+   /* z-index: 10; */
+
+ }
+ .exam-content-box {
+    /* position: absolute;
+    box-sizing: border-box;
+    z-index: 1000;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    color: #333;
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px; */
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    /* box-sizing: border-box; */
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    color: #333;
+    /* bottom: 0; */
+    /* left: 0; */
+    /* overflow: auto; */
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+    /* border: 1px solid yellow; */
+    /* text-align: center; */
+    /* border: 1px solid red;
+    /* border: 1px solid yellow; */
+
+    /* text-align: center; */
+    /* border: 1px solid red; */
+ }
+ .exam-content {
+    padding: 38px 30px;
+    height: 50%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid blue;
+    /* position: absolute;
+    z-index: 1000;
+    width: 100%;
+    height: 50%;
+    overflow-y: auto;
+    background-color: #fff;
+    color: #333;
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+    padding: 38px 30px;
+    text-align: center; */
+ }
+ .exam-title-box {
+    /* display: flex; */
+    /* width: 100%; */
+    position: relative;
+    /* border: 1px solid red; */
+    /* flex-direction: row; */
+    justify-content: flex-end;
+    /* align-items: center; */
+    /* margin-bottom: 44px; */
+    text-align: center;
+    vertical-align: middle;
+
+ }
+ .exam-title {
+    color: #333;
+    font-size: 40px;
+    line-height: 40px;
+ }
+ .exam-close {
+    position: absolute;
+    right: 0;
+    /* top: 0; */
+    width: 36px;
+    height: 36px;
+    /* align-items: flex-end; */
+    /* align-content: flex-end; */
+    /* align-self: flex-end; */
+ }
+ .exam-search {
+    border: 1px solid #D6D6D6;
+    font-size: 28px;
+    color: #999;
+    padding: 10px 8px;
+    border-radius: 20px;
+    width: 100%;
+    margin: 40px 0;
+ }
+ .exam-content-list {
+    /* box-sizing: border-box; */
+    /* display: flex; */
+    flex: 1;
+    font-size: 20px;
+    flex-direction: column;
+    /* height: auto; */
+    overflow: scroll;
+    /* flex-wrap: wrap; */
+    border: 1px solid red;
+    margin-bottom: 100px;
+    
+ }
+ .exam-bottom {
+    /* align-self: flex-end; */
+    display: none;
+    position: absolute;
+    height: 100px;
+    bottom: 0;
+    /* left: 50%; */
+    width: 100%;
+    text-align: center;
+    /* transform: translateX(-50%); */
+    /* border: 1px solid red; */
+ }
+ .exam-bg {
+    background-color: #F8F8F8;
+    /* background-color: red; */
+    width: 100%;
+    height: 20px;
+}
+.exam-sure-btn {
+    background-color: #fff;
+    color: #0298E5;
+    /* margin: 20px 0; */
+    font-size: 36px;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    line-height: 80px;
+}
+    </style>
+</head>
+<body>
+    <div class="exam-room">
+        <div class="exam-mantle">
+        </div>
+        <div class="exam-content-box">
+           <div class="exam-content">
+              <div class="exam-title-box">
+                 <span class="exam-title">选择考场</span>
+                 <img class="exam-close" src="https://pic3.58cdn.com.cn/nowater/jxt/n_v255b015f2577449ff944524366d2e5a1f.png"></img>
+              </div>
+              <input class="exam-search" type="text" placeholder="查找考场"/>
+              <div class="exam-content-list">
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+                 <div>和双手合十</div>
+              </div>
+           </div>
+           <div class="exam-bottom">
+              <div class="exam-bg"></div>
+              <button class="exam-sure-btn">确定</button>
+           </div>
+        </div>
+        
+     </div>
+</body>
+</html>
