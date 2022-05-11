@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .vListContainer {
+            overflow-x: hidden;
+            overflow-y: auto;
+            /* 高度 变量 */
+            height: 800px;
+            background-color: #e8e8e8;
+        }
+        .phantomContent {
+            height: 800000px;
+            position: relative;
+        }
+        .item {
+            /* height: "79px";
+            line-height: "80px"; */
+            left: 0;
+            right: 0;
+            position: absolute;
+            /* top: i * rowHeight, */
+            border-bottom: 1px solid #000;
+            width: 100%;
+        }
+        /* { height: total * rowHeight, position: "relative" } */
+    </style>
+</head>
+<body>
+    <div class="vListContainer">
+        <div className="phantomContent"></div>
+        <div class="actualContent">
+          <!-- item-1 -->
+          <!-- item-2 -->
+          <!-- item-3 -->
+        </div>
+      </div>
+      <script>
+        //   state = { scrollTop: 0 };
+        // height = 800;
+        // total = 10000;
+        // rowHeight = 80;
+
+        // limit = Math.ceil(this.height / this.rowHeight);
+        // startIndex = 0; 
+        // endIndex = Math.min(this.startIndex + this.limit, this.total - 1);
+          const height = 800
+          const rowHeight = 80
+          let startIndex = 0
+          let originStartIdx = 0
+          let scrollTopE = 0
+          const total = 10000
+          const bufferSize = 5
+          const limit = Math.ceil(height / rowHeight);
+          let endIndex = Math.min(startIndex + limit, total - 1);
+          const vListContainer = document.getElementsByClassName('vListContainer')[0]
+          const phantomContent = document.getElementsByClassName('phantomContent')[0]
+          function renderDisplayContent () {
+            const content = [];
+            for (let i = startIndex; i <= endIndex; ++i) {
+                
+                const liele = '<li class="item" style="height: ' +(rowHeight - 1)+ 'px;line-height: ' + rowHeight+ 'px;top: '+(i * rowHeight)+'px;" >item-' + i + '</li>'
+                content.push(liele
+                    // <li
+                    // style=
+                    //     height: rowHeight - 1 + "px",
+                    //     lineHeight: rowHeight + "px",
+                    //     left: 0,
+                    //     right: 0,
+                    //     position: "absolute",
+                    //     top: i * rowHeight,
+                    //     borderBottom: "1px solid #000",
+                    //     width: "100%"
+                
+                    //     onClick={() => {
+                    //         console.log("item-", index);
+                    //     }}
+                    //     >
+                    //     item-{item}
+                    // </li>
+                )
+            }
+            // return content;
+            // console.log(content.join(',').replace(',', ''))
+            const contentE = content.join(',').replace(/,/g, '')
+            // console.log(contentE, 'contentE')
+            phantomContent.innerHTML = contentE
+          }
+          window.onload = function () {
+            //   console.log(vListContainer, 'vListContainer')
+            vListContainer.onscroll = function (e) {
+                if (e.target === this) {
+                    const { scrollTop } = e.target;
+                    // debugger
+                    // const { startIndex, total, rowHeight, limit } = this;
+                    const currIndex = Math.floor(scrollTop / rowHeight);
+                    // 如果currentStartIndex 和 startIndex 不同（我们需要更新数据了）
+                    if (currIndex !== originStartIdx) {
+                        // 注意，此处我们引入了一个新的变量叫originStartIdx，起到了和之前startIndex
+                        //    相同的效果，记录当前的 真实 开始下标。
+                        originStartIdx = currIndex;
+                        // 对 startIndex 进行 头部 缓冲区 计算
+                        startIndex = Math.max(originStartIdx - bufferSize, 0);
+                        // 对 endIndex 进行 尾部 缓冲区 计算
+                        endIndex = Math.min(
+                            originStartIdx + limit + bufferSize,
+                            total - 1
+                        )
+                        scrollTopE = scrollTop
+                        renderDisplayContent()
+                    }
+                }
+            }
+            renderDisplayContent()
+        }
+      </script>
+      <script>
+        /*
+        在我们实现 “定高” 虚拟列表时，我们是采用了把元素渲染在phantomContent 容器里，并且通过设置每一个item的position 为 absolute 加上定义top 属性等于 i * rowHeight 来实现无论怎么滚动，
+        渲染内容始终是在用户的可视范围内的。在列表高度不能确定的情况下，我们就无法准确的通过estimateHeight 来计算出当前元素所处的y位置，所以我们需要一个容器来帮我们做这个绝对定位。
+        actualContent 则是我们新引入的列表内容渲染容器，通过在此容器上设置position: absolute 属性来避免在每个item上设置。
+        有一点不同的是，因为我们改用actualContent 容器。当我们进行滑动时需要动态的对容器的位置进行一个 y-transform 从而实现容器永远处于用户的视窗之中：
+        */
+      </script>
+</body>
+</html>
