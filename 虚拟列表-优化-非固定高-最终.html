@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .vListContainer {
+            overflow-x: hidden;
+            overflow-y: auto;
+            /* 高度 变量 */
+            height: 800px;
+            background-color: #e8e8e8;
+            position: relative;
+        }
+        .phantomContent {
+            height: 940000px;
+            position: relative;
+            z-index: -1;
+        }
+        .item {
+            /* height: "79px";
+            line-height: "80px"; */
+            left: 0;
+            right: 0;
+            /* position: absolute; */
+            /* top: i * rowHeight, */
+            border-bottom: 1px solid #000;
+            width: 100%;
+        }
+        .actualContent {
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+        /* { height: total * rowHeight, position: "relative" } */
+    </style>
+</head>
+<body>
+    <div class="vListContainer" style="overflow: hidden auto; height: 800px; background-color: rgb(232, 232, 232); position: relative;">
+        <div class="phantomContent" style="height: 940000px; position: relative;"></div>
+        <div class="actualContent" style="width: 100%; position: absolute; top: 0px;">
+          <!-- item-1 -->
+          <!-- item-2 -->
+          <!-- item-3 -->
+        </div>
+      </div>
+      <script>
+        //   state = { scrollTop: 0 };
+        // height = 800;
+        // total = 10000;
+        // rowHeight = 80;
+
+        // limit = Math.ceil(this.height / this.rowHeight);
+        // startIndex = 0; 
+        // endIndex = Math.min(this.startIndex + this.limit, this.total - 1);
+        const CompareResult = {
+            eq : 1,
+            lt: 2,
+            gt: 3
+        }
+        const data = [];
+        const dataLength = 10000;
+        for (let id = 0; id < dataLength; ++id) {
+            data.push({
+                id,
+                value: 'item-' + id
+            })
+        }
+          const height = 800
+          const rowHeight = 94
+        //   const estimateRowHeight = 94 // 这个是先设置一个假定 内容高度，先按这个高度处理
+          let cachedPositions = []
+          let phantomHeight = dataLength * 94
+          let startIndex = 0
+          let originStartIdx = 0
+          let scrollTopE = 0
+          const total = 10000
+          const bufferSize = 5
+          const limit = Math.ceil(height / rowHeight);
+          let endIndex = Math.min(startIndex + limit, total - 1);
+          const vListContainer = document.getElementsByClassName('vListContainer')[0]
+          const phantomContent = document.getElementsByClassName('phantomContent')[0]
+          const actualContent = document.getElementsByClassName('actualContent')[0]
+        
+          function renderDisplayContent () {
+            const content = [];
+            for (let i = startIndex; i <= endIndex; ++i) {
+                
+                const liele = '<li class="item" style="height: 79px; line-height: 80px; border-bottom: 1px solid rgb(0, 0, 0); width: 100%;" >item-' + i + '</li>'
+                // const liele = '<li class="item" style="height: ' +(rowHeight - 1)+ 'px;line-height: ' + rowHeight+ 'px;" >item-' + i + '</li>'
+                content.push(liele
+                    // <li
+                    // style=
+                    //     height: rowHeight - 1 + "px",
+                    //     lineHeight: rowHeight + "px",
+                    //     left: 0,
+                    //     right: 0,
+                    //     position: "absolute",
+                    //     top: i * rowHeight,
+                    //     borderBottom: "1px solid #000",
+                    //     width: "100%"
+                
+                    //     onClick={() => {
+                    //         console.log("item-", index);
+                    //     }}
+                    //     >
+                    //     item-{item}
+                    // </li>
+                )
+            }
+            // return content;
+            // console.log(content.join(',').replace(',', ''))
+            const contentE = content.join(',').replace(/,/g, '')
+            // console.log(contentE, 'contentE')
+            actualContent.innerHTML = contentE
+            // 注意这个transform.....
+            actualContent.style.transform = getTransform()
+          }
+          const initCachedPositions = () => {
+            cachedPositions = [];
+            for (let i = 0; i < dataLength; ++i) {
+                cachedPositions[i] = {
+                    index: i,
+                    height: rowHeight,
+                    top: i * rowHeight,
+                    bottom: (i + 1) * rowHeight,
+                    dValue: 0
+                };
+            }
+        };
+
+  /**
+   * Update cached positions when componentDidMount Triggered...
+   */
+  const updateCachedPositions = () => {
+        // update cached item height
+        const nodes = actualContent.childNodes;
+        const start = nodes[0];
+
+        // calculate height diff for each visible node...
+        nodes.forEach((node) => {
+            if (!node) {
+                // scroll too fast?...
+                return;
+            }
+            const rect = node.getBoundingClientRect();
+            const { height } = rect;
+            const index = Number(node.innerHTML.split("-")[1]);
+            // console.log(node, 'cachedPositions')
+            const oldHeight = cachedPositions[index].height;
+            // debugger;
+            const dValue = oldHeight - height;
+
+            if (dValue) {
+                cachedPositions[index].bottom -= dValue;
+                cachedPositions[index].height = height;
+                cachedPositions[index].dValue = dValue;
+            }
+        })
+
+        // perform one time height update...
+        let startIdx = 0;
+        if (start) {
+            startIdx = Number(start.innerHTML.split("-")[1]);
+        }
+        const cachedPositionsLen = cachedPositions.length;
+        let cumulativeDiffHeight = cachedPositions[startIdx].dValue;
+        cachedPositions[startIdx].dValue = 0;
+
+        for (let i = startIdx + 1; i < cachedPositionsLen; ++i) {
+        const item = cachedPositions[i];
+        // update height
+        cachedPositions[i].top = cachedPositions[i - 1].bottom;
+        cachedPositions[i].bottom =
+            cachedPositions[i].bottom - cumulativeDiffHeight;
+
+        if (item.dValue !== 0) {
+            cumulativeDiffHeight += item.dValue;
+            item.dValue = 0;
+        }
+        }
+
+        // update our phantom div height
+        const height = cachedPositions[cachedPositionsLen - 1].bottom;
+        phantomHeight = height;
+        phantomContent.style.height = `${height}px`;
+    };
+        function getTransform() {
+            // const { scrollTop } = this.state;
+            // const { rowHeight, bufferSize, originStartIdx } = this;
+            console.log(scrollTopE, 'scrollTopEscrollTopE')
+            return `translate3d(0,${
+                startIndex >= 1
+                    ? cachedPositions[startIndex - 1].bottom
+                    : 0
+                }px,0)`;
+        }
+        function binarySearch(list, value,compareFunc ) {
+            let start = 0;
+            let end = list.length - 1;
+            let tempIndex = null;
+
+            while (start <= end) {
+                tempIndex = Math.floor((start + end) / 2);
+                const midValue = list[tempIndex];
+
+                const compareRes = compareFunc(midValue, value);
+                if (compareRes === CompareResult.eq) {
+                return tempIndex;
+                }
+
+                if (compareRes === CompareResult.lt) {
+                start = tempIndex + 1;
+                } else if (compareRes === CompareResult.gt) {
+                end = tempIndex - 1;
+                }
+            }
+
+            return tempIndex;
+        }
+        const getStartIndex = (scrollTop = 0) => {
+            let idx = binarySearch(
+                cachedPositions,
+                scrollTop,
+                (currentValue, targetValue) => {
+                    const currentCompareValue = currentValue.bottom;
+                    if (currentCompareValue === targetValue) {
+                    return CompareResult.eq;
+                    }
+
+                    if (currentCompareValue < targetValue) {
+                    return CompareResult.lt;
+                    }
+
+                    return CompareResult.gt;
+                }
+            );
+
+            const targetItem = this.cachedPositions[idx];
+
+            // Incase of binarySearch give us a not visible data(an idx of current visible - 1)...
+            if (targetItem.bottom < scrollTop) {
+                idx += 1;
+            }
+
+            return idx;
+        }
+          window.onload = function () {
+            renderDisplayContent()
+            initCachedPositions()
+            // console.log(cachedPositions, 'kkkk')
+            updateCachedPositions();
+            //   console.log(vListContainer, 'vListContainer')
+            vListContainer.onscroll = function (e) {
+                if (e.target === this) {
+                    const { scrollTop } = e.target;
+                    // debugger
+                    // const { startIndex, total, rowHeight, limit } = this;
+                    const currIndex = getStartIndex(scrollTop)
+                    // 如果currentStartIndex 和 startIndex 不同（我们需要更新数据了）
+                    if (currIndex !== originStartIdx) {
+                        // 注意，此处我们引入了一个新的变量叫originStartIdx，起到了和之前startIndex
+                        //    相同的效果，记录当前的 真实 开始下标。
+                        originStartIdx = currIndex;
+                        // 对 startIndex 进行 头部 缓冲区 计算
+                        startIndex = Math.max(currIndex - bufferSize, 0);
+                        // 对 endIndex 进行 尾部 缓冲区 计算
+                        endIndex = Math.min(
+                            currIndex + limit + bufferSize,
+                            total - 1
+                        )
+                        scrollTopE = scrollTop
+                        renderDisplayContent()
+
+                    }
+                }
+            }
+
+        }
+      </script>
+      <script>
+        /*
+        在我们实现 “定高” 虚拟列表时，我们是采用了把元素渲染在phantomContent 容器里，并且通过设置每一个item的position 为 absolute 加上定义top 属性等于 i * rowHeight 来实现无论怎么滚动，
+        渲染内容始终是在用户的可视范围内的。在列表高度不能确定的情况下，我们就无法准确的通过estimateHeight 来计算出当前元素所处的y位置，所以我们需要一个容器来帮我们做这个绝对定位。
+        actualContent 则是我们新引入的列表内容渲染容器，通过在此容器上设置position: absolute 属性来避免在每个item上设置。
+        有一点不同的是，因为我们改用actualContent 容器。当我们进行滑动时需要动态的对容器的位置进行一个 y-transform 从而实现容器永远处于用户的视窗之中：
+        */
+
+        /*
+        总结：
+        initCachedPositions 函数作用：
+           初始化所有节点的属性信息，初始值：比如top，bottom,height 
+
+        updateCachedPositions 函数作用：
+           当页面节点内容更新后，开始重新根据渲染后的节点，重新设置正确的，top,height, bottom,
+           这样做是为了，后面找startIndex,也就是第一个元素的下标，只有这样数值正确了，才能和scrollTop值
+           去比较，才能找到正确的startIndex，startIndex它正确，那么就可以正确的设置transform值了
+        getStartIndex 函数作用：
+            这个就是遍历每个节点的bottom数据和scrolltop去比较，如果两个想等，那么初始节点的下标就找到了，
+            初始下标找到了，那么就可以正确的设置，transform 值了
+
+        getTransform：函数作用
+            获取要设置的transform值
+
+        resetAllVirtualParam 没发现特别的用处，用来重新初始化的
+
+        updateCachedPositions = () => {
+            // update cached item height
+            const nodes: NodeListOf<any> = this.actualContentRef.current.childNodes;
+            const start = nodes[0];
+
+            // calculate height diff for each visible node...
+            // 这是更新真实dom 的数据
+            nodes.forEach((node: HTMLDivElement) => {
+                if (!node) {
+                    // scroll too fast?...
+                    return;
+                }
+                const rect = node.getBoundingClientRect();
+                const { height } = rect;
+                const index = Number(node.id.split("-")[1]);
+                const oldHeight = this.cachedPositions[index].height;
+                const dValue = oldHeight - height;
+                console.log(dValue, "dValuedValue");
+                if (dValue) {
+                    // 这个地方bottom 只是临时修正 自身用真实高度计算与假设的初始化高度计算的偏差，
+                    // 比如 第5个元素的真实高度80，而假设的高度94，那么对于第5个元素来说，都要以高度80
+                    // 来重新计算bottom值，比如 第8个元素的真实高度70，而假设的高度94，那么对于第8个元素来说，都要以高度70，来重新计算bottom值
+                    // 那么这个时候就会有问题，第5个元素相对于原来的自己，上移了14像素，第6个元素，第7个元素
+                    // 以及后面的所有元素，除了修复自身的偏差外，都要上移14个像素。
+                    
+                    // 此时还没用考虑这个上移的影响，只是修复了自身高度的偏差，下面代码中的for循环，就解决了上移的问题。
+                    this.cachedPositions[index].bottom -= dValue;
+                    this.cachedPositions[index].height = height;
+                    this.cachedPositions[index].dValue = dValue;
+                }
+            });
+
+            // perform one time height update...
+            let startIdx = 0;
+            if (start) {
+                startIdx = Number(start.id.split("-")[1]);
+            }
+            const cachedPositionsLen = this.cachedPositions.length;
+            let cumulativeDiffHeight = this.cachedPositions[startIdx].dValue;
+            this.cachedPositions[startIdx].dValue = 0;
+            // 这是更新 全部的虚拟dom 的属性
+            for (let i = startIdx + 1; i < cachedPositionsLen; ++i) {
+                const item = this.cachedPositions[i];
+                // update height
+                this.cachedPositions[i].top = this.cachedPositions[i - 1].bottom;
+                // bottom 修复时，只考虑或者只要参考，当前元素的上一个bottom值修复后带来的间隙就OK了，
+                // 这样就修复了 每一个元素高度变化带来的 间隙问题
+                this.cachedPositions[i].bottom =
+                    this.cachedPositions[i].bottom - cumulativeDiffHeight;
+
+                if (item.dValue !== 0) {
+                    cumulativeDiffHeight += item.dValue;
+                    item.dValue = 0;
+                }
+            }
+
+            // update our phantom div height
+            const height = this.cachedPositions[cachedPositionsLen - 1].bottom;
+            this.phantomHeight = height;
+            this.phantomContentRef.current.style.height = `${height}px`;
+        };
+        */ 
+      </script>
+</body>
+</html>

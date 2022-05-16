@@ -49,13 +49,16 @@
         // endIndex = Math.min(this.startIndex + this.limit, this.total - 1);
           const height = 800
           const rowHeight = 80
-          let startIndex = 0
           let originStartIdx = 0
           let scrollTopE = 0
           const total = 10000
           const bufferSize = 5
           const limit = Math.ceil(height / rowHeight);
-          let endIndex = Math.min(startIndex + limit, total - 1);
+          let startIndex = Math.max(originStartIdx - bufferSize, 0);
+          let endIndex = Math.min(
+                originStartIdx + limit + bufferSize,
+                total - 1
+          );
           const vListContainer = document.getElementsByClassName('vListContainer')[0]
           const phantomContent = document.getElementsByClassName('phantomContent')[0]
           function renderDisplayContent () {
@@ -98,18 +101,19 @@
                     // const { startIndex, total, rowHeight, limit } = this;
                     const currIndex = Math.floor(scrollTop / rowHeight);
                     // 如果currentStartIndex 和 startIndex 不同（我们需要更新数据了）
-                    if (currIndex !== originStartIdx) {
+                    if (originStartIdx !== currIndex) {
                         // 注意，此处我们引入了一个新的变量叫originStartIdx，起到了和之前startIndex
                         //    相同的效果，记录当前的 真实 开始下标。
                         originStartIdx = currIndex;
                         // 对 startIndex 进行 头部 缓冲区 计算
-                        startIndex = Math.max(originStartIdx - bufferSize, 0);
+                        startIndex = Math.max(currIndex - bufferSize, 0);
                         // 对 endIndex 进行 尾部 缓冲区 计算
                         endIndex = Math.min(
-                            originStartIdx + limit + bufferSize,
+                            currIndex + limit + bufferSize,
                             total - 1
                         )
                         scrollTopE = scrollTop
+                        console.log(scrollTopE, 'scrollTopEscrollTopE')
                         renderDisplayContent()
                     }
                 }

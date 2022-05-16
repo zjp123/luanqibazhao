@@ -12,28 +12,35 @@
             /* 高度 变量 */
             height: 800px;
             background-color: #e8e8e8;
+            position: relative;
         }
         .phantomContent {
             height: 800000px;
             position: relative;
+            z-index: -1;
         }
         .item {
             /* height: "79px";
             line-height: "80px"; */
             left: 0;
             right: 0;
-            position: absolute;
+            /* position: absolute; */
             /* top: i * rowHeight, */
             border-bottom: 1px solid #000;
             width: 100%;
+        }
+        .actualContent {
+            width: 100%;
+            position: absolute;
+            top: 0;
         }
         /* { height: total * rowHeight, position: "relative" } */
     </style>
 </head>
 <body>
-    <div class="vListContainer">
-        <div className="phantomContent"></div>
-        <div class="actualContent">
+    <div class="vListContainer" style="overflow: hidden auto; height: 800px; background-color: rgb(232, 232, 232); position: relative;">
+        <div class="phantomContent" style="height: 800000px; position: relative; z-index: -1;"></div>
+        <div class="actualContent" style="width: 100%; position: absolute; top: 0px;">
           <!-- item-1 -->
           <!-- item-2 -->
           <!-- item-3 -->
@@ -59,11 +66,13 @@
           let endIndex = Math.min(startIndex + limit, total - 1);
           const vListContainer = document.getElementsByClassName('vListContainer')[0]
           const phantomContent = document.getElementsByClassName('phantomContent')[0]
+          const actualContent = document.getElementsByClassName('actualContent')[0]
           function renderDisplayContent () {
             const content = [];
             for (let i = startIndex; i <= endIndex; ++i) {
                 
-                const liele = '<li class="item" style="height: ' +(rowHeight - 1)+ 'px;line-height: ' + rowHeight+ 'px;top: '+(i * rowHeight)+'px;" >item-' + i + '</li>'
+                const liele = '<li class="item" style="height: 79px; line-height: 80px; border-bottom: 1px solid rgb(0, 0, 0); width: 100%;" >item-' + i + '</li>'
+                // const liele = '<li class="item" style="height: ' +(rowHeight - 1)+ 'px;line-height: ' + rowHeight+ 'px;" >item-' + i + '</li>'
                 content.push(liele
                     // <li
                     // style=
@@ -88,8 +97,20 @@
             // console.log(content.join(',').replace(',', ''))
             const contentE = content.join(',').replace(/,/g, '')
             // console.log(contentE, 'contentE')
-            phantomContent.innerHTML = contentE
+            actualContent.innerHTML = contentE
+            // 注意这个transform.....
+            actualContent.style.transform = getTransform()
           }
+        function getTransform() {
+            // const { scrollTop } = this.state;
+            // const { rowHeight, bufferSize, originStartIdx } = this;
+            console.log(scrollTopE, 'scrollTopEscrollTopE')
+            return `translate3d(0,${
+                scrollTopE - 
+                (scrollTopE % rowHeight) - 
+                Math.min(originStartIdx, bufferSize) * rowHeight
+            }px,0)`
+        }
           window.onload = function () {
             //   console.log(vListContainer, 'vListContainer')
             vListContainer.onscroll = function (e) {
@@ -104,18 +125,20 @@
                         //    相同的效果，记录当前的 真实 开始下标。
                         originStartIdx = currIndex;
                         // 对 startIndex 进行 头部 缓冲区 计算
-                        startIndex = Math.max(originStartIdx - bufferSize, 0);
+                        startIndex = Math.max(currIndex - bufferSize, 0);
                         // 对 endIndex 进行 尾部 缓冲区 计算
                         endIndex = Math.min(
-                            originStartIdx + limit + bufferSize,
+                            currIndex + limit + bufferSize,
                             total - 1
                         )
                         scrollTopE = scrollTop
                         renderDisplayContent()
+
                     }
                 }
             }
             renderDisplayContent()
+
         }
       </script>
       <script>
