@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const twoCol = ['新增量', '在培人数', '未考人数', '考生数', '考试人数', '通过人数', '通过率', '考生数', '考试人数', '通过人数',
+            '通过率', '考生数', '考试人数', '通过人数', '通过率', '考生数', '考试人数', '通过人数', '通过率', '全市驾驶人数', '新增驾驶人数'
+        ]
+
+        // const oneCol = ['考生情况', '在培人数', '未考人数', '考生数', '考试人数', '通过人数', '通过率', '考生数', '考试人数', '通过人数',
+        //     '通过率', '考生数', '考试人数', '通过人数', '通过率', '考生数', '考试人数', '通过人数', '通过率', '全市驾驶人数', '新增驾驶人数'
+        // ]
+        const arr = [
+      {
+        "statisticsTime": "2022-05-25",
+        "examinee_situation": {
+          "newStuNumber": 126,
+          "inTrainingStuNumber": 128
+        },
+        "exam_situation": {
+          "notTestedStuNumber": 1
+        },
+        "subject_one_statistics": {
+            "studentNum": 66,
+          "examineeNumber": 2,
+          "testedStuNumber": 3,
+          "passRate": "80%"
+        },
+        "subject_two_statistics": {
+            "studentNum": 77,
+          "examineeNumber": 4,
+          "testedStuNumber": 5,
+          "passRate": "80%"
+        },
+        "subject_three_statistics": {
+            "studentNum": 88,
+          "examineeNumber": 6,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_four_statistics": {
+            "studentNum": 99,
+          "examineeNumber": 7,
+          "testedStuNumber": 8,
+          "passRate": "80%"
+        },
+        "driver_statistics": {
+          "driverNumber": 9,
+          "newDriverNumber": 5
+        }
+      },
+      {
+        "statisticsTime": "2022-05-26",
+        "examinee_situation": {
+          "newStuNumber": 123,
+          "inTrainingStuNumber": 123
+        },
+        "exam_situation": {
+          "notTestedStuNumber": 123
+        },
+        "subject_one_statistics": {
+            "studentNum": 66,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_two_statistics": {
+            "studentNum": 66,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_three_statistics": {
+            "studentNum": 66,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_four_statistics": {
+            "studentNum": 66,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "driver_statistics": {
+          "driverNumber": 112313,
+          "newDriverNumber": 12312312312
+        }
+      },
+      {
+        "statisticsTime": "2022-05-27",
+        "examinee_situation": {
+          "newStuNumber": 126,
+          "inTrainingStuNumber": 123
+        },
+        "exam_situation": {
+          "notTestedStuNumber": 123
+        },
+        "subject_one_statistics": {
+          "studentNum": 100,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_two_statistics": {
+          "studentNum": 101,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_three_statistics": {
+          "studentNum": 102,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "subject_four_statistics": {
+          "studentNum": 103,
+
+          "examineeNumber": 123,
+          "testedStuNumber": 123,
+          "passRate": "80%"
+        },
+        "driver_statistics": {
+          "driverNumber": 112313,
+          "newDriverNumber": 12312312312
+        }
+      }
+    ]
+
+    
+    // const obj = {}
+
+    // for (let index = 0; index < arr.length; index++) {
+    //     const element = arr[index]
+    //     obj[element['statisticsTime']] = element['examinee_situation'].newStuNumber // 构建第一行数据
+    //     obj[element['statisticsTime']] = element['examinee_situation'].newStuNumber // 构建第二行数据
+    //     // obj{[element['statisticsTime']]: element['examinee_situation'].newStuNumber}
+        
+        
+    // }
+    let globalArr = []
+
+    for (let index = 0; index < arr.length; index++) {
+        const element = arr[index];
+        let arr2 = []
+        for (const key in element) {
+            // const obj = {}
+            const ele = element[key];
+            // obj[element['statisticsTime']] = element['examinee_situation'].newStuNumber // 构建第一行数据
+            // obj[element['statisticsTime']] = element['examinee_situation'].inTrainingStuNumber // 构建第一行数据
+            // if (key === 'statisticsTime') {
+            //     arr2.push(
+            //         {[element['statisticsTime']]: element[key]}
+            //     )
+            // }
+            if (key === 'examinee_situation') {
+                arr2.push(
+                    {[element['statisticsTime']]: element[key].newStuNumber},
+                    {[element['statisticsTime']]: element[key].inTrainingStuNumber},
+                )
+            }
+            if (key === 'exam_situation') {
+                arr2.push(
+                    {[element['statisticsTime']]: element[key].notTestedStuNumber},
+                )
+            }
+            if (key === 'subject_one_statistics') {
+                arr2.push(
+                  {[element['statisticsTime']]: element[key].studentNum},
+
+                    {[element['statisticsTime']]: element[key].examineeNumber},
+                    {[element['statisticsTime']]: element[key].testedStuNumber},
+                    {[element['statisticsTime']]: element[key].passRate},
+                )
+            }
+            if (key === 'subject_two_statistics') {
+                arr2.push(
+                  {[element['statisticsTime']]: element[key].studentNum},
+
+                    {[element['statisticsTime']]: element[key].examineeNumber},
+                    {[element['statisticsTime']]: element[key].testedStuNumber},
+                    {[element['statisticsTime']]: element[key].passRate},
+                )
+            }
+            if (key === 'subject_three_statistics') {
+                arr2.push(
+                  {[element['statisticsTime']]: element[key].studentNum},
+
+                    {[element['statisticsTime']]: element[key].examineeNumber},
+                    {[element['statisticsTime']]: element[key].testedStuNumber},
+                    {[element['statisticsTime']]: element[key].passRate},
+                )
+            }
+            if (key === 'subject_four_statistics') {
+                arr2.push(
+                    {[element['statisticsTime']]: element[key].studentNum},
+                    {[element['statisticsTime']]: element[key].examineeNumber},
+                    {[element['statisticsTime']]: element[key].testedStuNumber},
+                    {[element['statisticsTime']]: element[key].passRate},
+                )
+            }
+            if (key === 'driver_statistics') {
+                arr2.push(
+                    {[element['statisticsTime']]: element[key].driverNumber},
+                    {[element['statisticsTime']]: element[key].newDriverNumber},
+                    // {[element['statisticsTime']]: element[key].passRate},
+                )
+            }
+            // arr2.push(
+            //     {[element['statisticsTime']]: element['examinee_situation'].newStuNumber},
+            //     {[element['statisticsTime']]: element['examinee_situation'].inTrainingStuNumber}
+            // )
+
+
+        }
+        // globalArr[index] = arr2
+        for (let index = 0; index < arr2.length; index++) {
+            const ele = arr2[index];
+            // if (globalArr[index]) {
+            //   globalArr[index] = {...globalArr[index], ...ele}
+            // } else {
+            //   globalArr[index] = {...ele}
+            // }
+            globalArr[index] = {...globalArr[index], ...ele}
+
+        }
+        // globalArr[1] = arr2
+        arr2 = []
+
+        // globalArr.push(obj)
+        
+    }
+    
+    console.log(globalArr, twoCol.length, 'globalArrglobalArr')
+    </script>
+</body>
+</html>
