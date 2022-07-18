@@ -57,8 +57,9 @@
         //绘制的起点
         oCtx.moveTo(50, 50);
         //arc的4个参数分别是（x,y, 半径，起始角度,结束角度）
-        // oCtx.arc(50, 50, 45, 0, 1.9*Math.PI);
-        oCtx.arc(50, 50, 45, 0, Math.PI/180 * 270);
+        // oCtx.arc(50, 50, 45, 0.5*Math.PI, 2*Math.PI);
+        oCtx.arc(50, 50, 45, 0.5*Math.PI, Math.PI/180 * (360 +  90));
+        // oCtx.arc(50, 50, 45, 0, Math.PI/180 * 270);
         //关闭路径
         oCtx.closePath();
         //填充颜色
