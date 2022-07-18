@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .progress {
+            position:absolute;            
+            text-align: center;
+            outline: 1px solid red;
+            line-height: 100px;
+            width: 100px;
+            height: 100px;      
+            left:50%;
+            top:50%;
+            font-size: 2em;
+            transform: translate(-50%,-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <canvas style="border: 1px solid red; border-radius: 50%;" width="100" height="100"></canvas>
+        <div class="progress">0%</div>
+    </div>
+    <!-- <canvas style="margin: 100px; border: 1px solid red; border-radius: 50%;" width="100" height="100"></canvas> -->
+    <script>
+    //     let oCanvas = document.querySelector("canvas");
+    //  // 2.从canvas中拿到绘图工具
+    //     let oCtx = oCanvas.getContext("2d");
+    //     //绘制个数
+    //     let len = 10
+    //     //每个扇形占的份额,一个圆的总额是2，看下图
+    //     let portion = (2/len).toFixed(3)
+    //     for(var i = 0 ; i<len;i++){
+    //         //绘制的起点
+    //         oCtx.moveTo(272, 272);
+    //         //arc的4个参数分别是（x,y,起始角度,结束角度）
+    //         oCtx.arc(272, 272, 210,((portion*i)+0.01)*Math.PI, ((i+1)*portion)*Math.PI);
+    //         //关闭路径
+    //         oCtx.closePath();
+    //         //填充颜色
+    //         oCtx.fillStyle = '#c59696'
+    //         //绘制
+    //         oCtx.fill();
+    //     }
+        let oCanvas = document.querySelector("canvas");
+        // 2.从canvas中拿到绘图工具
+        let oCtx = oCanvas.getContext("2d");
+        //绘制的起点
+        oCtx.moveTo(50, 50);
+        //arc的4个参数分别是（x,y, 半径，起始角度,结束角度）
+        // oCtx.arc(50, 50, 45, 0, 1.9*Math.PI);
+        oCtx.arc(50, 50, 45, 0, Math.PI/180 * 270);
+        //关闭路径
+        oCtx.closePath();
+        //填充颜色
+        oCtx.fillStyle = '#c59696'
+        //绘制
+        oCtx.fill();
+    </script>
+</body>
+</html>
