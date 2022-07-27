@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .foo {
+            width: 300px;
+            height: 100px;
+            margin: 100px auto;
+            background-color: aqua;
+        }
+        .box {
+            display: flex;
+            height: 200px;
+            /* margin-top: 20px; */
+            width: 400px;
+            /* margin: 20px auto 0 auto; */
+            margin: 50px auto;
+            background-color: aqua;
+
+        }
+        .left {
+            width: 100px;
+            height: 100%;
+            background: red;
+        }
+        .right {
+            flex: auto;
+            height: 100%;
+            background: blue;
+            color: #fff;
+            /* overflow: hidden; */
+            width: 0;
+            /* min-width: 0; */
+
+        }
+        .text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="foo"></div>
+    <div class="box">
+        <div class="left">123</div>
+        <div class="right">
+            <p class="text">
+                这是一段很长长长长长长长长长长长长长长长长长长文字，这是一段很长长长长长长长长长长长长长长长长长长文字
+            </p>
+        </div>
+    </div>
+    <div class="box" style="background: green">正常的box</div>
+</body>
+</html>
