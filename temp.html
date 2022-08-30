@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const arr = []
+        const selectItemArr = [3,4]
+        const params = {
+            'courseOtherExamType-diy3': 1,
+            'courseOtherExamType-diy4': 3,
+            'courseOtherExamDate': "",
+            'courseOtherExamDate-diy3': "2022-08-04",
+            'courseOtherExamDate-diy4': "2022-08-06",
+            'courseOtherIsPass': false,
+            'courseOtherOrderDate': "",
+            'orderDate': "2022-08-03",
+            'courseOtherOrderDate-diy3': "2022-08-05",
+            'courseOtherOrderDate-diy4': "2022-08-07",
+            'statusDate': "2022-08-02",
+            'stuId': "1560571341239750656",
+            'stuStatus': 29,
+            'tenantId': "e208070f032241b183cae45dd427f905",
+        }
+        selectItemArr.map((item) => {
+            const obj = {}
+            for (const key in params) {
+                if (params.hasOwnProperty(key)) {
+                    // const ele = params[key]
+                    // 把 字段中包含 -diyx 的保存起来
+                    if (key.substr(-5) === `-diy${item}`) {
+                        const paramPre = key.slice(0, -5)
+                        obj.course = item
+                        obj[paramPre] = params[key]
+                    }
+                    
+                }
+            }
+            arr.push(obj)
+            
+        })
+        console.log(arr)
+    </script>
+</body>
+</html>
