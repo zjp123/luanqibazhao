@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 500px;
+            margin: 100px auto;
+            height: 100px;
+            border: 1px solid red;
+            box-sizing: border-box;
+            overflow: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div>漱口水嗑生嗑死开始看搜索看看书嗑生嗑死</div>
+        <div>漱口水嗑生嗑死开始看搜索看看书嗑生嗑死</div>
+        <div>漱口水嗑生嗑死开始看搜索看看书嗑生嗑死</div>
+        <div>漱口水嗑生嗑死开始看搜索看看书嗑生嗑死</div>
+        <div>漱口水嗑生嗑死开始看搜索看看书嗑生嗑死</div>
+    </div>
+    <script>
+        const idbox = document.getElementById('box')
+        const reacto = idbox.getBoundingClientRect()
+        console.log(reacto.height, idbox.offsetHeight, 'lllll')
+    </script>
+</body>
+</html>
