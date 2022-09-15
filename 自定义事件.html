@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // function CustomEvent (type, params) {
+    //     var e = document.createEvent('CustomEvent');
+    //     if (params) {
+    //       e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
+    //     } else {
+    //       e.initCustomEvent(type, false, false, void 0);
+    //     }
+    //     return e;
+    // }
+  </script>
+
+  <script>
+    class Custom {
+      on (name, callBack) {
+        window.addEventListener(name, (e) => {
+          callBack(e.detail)
+        })
+      }
+      emit (name, data) {
+        const event = new CustomEvent(name, {detail: data})
+        window.dispatchEvent(event)
+      }
+    }
+  </script>
+  <script>
+    var objEvent = new Custom()
+    objEvent.on('shuangbaotai', (data) => {
+      console.log(data, 'kkkkkkk')
+    })
+    objEvent.emit('shuangbaotai', {sex: '男'})
+  </script>
+</body>
+</html>
