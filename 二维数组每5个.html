@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // var arr = new Array(21).fill(6)
+        var arr = []
+        for (let index = 0; index < 7; index++) {
+            arr.push(index)
+        }
+        const twoDimensionalArr = (resarr) => {
+            let arr =[]
+            let temp = []
+            for (let index = 0; index < resarr.length; index++) {
+                const ele = resarr[index];
+                if (index % 6 === 0 && index > 1) {
+                    arr.push(temp)
+                    temp = []
+                    temp.push(ele)
+                } else {
+                    temp.push(ele)
+                }
+            }
+            // console.log(temp)
+            arr.push(temp)
+            return arr
+        }
+        const arr2 = twoDimensionalArr(arr)
+        console.log(arr, arr2.length)
+
+
+        if (100 > 30) { // 叫号中 每行固定6个  最多5行 所以最多是30个
+            console.log(100)
+
+
+            } else if (20 > 10) { // 如果没有叫号中的 那么只展示 待叫号的
+                console.log(20)
+
+            }
+    </script>
+</body>
+</html>
