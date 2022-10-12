@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .fanzhuan {
+            /* transform: rotateY(180); */
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            width: 200px;
+            margin: 0 auto;
+        }
+        .fanzhuan1 {
+            /* transform: rotate3D(360deg); */
+            /* transform-origin: 50% 50%; */
+            transition: all 2s;
+            /* transform: rotate3d(.5, 0.5, 0.5, -360deg); */
+            transform: rotateX(360deg);
+
+            /* width: 600px */
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="fanzhuan">哈哈哈哈哈啊啊啊啊啊</div>
+    <script>
+        setTimeout(() => {
+            const ele = document.getElementsByClassName('fanzhuan')[0]
+            ele.classList.add('fanzhuan1')
+            ele.addEventListener('transitionend', () => {
+                console.log(111)
+                ele.classList.remove('fanzhuan1')
+
+            })
+        }, 0)
+        // setTimeout(() => {
+        //     const ele = document.getElementsByClassName('fanzhuan')[0]
+        // }, 2000)
+    </script>
+</body>
+</html>
