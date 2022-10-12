@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    文字：<input type="text" value="你好啊！请罗易到骨科一诊室就诊" id="inpu">
+    <button onclick="sayTTS()">发声</button>
+    <script>
+        function sayTTS()
+        {
+            var content = document.getElementById('inpu');
+            console.log(content.value);
+            const synth = window.speechSynthesis;
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = content.value;     // 文字内容
+            msg.lang = "zh-CN";  // 使用的语言:中文
+            msg.volume = 1;      // 声音音量：0-1
+            msg.rate = 1;        // 语速：0-10
+            msg.pitch = 1;       // 音高：0-1
+            synth.speak(msg);    // 播放
+        }
+            
+    </script>
+</body>
+</html>
