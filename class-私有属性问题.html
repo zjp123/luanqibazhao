@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Task.prototype.arr = [] // 这个就是 function.prototype.arr = []
+        class Task {
+            static arr = [] // 这个可以模拟 ecm5时的 function.prototype.arr = []
+            constructor () {
+                
+            }
+            add (i) {
+                Task.arr.push(i)
+            }
+            look () {
+                console.log(Task.arr)
+            }
+
+        }
+        const aa =  new Task()
+        const bb =  new Task()
+        aa.add(1)
+        aa.add(2)
+        aa.add(3)
+        bb.add(4)
+        bb.add(5)
+        bb.add(6)
+        console.log(aa.look(), bb.look())
+
+// export class BoBaoTask {
+//     public queque = []
+//     public bobao: any
+//     public constructor (bobao?: any) {
+//         this.bobao = bobao
+//     }
+//     public doTask (type?) {
+//         if (paidui_laba.speaking) { // 播报是全局唯一的 如果有语音正在播放 那么不可以执行任务
+//             return
+//         }
+//         if (!this.queque || !this.queque.length) {
+//             return;
+//         }
+//         console.log(this.queque, 'this.queque.lengththis.queque.length')
+//         const ele = this.queque.shift()
+//         this.bobao.bofang(ele.name, type)
+//         this.doTask()
+//     }
+//     public addTask (obj: Parmas, type?) {
+//         if (type === 'laba') {
+//             !this.queque.includes(obj.id) && this.queque.unshift(obj)
+//         } else {
+//             // 防止重名
+//             !this.queque.includes(obj.id) && this.queque.push(obj)
+//         }
+//         console.log(this.queque, 'this.queque')
+//         this.doTask(type)
+
+//     }
+// }
+
+// // 同一时刻只能有一个语音播放
+// export class Bobao {
+//     // private taskInstance: any;
+//     private endCount = 0 // 事件执行两次 但是只需要一次 所有缓存
+//     // public constructor (task: any) {
+//     //     this.taskInstance = task
+//     // }
+//     public bofang (text, type?) {
+//         // if (paidui_laba.speaking){
+//         //     return
+//         // }
+//         const utterThis = new SpeechSynthesisUtterance(text)
+//         utterThis.lang = 'zh-CN' // 使用的语言:中文
+//         utterThis.volume = 1 // 声音音量：0-1
+//         utterThis.rate = 1 // 语速：0-10
+//         utterThis.pitch = 1 // 音高：0-1
+//         if (type === 'laba') {
+//             // 点击小喇叭的 只播放一次
+//             paidui_laba.speak(utterThis)
+//             task.doTask()
+//         } else {
+//             paidui_laba.speak(utterThis)
+//             paidui_laba.speak(utterThis)
+//             utterThis.onend = (event: any) => {
+//                 this.endCount += 1
+//                 console.log('执行了几次啊', event, this.endCount, event.currentTarget.text) // 会执行两次
+//                 if (this.endCount === 2 ) {
+//                     this.endCount = 0
+//                     console.log(task, ';;;;;;;;;')
+//                     task.doTask()
+//                 } else {
+//                     return
+//                 }
+//             }
+//         }
+//     }
+// }
+    </script>
+</body>
+</html>
