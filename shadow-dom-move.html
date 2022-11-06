@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    // Shadow DOM 可以将一个隐藏的、独立的 DOM 附加到一个元素上，一般来说是微应用的容器 <div> 上。
+    /* 其中：
+
+      Shadow host：一个常规 DOM 节点，Shadow DOM 会被附加到这个节点上。
+      Shadow tree：Shadow DOM 内部的 DOM 树。
+      Shadow boundary：Shadow DOM 结束的地方，也是常规 DOM 开始的地方。
+      Shadow root: Shadow tree 的根节点。
+      容纳影子 DOM 的元素
+      被称为影子宿主(shadow host)。影子 DOM 的根节点被称为影子根(shadow root)
+      */
+  </script>
+  
+  <script>
+
+    document.body.innerHTML = `
+      <div></div>
+      <p id="foo">Move me</p>
+    `;
+    const divElement = document.querySelector('div');
+    const pElement = document.querySelector('p');
+    const shadowDOM = divElement.attachShadow({ mode: 'open' });
+    // 从父 DOM 中移除元素 
+    divElement.parentElement.removeChild(pElement);
+    // 把元素添加到影子DOM 
+    shadowDOM.appendChild(pElement);
+    // 检查元素是否移动到了影子 DOM 中 
+    console.log(shadowDOM.innerHTML); 
+    // <p id="foo">Move me</p>
+  </script>
+
+</body>
+</html>
