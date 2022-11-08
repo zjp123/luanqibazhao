@@ -76,6 +76,19 @@
 
       proxy.getDate() // 1
     */ 
+      var person = {name: '去病'}
+      var person_proxy = new Proxy(person, {
+        get: function(target, propKey, reciver) {
+          return target[propKey]
+        },
+        set (target, key, value, reciver) {
+          target[key] = value;
+          return true
+        }
+      })
+      person.age = 88
+      person_proxy.body = '健康'
+      console.log(person, person_proxy)
   </script>
 </body>
 </html>
