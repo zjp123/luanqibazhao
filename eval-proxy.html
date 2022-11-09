@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eval-proxy</title>
+</head>
+<body>
+  <script>
+    const GlobPro = new Proxy(window, {
+      get(target, key) {
+        if (typeof target[key] === 'function') {
+          return target[key].bind(target)
+        }
+        return target[key]
+      },
+      set(target, key, value) {
+        target[key] = value
+        return true
+      }
+    })
+    
+    const scriptText = `
+      ((window) => {
+        window.aa = 99
+      })(GlobPro)
+    `
+    eval(scriptText)// app module mount
+    console.log(GlobPro.aa, 'lll')
+  </script>
+</body>
+</html>
