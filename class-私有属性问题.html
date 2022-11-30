@@ -8,29 +8,48 @@
 </head>
 <body>
     <script>
-        Task.prototype.arr = [] // 这个就是 function.prototype.arr = []
-        class Task {
+        // static 方式
+        class TaskStatic {
             static arr = [] // 这个可以模拟 ecm5时的 function.prototype.arr = []
             constructor () {
                 
             }
             add (i) {
-                Task.arr.push(i)
+                TaskStatic.arr.push(i)
             }
             look () {
-                console.log(Task.arr)
+                console.log(TaskStatic.arr, this.arr) // static 属性只能通过类TaskStatic本身去访问
             }
 
         }
-        const aa =  new Task()
-        const bb =  new Task()
+        const aa =  new TaskStatic()
+        const bb =  new TaskStatic()
         aa.add(1)
         aa.add(2)
         aa.add(3)
-        bb.add(4)
-        bb.add(5)
-        bb.add(6)
-        console.log(aa.look(), bb.look())
+        // console.log(aa.look(), bb.look())
+
+        // prototype 方式
+        class TaskPrototype {
+            constructor () {
+                
+            }
+            add (i) {
+                this.arr.push(i)
+            }
+            look () {
+                return this.arr
+            }
+
+        }
+        TaskPrototype.prototype.arr = [] // 这个就是 function.prototype.arr = []
+
+        const cc =  new TaskPrototype()
+        const dd =  new TaskPrototype()
+        cc.add(1)
+        cc.add(2)
+        cc.add(3)
+        console.log(cc.look(), dd.look())
 
 // export class BoBaoTask {
 //     public queque = []
