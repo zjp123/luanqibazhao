@@ -53,6 +53,17 @@ body{height:100%;margin:0px;padding:0px}
     marker.addEventListener("dragend", function(e){    
         alert("当前位置：" + e.point.lng + ", " + e.point.lat);    
     })
+    // 创建信息窗口
+    var opts = {
+        width: 200,
+        height: 100,
+        title: '故宫博物院'
+    };
+    var infoWindow = new BMap.InfoWindow(`<div><p>哈哈哈</p><p>地址：北京市东城区王府井大街88号乐天银泰百货八层</p></div>`, opts);
+    // 点标记添加点击事件
+    marker.addEventListener('click', function () {
+        map.openInfoWindow(infoWindow, point); // 开启信息窗口
+    });
     // var polyline = new BMap.Polyline([
     //     new BMap.Point(116.399, 39.910),
     //     new BMap.Point(116.405, 39.920)
