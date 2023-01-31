@@ -46,4 +46,14 @@
     marker.addEventListener('click', function () {
         map.openInfoWindow(infoWindow, point); // 开启信息窗口
     });
+    var myGeo = new BMap.Geocoder();
+    myGeo.getPoint('菏泽市牡丹区', (point) => {
+            console.log(point, 'pointpoint')
+        }, '菏泽市牡丹区') // 菏泽市
+
+    const allps = [
+        // {lng: 115.48754503343376, lat: 35.23940742476551},
+        {lng: 115.54845724362382, lat: 34.83180934841467},
+        {lng: 115.42344303020836, lat: 35.25701817606895}
+    ]
 </script>
