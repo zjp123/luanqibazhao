@@ -19,11 +19,24 @@
         height: 600px;
         margin: 0 auto;
     }
+    .info-my-location {
+        display: flex;
+        align-items: center;
+    }
     </style>
     <!-- <script src="//api.map.baidu.com/api?type=webgl&v=3.0&ak=hCjkVAemraBBEYR2bAAWSTmVC78OoMeD"></script> -->
 </head>
 <body>
     <div id="container"></div>
+    <div class="info-html-map">
+        <div class="info-my-location">
+            <div>我的位置</div>
+            <div>详情</div>
+        </div>
+        <div>姓名：张三</div>
+        <div>地址：北京市朝阳区东八里庄街道13号</div>
+        <div>电话：13112341234</div>
+    </div>
 </body>
 </html>
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=hCjkVAemraBBEYR2bAAWSTmVC78OoMeD"></script>
@@ -40,7 +53,12 @@
         width: 200,
         height: 100,
         title: '故宫博物院'
-    };
+    }
+    const inFoHtmlFn = (info) => {
+        let str = ``
+
+        return str
+    }
     var infoWindow = new BMap.InfoWindow(`<div><p>哈哈哈</p><p>地址：北京市东城区王府井大街88号乐天银泰百货八层</p></div>`, opts);
     // 点标记添加点击事件
     marker.addEventListener('click', function () {
