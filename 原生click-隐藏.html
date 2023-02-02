@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #yincang {
+            /* visibility: hidden; */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div onclick="console.log(obj.name)">按钮</div>
+    <div id="yincang">隐藏元素</div>
+    <script>
+        let obj = {name: '展示', age: 18}
+        const yincangobj = document.getElementById('yincang')
+        yincangobj.onclick = function () {
+            console.log('点击了吗')
+        }
+        yincangobj.click()
+    </script>
+</body>
+</html>
