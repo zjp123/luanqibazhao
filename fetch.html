@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function browserVersion() {
+            let userAgent = navigator.userAgent // 取得浏览器的userAgent字符串
+            if (userAgent.indexOf('Trident') > -1) {
+                return 'IE'
+            } // 判断是否IE浏览器  Trident/7.0; rv:11.0
+            return false
+        }
+        const downloadImageUrl = (src, name) => {
+            if (!src) {
+                return
+            }
+            const newName = name || src.substring(src.lastIndexOf('/') + 1)
+            fetch(src)
+                .then((res) => res.blob())
+                .then((blob) => {
+                    console.log(blob, 'llll');
+                    if (browserVersion()) {
+                        window.navigator.msSaveBlob(blob, newName)
+                    } else {
+                        const a = document.createElement('a')
+                        document.body.appendChild(a)
+                        a.style.display = 'none'
+                        // 使用获取到的blob对象创建的url
+                        const url = window.URL.createObjectURL(blob)
+                        a.href = url
+                        // 指定下载的文件名
+                        a.download = newName
+                        a.click()
+                        document.body.removeChild(a)
+                        // 移除blob对象的url
+                        window.URL.revokeObjectURL(url)
+                    }
+                })
+        }
+        // downloadImageUrl('https://img2.baidu.com/it/u=3603535762,3654648400&fm=253&fmt=auto&app=138&f=PNG?w=500&h=168')
+        // fetch('https://img2.baidu.com/it/u=3603535762,3654648400&fm=253&fmt=auto&app=138&f=PNG?w=500&h=168', {
+        //     mode:"no-cors",
+        //     // headers: {
+        //     //     // authority: gatewayapi.58v5.cn
+        //     //     // method: POST
+        //     //     // :path: /jxtsaas_0/tea/order/config/custom/list
+        //     //     // :scheme: https
+        //     //     'accept': 'application/json',
+        //     //     // accept-encoding: 'gzip, deflate, br'
+        //     //     // accept-language: 'zh-CN,zh;q=0.9'
+        //     //     'authorization': 'Bearer 51963ab6-40ac-4110-b054-5d1446dd0b0d',
+        //     //     // cache-control: 'no-cache'
+        //     //     // content-length: 13
+        //     //     'Content-Type': 'application/json;charset=UTF-8',
+        //     //     // origin: https://jx1.58v5.cn
+        //     //     // pragma: no-cache
+        //     //     // referer: https://jx1.58v5.cn/jxt/service/worknodeset
+        //     //     'saascookieid': '51963ab6-40ac-4110-b054-5d1446dd0b0d',
+        //     //     // sec-ch-ua: "Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"
+        //     //     // sec-ch-ua-mobile: ?0
+        //     //     // sec-ch-ua-platform: "macOS"
+        //     //     // sec-fetch-dest: empty
+        //     //     // sec-fetch-mode: cors
+        //     //     // sec-fetch-site: same-site
+        //     //     // user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36
+        //     // }
+        // })
+        // .then((res) => res.blob())
+        // // .then((res) => res.text())
+        // .then((data) => {
+        //     console.log(data, 'contentcontent')
+        // })
+        fetch('./1.html')
+                .then((res) => res.text())
+                .then((content) => {
+                    // console.log(content, 'llll');
+                    content.replace(/.*<title>(.*)<\/title>.*/igs, (a,b,c) => {
+                        console.log(b);
+                    })
+                    // if (browserVersion()) {
+                    //     window.navigator.msSaveBlob(blob, newName)
+                    // } else {
+                    //     const a = document.createElement('a')
+                    //     document.body.appendChild(a)
+                    //     a.style.display = 'none'
+                    //     // 使用获取到的blob对象创建的url
+                    //     const url = window.URL.createObjectURL(blob)
+                    //     a.href = url
+                    //     // 指定下载的文件名
+                    //     a.download = newName
+                    //     a.click()
+                    //     document.body.removeChild(a)
+                    //     // 移除blob对象的url
+                    //     window.URL.revokeObjectURL(url)
+                    // }
+                })
+    </script>
+</body>
+</html>
