@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const arr = [
+            {
+                label: '全部车型', // 前端需要  接口不需要
+                // id: '-1',
+                itemId: '',
+                key: '1',
+                carTypes: ['-1'],
+                taskTriggerList: [
+                    {
+                        label: 'child1',
+                        id: '',
+                        key: 2,
+                        taskContentList: [
+                            {
+                                key: 3,
+                                attachmentsVos: [],
+                                huashuform: {
+                                    contentId: '1',
+                                    timeType: 1,
+                                    timeValue: [5, 6],
+                                    tianqian: null,
+                                    timeqian: null,
+                                    tianhou: null,
+                                    timehou: null,
+                                    xiaoshihou: null,
+                                    howtianhou: null,
+                                    zhidingriqi: null,
+                                    // liji: null, dangtian: null, xunhuan: null
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ]
+
+        for (let index = 0; index < arr.length; index++) {
+            const ele1 = arr[index]
+            delete ele1.label
+            const level2Arr = ele1.taskTriggerList
+            for (let x = 0; x < level2Arr.length; x++) {
+                const ele2 = level2Arr[x]
+                delete ele2.label
+                const level3Arr = ele2.taskContentList
+                for (let y = 0; y < level3Arr.length; y++) {
+                    const ele3 = level3Arr[y]
+                    ele3.contentId = ele3.huashuform.contentId
+                    ele3.timeType = ele3.huashuform.timeType
+                    ele3.timeValue = ele3.huashuform.timeValue
+                    delete ele3.huashuform
+                }
+            }
+        }
+        console.log(arr, 'arrarrarr');
+    </script>
+</body>
+</html>
