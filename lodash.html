@@ -7,10 +7,68 @@
     <title>Document</title>
 </head>
 <body>
-    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.core.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.core.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script>
-        console.log(_.isEmpty({name: 18}))
-        console.log(_.head([{a: 66}]))
+        window.onload = function () {
+            console.log(_.isEmpty({name: 18}))
+            console.log(_.head([{a: 66}]))
+            const arr = [
+                        {orderId: '2233', age: 1},
+                        {orderId: '1122', age: 2},
+                        {orderId: '5566', age: 3},
+                        {orderId: '8899', age: 3},
+                        {orderId: '1001', age: 6},
+                        {orderId: '2233', age: 6},
+                        {orderId: '8899', age: 8},
+                    ]
+            const aa = _.orderBy(arr, ['orderId'], ['asc'])
+            // [
+            //     {
+            //         "orderId": "1001",
+            //         "age": 6
+            //     },
+            //     {
+            //         "orderId": "1122",
+            //         "age": 2
+            //     },
+            //     {
+            //         "orderId": "2233",
+            //         "age": 1
+            //     },
+            //     {
+            //         "orderId": "2233",
+            //         "age": 6
+            //     },
+            //     {
+            //         "orderId": "5566",
+            //         "age": 3
+            //     },
+            //     {
+            //         "orderId": "8899",
+            //         "age": 3
+            //     },
+            //     {
+            //         "orderId": "8899",
+            //         "age": 8
+            //     }
+            // ]
+            console.log(aa ,'llll')
+            var orderMap = {}
+            aa.map((item, index) => {
+                if (!orderMap[item.orderId]) {
+                    orderMap[item.orderId] = 1
+                    orderMap[item.orderId + 'index'] = index
+
+                } else {
+                    orderMap[item.orderId] ++
+                    // orderMap[item.orderId + 'index'] = index
+
+                }
+            })
+            console.log(orderMap);
+        }
+        
     </script>
 </body>
 </html>

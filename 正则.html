@@ -39,6 +39,17 @@
           return ''
     })
     console.log(newstr);
+    const str = '<p><strong>ddd <span style=\"font-size: 24px;\">对对对</span></strong></p><p><strong><span style=\"font-size: 30px;\">dddsdsd洒洒水&nbsp;&nbsp;</span></strong></p>'
+    // const str = '<p><strong>ddd <span >对对对</span></strong></p><p><strong><span style=\"font-size: 30px;\">dddsdsd洒洒水&nbsp;&nbsp;</span></strong></p>'
+    // console.log(str)
+    var repx = str.replace(/([1-9]\d)+px/igs, function(mache, $0, $1, pos, originalText) {
+          if (mache) {
+            // console.log(mache, $0, 'mache')
+            return 22 / 50 + 'rem'
+          }
+          return ''
+    })
+    console.log(repx)
   </script>
 </body>
 </html>
