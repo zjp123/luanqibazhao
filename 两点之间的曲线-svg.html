@@ -1,0 +1,96 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>改善曲线效果</title>
+</head>
+<body>
+    <div id="element1" style="position: absolute; left: 100px; top: 100px; width: 50px; height: 50px; background-color: red;"></div>
+    <div id="element2" style="position: absolute; left: 200px; top: 500px; width: 50px; height: 50px; background-color: blue;"></div>
+    <svg id="svgContainer" width="1000" height="800"></svg>
+
+    <script>
+        // 获取需要连接的两个元素
+        var element1 = document.getElementById('element1');
+        var element2 = document.getElementById('element2');
+
+        // 获取元素的位置信息
+        var rect1 = element1.getBoundingClientRect();
+        var rect2 = element2.getBoundingClientRect();
+
+        // 创建 SVG 曲线元素
+        var svg = document.getElementById('svgContainer');
+        var curve = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+        // 计算曲线的起始、结束和控制点
+        var startX = rect1.left + rect1.width / 2;
+        var startY = rect1.top + rect1.height / 2;
+        var endX = rect2.left + rect2.width / 2;
+        var endY = rect2.top + rect2.height / 2;
+        var controlX = (startX + endX) / 2;
+        var controlY = startY - 50; // 调整控制点位置
+
+        // 设置曲线路径
+        var pathData = `M ${startX},${startY} Q ${controlX},${controlY} ${endX},${endY}`;
+        curve.setAttribute("d", pathData);
+        curve.setAttribute("fill", "none");
+        curve.setAttribute("stroke", "black");
+
+        // 将曲线添加到 SVG 容器中
+        svg.appendChild(curve);
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>三次贝塞尔曲线</title>
+</head>
+<body>
+    <div id="element1" style="position: absolute; left: 100px; top: 100px; width: 50px; height: 50px; background-color: red;"></div>
+    <div id="element2" style="position: absolute; left: 200px; top: 500px; width: 50px; height: 50px; background-color: blue;"></div>
+    <svg id="svgContainer" width="1000" height="800"></svg>
+
+    <script>
+        // 获取需要连接的两个元素
+        var element1 = document.getElementById('element1');
+        var element2 = document.getElementById('element2');
+
+        // 获取元素的位置信息
+        var rect1 = element1.getBoundingClientRect();
+        var rect2 = element2.getBoundingClientRect();
+
+        // 创建 SVG 曲线元素
+        var svg = document.getElementById('svgContainer');
+        var curve = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+        // 计算曲线的起始、结束和控制点
+        var startX = rect1.left + rect1.width / 2;
+        var startY = rect1.top + rect1.height / 2;
+        var endX = rect2.left + rect2.width / 2;
+        var endY = rect2.top + rect2.height / 2;
+        var control1X = startX;
+        // var control1Y = startY - 100; // 第一个控制点的 Y 坐标
+        var control1Y = startY + (endY - startY) / 2; // 第一个控制点的 Y 坐标
+        var control2X = endX;
+        // var control2Y = endY - 100; // 第二个控制点的 Y 坐标
+        var control2Y = endY - (endY - startY) / 2; // 第二个控制点的 Y 坐标
+
+        // 曲线控制点坐标
+        // var cp1x = fromX;
+        // var cp1y = fromY + (toY - fromY) / 2;
+        
+        // var cp2x = toX;
+        // var cp2y = toY - (toY - fromY) / 2;
+
+        // 设置曲线路径
+        var pathData = `M ${startX},${startY} C ${control1X},${control1Y} ${control2X},${control2Y} ${endX},${endY}`;
+        curve.setAttribute("d", pathData);
+        curve.setAttribute("fill", "none");
+        curve.setAttribute("stroke", "black");
+
+        // 将曲线添加到 SVG 容器中
+        svg.appendChild(curve);
+    </script>
+</body>
+</html>
