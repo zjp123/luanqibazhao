@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image to Base64 and Download</title>
+</head>
+<body>
+    <img id="image" src="https://webmap0.bdimg.com/wolfman/static/common/images/new/newlogo-new_3c175be.png" alt="Image">
+    <button id="convertButton">Convert to Base64 and Download</button>
+
+    <script>
+        document.getElementById("convertButton").addEventListener("click", function() {
+            var image = document.getElementById("image");
+            // console.log(image)
+            // image.src = 'https://webmap0.bdimg.com/wolfman/static/common/images/new/newlogo-new_3c175be.png'
+            image.setAttribute('crossorigin', 'anonymous')
+            image.onload = function () {
+                // console.log(111)
+                var canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                var context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0);
+
+                var base64Data = canvas.toDataURL("image/jpeg"); // Change the MIME type as needed
+
+                // Create a download link
+                var downloadLink = document.createElement("a");
+                downloadLink.href = base64Data;
+                downloadLink.download = "image_base64.jpg"; // Change the filename as needed
+                downloadLink.textContent = "Download Image";
+
+                // Append the link to the document
+                document.body.appendChild(downloadLink);
+            }
+        });
+    </script>
+</body>
+</html>

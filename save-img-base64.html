@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image to Base64 and Download</title>
+</head>
+<body>
+    <img id="image" src="https://webmap0.bdimg.com/wolfman/static/common/images/new/newlogo-new_3c175be.png" alt="Image">
+    <button id="convertButton">Convert to Base64 and Download</button>
+
+    <script>
+        document.getElementById("convertButton").addEventListener("click", async function() {
+            var image = document.getElementById("image");
+            
+            try {
+                var response = await fetch(image.src, { mode: 'cors' });
+                var blob = await response.blob();
+                
+                var canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                var context = canvas.getContext("2d");
+                context.fillStyle = "white"; // Change to the appropriate color
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                var img = new Image();
+                
+                img.onload = function() {
+                    context.drawImage(img, 0, 0);
+                    var base64Data = canvas.toDataURL("image/png"); // Change the MIME type as needed
+
+                    // Create a download link
+                    var downloadLink = document.createElement("a");
+                    downloadLink.href = base64Data;
+                    downloadLink.download = "image_base64.png"; // Change the filename as needed
+                    downloadLink.textContent = "Download Image";
+
+                    // Append the link to the document
+                    document.body.appendChild(downloadLink);
+                };
+                
+                img.src = URL.createObjectURL(blob);
+            } catch (error) {
+                console.error("Error fetching image:", error);
+            }
+        });
+    </script>
+</body>
+</html>

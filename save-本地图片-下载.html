@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Image to Base64 and Download</title>
+</head>
+<body>
+    <input type="file" id="imageInput" accept="image/*">
+    <button id="convertButton">Convert to Base64 and Download</button>
+
+    <script>
+        document.getElementById("convertButton").addEventListener("click", function() {
+            var imageInput = document.getElementById("imageInput");
+            if (imageInput.files && imageInput.files[0]) {
+                var selectedFile = imageInput.files[0];
+                
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var base64Data = event.target.result;
+                    console.log(base64Data)
+                    // Create a download link
+                    var downloadLink = document.createElement("a");
+                    downloadLink.href = base64Data;
+                    downloadLink.download = selectedFile.name.split(".")[0] + "_base64." + selectedFile.name.split(".")[1]; // Change the filename as needed
+                    downloadLink.textContent = "Download Image";
+
+                    // Append the link to the document
+                    document.body.appendChild(downloadLink);
+                };
+
+                // Read the selected image file as Data URL
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+    </script>
+</body>
+</html>
