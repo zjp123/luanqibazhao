@@ -40,10 +40,24 @@
             display: block;
             margin-block: 1rem;
         }
+        .arrow
+        {
+            border-color: blue blue red red;
+            border-style: solid;
+            /* 左边框和右边框代表的是宽度，上和下代表的是高度 */
+            /* 对应的是上边框，右边框，下，左 */
+            border-width: 25px 15px 25px 15px;
+            height:0;
+            width:0;
+            position:absolute;
+            bottom:0px;
+            right:-50px;
+        }
     </style>
     <title>How to save a file</title>
   </head>
   <body>
+    <div class="arrow"></div>
     <h1>How to save a file</h1>
 
     <label
@@ -55,8 +69,10 @@
 
     <label
       >Image to save
+      <!-- src="https://cdn.glitch.global/75170424-3d76-41d7-ae77-72d0efb0401b/AVIF%20Test%20picture%20(JPEG%20converted%20to%20AVIF%20with%20Convertio).avif?v=1658240752363" -->
       <img
-        src="https://cdn.glitch.global/75170424-3d76-41d7-ae77-72d0efb0401b/AVIF%20Test%20picture%20(JPEG%20converted%20to%20AVIF%20with%20Convertio).avif?v=1658240752363"
+        referrerpolicy="no-referrer"
+        src="https://mmbiz.qpic.cn/mmbiz_jpg/Lx6v6Wghbpia5Vt1XYqmU2ib4N7w9mcDv6RNhpdia86J42QvTZwX39sP07UqFvicwwWKHclWkkSmcoiawpNDpiaU6nlg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&wx_co=1"
         alt="Blue flower."
         width="630"
         height="420"

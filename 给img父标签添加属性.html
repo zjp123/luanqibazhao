@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // var htmlString = `
+        // <div>
+        //     <p>This is a paragraph.</p>
+        //     <div>
+        //         <img src="image.jpg" alt="An image">
+        //     </div>
+        // </div>
+        // `;
+
+        // var regex = /(<div[^>]*>\s*<img[^>]+>\s*<\/div>)/gs;
+
+        // var modifiedHtml = htmlString.replace(regex, function(match, group1) {
+        //     return group1.replace(/<div/, '<div class="aaa"');
+        // });
+
+        // console.log(modifiedHtml);
+
+        // var htmlString = `
+      
+        //     <p>This is a paragraph.</p>
+        //     <p><br></p>
+        //     <span>
+        //         <img src="image.jpg" alt="An image">
+        //     </span>
+        //     <section>
+        //         <img src="another.jpg" alt="Another image">
+        //     </section>
+        
+        // `;
+
+        // var str = `
+        // <p><img src="https://pic1.58cdn.com.cn/nowater/jxedt/saas/n_v39e1c2500e01c4409981ed0ebf6f192aa.jpg" alt="" data-href="" style="">顶顶顶顶</p><p><br></p><p>顶顶顶顶 阿乐；都开始乱堆乱放</p><p>顶顶顶顶</p>
+        // `
+
+        // var regex = /(<[^>]+>\s*<img(?=[^>]*>)\s*<\/[^>]+>)/gs;
+
+        // var modifiedHtml = htmlString.replace(regex, function(match, group1) {
+        //     return group1.replace(/<[^>]+/, '$& class="aaa"');
+        // });
+
+        // console.log(modifiedHtml);
+
+        // var htmlString = '<p><img src="https://pic1.58cdn.com.cn/nowater/jxedt/saas/n_v39e1c2500e01c4409981ed0ebf6f192aa.jpg" alt="" data-href="" style="">顶顶顶顶</p><p><br></p><p>顶顶顶顶 阿乐；都开始乱堆乱放</p><p>顶顶顶顶';
+
+        // var parser = new DOMParser();
+        // var doc = parser.parseFromString(htmlString, 'text/html');
+        // var imgTags = doc.querySelectorAll('img');
+
+        // imgTags.forEach(function(imgTag) {
+        //     var parent = imgTag.parentNode;
+        //     parent.classList.add('aaa');
+        // });
+
+        // var modifiedHtml = doc.body.innerHTML;
+        // console.log(modifiedHtml);
+
+
+
+        var htmlString = `
+        <div>
+            <p><br></p>
+            <p>This is a paragraph.</p>
+            <span>
+                <img src="https://pic1.58cdn.com.cn/nowater/jxedt/saas/n_v39e1c2500e01c4409981ed0ebf6f192aa.jpg" alt="" data-href="" style="">ggg
+            </span>
+            <p><img src="https://pic1.58cdn.com.cn/nowater/jxedt/saas/n_v39e1c2500e01c4409981ed0ebf6f192aa.jpg" alt="" data-href="" style="">顶顶顶顶</p><p><br></p><p>顶顶顶顶 阿乐；都开始乱堆乱放</p><p>顶顶顶顶</p>
+
+        </div>
+        `;
+
+        var regex = /(<[^>]+>\s*<img[^>]+>\s*<\/[^>]+>)/gs;
+
+        var modifiedHtml = htmlString.replace(regex, function(match, group1) {
+            var parentTag = group1.match(/<([^>\s]+)/);
+            if (parentTag) {
+                return group1.replace('<' + parentTag[1], '<' + parentTag[1] + ' class="aaa"');
+            }
+            return match;
+        });
+
+        console.log(modifiedHtml);
+
+
+    </script>
+</body>
+</html>

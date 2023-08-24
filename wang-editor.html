@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+    <style>
+    #editor—wrapper {
+        border: 1px solid #ccc;
+        z-index: 100; /* 按需定义 */
+    }
+    #toolbar-container { border-bottom: 1px solid #ccc; }
+    #editor-container { height: 500px; }
+    </style>
+</head>
+<body>
+    <div id="editor—wrapper">
+        <div id="toolbar-container"><!-- 工具栏 --></div>
+        <div id="editor-container"><!-- 编辑器 --></div>
+    </div>
+    <!-- <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script> -->
+    <script src="./js/editor.index.js"></script>
+    <script>
+        const { createEditor, createToolbar } = window.wangEditor
+
+        const editorConfig = {
+            placeholder: 'Type here...',
+            onChange(editor) {
+                const html = editor.getHtml()
+                console.log('editor content', html)
+                // 也可以同步到 <textarea>
+            },
+            MENU_CONF: {
+                insertImage: {
+                    // 插入之后
+                    onInsertedImage(imageNode) {
+                        console.log('inserted image', imageNode)
+                        if (imageNode === null) {
+                            return
+                        }
+                    },
+                },
+                uploadImage: {
+                    fieldName: 'file',
+                    server: '/picAuth/uplodaPic',
+                    // 单个文件的最大体积限制，默认为 2M
+                    maxFileSize: 2 * 1024 * 1024, // 2M
+
+                    // 最多可上传几个文件，默认为 100
+                    maxNumberOfFiles: 10,
+                    // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+                    // allowedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+                    allowedFileTypes: ['image/*'],
+
+                    // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
+                    meta: {
+                        callSourceType: 3,
+                        // fileSuffix: 'jpg',
+                        pathPrefix: '/saas',
+                    },
+
+                    // 将 meta 拼接到 url 参数中，默认 false
+                    // metaWithUrl: false,
+
+                    // 自定义增加 http  header
+                    headers: {
+                        Referer: 'no-referrer',
+                        'Referrer-Policy': 'no-referrer',
+                    },
+                    // base64LimitSize: 5 * 1024 * 1024, // 5m
+
+                    // 跨域是否传递 cookie ，默认为 false
+                    withCredentials: true,
+
+                    // 超时时间，默认为 10 秒
+                    timeout: 5 * 1000, // 5 秒
+                    onBeforeUpload(file) {
+                        console.log('onBeforeUpload', file)
+
+                        return file // will upload this file
+                        // return false // prevent upload
+                    },
+                    onProgress(progress) {
+                        console.log('onProgress', progress)
+                    },
+                    onSuccess(file, res) {
+                        console.log('onSuccess', file, res)
+                    },
+                    onFailed(file, res) {
+                        alert(res.message)
+                        console.log('onFailed', file, res)
+                    },
+                    onError(file, err, res) {
+                        alert(err.message)
+                        console.error('onError', file, err, res)
+                    },
+                    // 自定义插入图片
+                    customInsert(res, insertFn) {
+                        console.log('customInsertcustomInsert', res)
+                        // res 即服务端的返回结果
+                        // const {url, alt, href} = res
+                        // insertImgFn(url, alt, href)
+                        // 从 res 中找到 url alt href ，然后插入图片
+                        
+                    },
+                    async customUpload(file, insertFn) {
+                        console.log('customUpload', file)
+                        // insertFn('https://mmbiz.qpic.cn/mmbiz_jpg/Lx6v6WghbpjckKgnNr6YQrjAVhOZ6wAJxW0icZw5FkK0BHOrXM6uCcsh2ozV7nAScEw1Crnwiand4GSFubOAYygA/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&wx_co=1', '百度', 'https://www.baidu.com/')
+                        // return new Promise((resolve) => {
+                        //     // Simulate async insert image
+                        //     setTimeout(() => {
+                        //     const src = `https://www.baidu.com/img/flexible/logo/pc/result@2.png?r=${Math.random()}`
+                        //     insertFn(src, 'baidu logo', src)
+                        //     resolve('ok')
+                        //     }, 500)
+                        // })
+                        const reader = new FileReader()
+                        reader.onload = function (event) {
+                            const base64Data = event.target.result
+                            imagesUpload(base64Data)
+                                .then((res) => {
+                                    insertFn(res)
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                })
+                        }
+
+                        // Read the selected image file as Data URL
+                        reader.readAsDataURL(file)
+                    },
+                },
+            },
+        }
+
+        const editor = createEditor({
+            selector: '#editor-container',
+            html: '<p><br></p>',
+            config: editorConfig,
+            mode: 'default', // or 'simple'
+        })
+
+        const toolbarConfig = {}
+
+        const toolbar = createToolbar({
+            editor,
+            selector: '#toolbar-container',
+            config: toolbarConfig,
+            mode: 'default', // or 'simple'
+        })
+    </script>
+</body>
+</html>
