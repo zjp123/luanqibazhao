@@ -20,38 +20,122 @@
         <div id="editor-container"><!-- 编辑器 --></div>
     </div>
     <!-- <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script> -->
-    <script src="./js/editor.index.js"></script>
+    <script src="./js/wangeditor.min.js"></script>
     <script>
         const { createEditor, createToolbar } = window.wangEditor
 
         const editorConfig = {
-            placeholder: 'Type here...',
+            // mode: 'simple',
+            placeholder: '编辑内容',
             onChange(editor) {
                 const html = editor.getHtml()
-                console.log('editor content', html)
-                // 也可以同步到 <textarea>
+                // if (isUpdateImg) {
+                //     html = html.replace(/<img((?=\s|>).*>)/g, '<img referrerpolicy="no-referrer"$1')
+                //     editor.setHtml(`${html}`)
+
+                // }
+                // formCon.setFieldsValue({ linkContent: html })
+                // console.log('editor content', html)
+            },
+            hoverbarKeys: {
+                image: {
+                    // 清空 image 元素的 hoverbar
+                    menuKeys: [],
+                },
+            },
+            customPaste (editor, event) {
+                // TS 语法
+                // editorConfig.customPaste = (editor, event) => {                                       // JS 语法
+
+                // event 是 ClipboardEvent 类型，可以拿到粘贴的数据
+                // 可参考 https://developer.mozilla.org/zh-CN/docs/Web/API/ClipboardEvent
+
+                let html = event.clipboardData.getData('text/html') // 获取粘贴的 html
+                // const text = event.clipboardData.getData('text/plain') // 获取粘贴的纯文本
+                // const rtf = event.clipboardData.getData('text/rtf') // 获取 rtf 数据（如从 word wsp 复制粘贴）
+                // console.log(html, 'kkkkkkkk')
+                // 同步
+                // editor.insertText('xxx')
+                // html = html.replace(/<img((?=\s|>).*>)/g, '<img referrerpolicy="no-referrer"$1')
+                // const promisesArr = []
+                // html = html.replace(/<img([^>]*)>/g, (match, group1) => {
+                    // const srcValue = group1.match(/src="([^"]*)"/)[1]
+                    // const url = JXTCOMMON_API + '/api/wosUpFile/downLoad/file?url=/' + srcValue
+                    // fetch(url).then((response) => {
+                    //     console.log(response, 'response')
+                    // })
+                    // const hackurl =  await hackImgFn(url)
+                    // eslint-disable-next-line max-nested-callbacks
+                    // hackImgFn(url).then((hackurl) => {
+                    //     console.log(hackurl, 'hackurlhackurlhackurl')
+                    //     return '<img src="' + hackurl + '" referrerpolicy="no-referrer">'
+                    // })
+
+                // })
+                replaceAsync(html, /<img([^>]*)>/g, hackImgFn)
+                .then((result) => {
+                    console.log(result, 'ooooooooooooo')
+                    // eslint-disable-next-line max-nested-callbacks
+                    setTimeout(() => {
+                        editor.dangerouslyInsertHtml(result)
+                    }, 0)
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+                console.log(html, 'kkkkkkkk')
+
+                // 异步
+                // setTimeout(() => {
+                //     editor.dangerouslyInsertHtml(html)
+                // }, 1000)
+
+                // 阻止默认的粘贴行为
+                event.preventDefault()
+                return false
+
+                // 继续执行默认的粘贴行为
+                // return true
             },
             MENU_CONF: {
+                fontSize: {
+                    fontSizeList: ['12px', '13px', '14px', '15px', '16px', '17px', '19px', '22px',
+                        '24px', '29px', '32px', '40px', '48px'
+                    ]
+                },
+                lineHeight: {
+                    lineHeightList: ['1', '1.15', '1.5', '1.6', '2', '2.5', '3']
+                },
+                // editImage: {
+                //     onUpdatedImage(imageNode) {
+                //         // TS 语法
+                //         console.log('updated image', imageNode)
+                //         if (imageNode === null) {
+                //             return
+                //         }
+                //     },
+                // },
                 insertImage: {
                     // 插入之后
                     onInsertedImage(imageNode) {
                         console.log('inserted image', imageNode)
+                        // imageNode.clasName = 'editor-img-p-box-diy-img'
                         if (imageNode === null) {
                             return
                         }
                     },
                 },
                 uploadImage: {
-                    fieldName: 'file',
-                    server: '/picAuth/uplodaPic',
+                    // fieldName: 'file',
+                    // server: '/picAuth/uplodaPic',
                     // 单个文件的最大体积限制，默认为 2M
                     maxFileSize: 2 * 1024 * 1024, // 2M
 
                     // 最多可上传几个文件，默认为 100
                     maxNumberOfFiles: 10,
                     // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-                    // allowedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
-                    allowedFileTypes: ['image/*'],
+                    allowedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+                    // allowedFileTypes: ['image/*'],
 
                     // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
                     meta: {
@@ -74,7 +158,7 @@
                     withCredentials: true,
 
                     // 超时时间，默认为 10 秒
-                    timeout: 5 * 1000, // 5 秒
+                    timeout: 10 * 1000, // 10 秒
                     onBeforeUpload(file) {
                         console.log('onBeforeUpload', file)
 
@@ -88,21 +172,18 @@
                         console.log('onSuccess', file, res)
                     },
                     onFailed(file, res) {
-                        alert(res.message)
                         console.log('onFailed', file, res)
                     },
                     onError(file, err, res) {
-                        alert(err.message)
                         console.error('onError', file, err, res)
                     },
-                    // 自定义插入图片
-                    customInsert(res, insertFn) {
+                    // 自定义插入图片 有customUpload时不执行customInsert
+                    async customInsert(res) {
                         console.log('customInsertcustomInsert', res)
                         // res 即服务端的返回结果
                         // const {url, alt, href} = res
                         // insertImgFn(url, alt, href)
                         // 从 res 中找到 url alt href ，然后插入图片
-                        
                     },
                     async customUpload(file, insertFn) {
                         console.log('customUpload', file)
@@ -118,11 +199,14 @@
                         const reader = new FileReader()
                         reader.onload = function (event) {
                             const base64Data = event.target.result
+                            setLoading(true)
                             imagesUpload(base64Data)
                                 .then((res) => {
+                                    setLoading(false)
                                     insertFn(res)
                                 })
                                 .catch((err) => {
+                                    setLoading(false)
                                     console.log(err)
                                 })
                         }
@@ -131,12 +215,113 @@
                         reader.readAsDataURL(file)
                     },
                 },
+                uploadVideo: {
+                    // fieldName: 'your-custom-name',
+
+                    // 单个文件的最大体积限制，默认为 10M
+                    maxFileSize: 10 * 1024 * 1024, // 10M
+
+                    // 最多可上传几个文件，默认为 5
+                    maxNumberOfFiles: 1,
+
+                    // 选择文件时的类型限制，默认为 ['video/*'] 。如不想限制，则设置为 []
+                    allowedFileTypes: ['audio/mp4', 'video/mp4', 'MPEG-4 Audio/Video'],
+
+                    // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
+                    // meta: {
+                    //     callSourceType: 3,
+                    //     pathPrefix: '/saas',
+                    // },
+
+                    // 将 meta 拼接到 url 参数中，默认 false
+                    metaWithUrl: false,
+
+                    // 自定义增加 http  header
+                    headers: {
+                        Referer: 'no-referrer',
+                        'Referrer-Policy': 'no-referrer',
+                    },
+
+                    // 跨域是否传递 cookie ，默认为 false
+                    withCredentials: true,
+
+                    // 超时时间，默认为 30 秒
+                    timeout: 30 * 1000, // 30 秒
+                    // 上传之前触发
+                    onBeforeUpload(file) {
+                        // TS 语法
+                        // onBeforeUpload(file) {      // JS 语法
+                        // file 选中的文件，格式如 { key: file }
+                        return file
+
+                        // 可以 return
+                        // 1. return file 或者 new 一个 file ，接下来将上传
+                        // 2. return false ，不上传这个 file
+                    },
+
+                    // 上传进度的回调函数
+                    onProgress(progress) {
+                        // TS 语法
+                        // onProgress(progress) {       // JS 语法
+                        // progress 是 0-100 的数字
+                        console.log('progress', progress)
+                    },
+
+                    // 单个文件上传成功之后
+                    onSuccess(file) {
+                        // TS 语法
+                        // onSuccess(file, res) {          // JS 语法
+                        console.log(`${file.name} 上传成功`, res)
+                    },
+
+                    // 单个文件上传失败
+                    onFailed(file) {
+                        // TS 语法
+                        // onFailed(file, res) {          // JS 语法
+                        console.log(`${file.name} 上传失败`, res)
+                    },
+
+                    // 上传错误，或者触发 timeout 超时
+                    onError(file, err, res) {
+                        // TS 语法
+                        // onError(file, err, res) {               // JS 语法
+                        console.log(`${file.name} 上传出错`, err, res)
+                    },
+                    // 自定义插入视频
+                    customInsert(res) {
+                        // TS 语法
+                        // customInsert(res, insertFn) {                  // JS 语法
+                        // res 即服务端的返回结果
+
+                        // 从 res 中找到 url poster ，然后插入视频
+                        // insertFn(url, poster)
+                        console.log('自定义插入视频', res)
+                    },
+                    async customUpload(file, insertFn) {
+                        // TS 语法
+                        // async customUpload(file, insertFn) {                   // JS 语法
+                        // file 即选中的文件
+                        // 自己实现上传，并得到视频 url poster
+                        // 最后插入视频
+                        // insertFn(url, poster)
+                        const videoPlayInfo = await getVideoPlayerInfo(file)
+                        if (videoPlayInfo?.duration > 30) {
+                            message.error(`上传视频不可超过30秒,当前视频为${videoPlayInfo?.duration || 0}秒`)
+                            return
+                        }
+                        setLoading(true)
+                        const url = await fileRequest(file)
+                        const posterUrl = await pictureRequest(videoPlayInfo?.posterBase64)
+                        setLoading(false)
+                        insertFn(url, posterUrl)
+                    },
+                },
             },
         }
-
+        const htmlContent = '<p style="line-height: 1.6;"><span style="font-size: 17px; font-family: ;"></span></p>'
         const editor = createEditor({
             selector: '#editor-container',
-            html: '<p><br></p>',
+            html: htmlContent,
             config: editorConfig,
             mode: 'default', // or 'simple'
         })
