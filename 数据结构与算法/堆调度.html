@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堆调度</title>
+</head>
+<body>
+    <script>
+        // 这是最小堆  1的级别最大
+        class PriorityQueue {
+            constructor() {
+                this.heap = [];
+            }
+
+            // 插入任务并根据优先级排序
+            enqueue(task, priority) {
+                this.heap.push({ task, priority });
+                this.bubbleUp();
+                console.log(this.heap, 'heap');
+            }
+
+            // 上浮操作
+            bubbleUp() {
+                let currentIndex = this.heap.length - 1;
+                while (currentIndex > 0) {
+                    const parentIndex = Math.floor((currentIndex - 1) / 2);
+                    if (this.heap[currentIndex].priority < this.heap[parentIndex].priority) {
+                        [this.heap[currentIndex], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[currentIndex]];
+                        currentIndex = parentIndex;
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            // 执行具有最高优先级的任务
+            dequeue() {
+                if (this.isEmpty()) {
+                    return null;
+                }
+
+                if (this.heap.length === 1) {
+                    return this.heap.pop().task;
+                }
+
+                const highestPriorityTask = this.heap[0].task;
+                this.heap[0] = this.heap.pop();
+                this.heapify(0);
+                return highestPriorityTask;
+            }
+
+            // 下沉操作
+            heapify(index) {
+                const leftChildIndex = 2 * index + 1;
+                const rightChildIndex = 2 * index + 2;
+                let smallestIndex = index;
+
+                if (leftChildIndex < this.heap.length && this.heap[leftChildIndex].priority < this.heap[smallestIndex].priority) {
+                    smallestIndex = leftChildIndex;
+                }
+
+                if (rightChildIndex < this.heap.length && this.heap[rightChildIndex].priority < this.heap[smallestIndex].priority) {
+                    smallestIndex = rightChildIndex;
+                }
+
+                if (smallestIndex !== index) {
+                    [this.heap[index], this.heap[smallestIndex]] = [this.heap[smallestIndex], this.heap[index]];
+                    this.heapify(smallestIndex);
+                }
+            }
+
+            // 判断队列是否为空
+            isEmpty() {
+                return this.heap.length === 0;
+            }
+        }
+
+        // 创建一个任务调度队列
+        const taskQueue = new PriorityQueue();
+
+        // 添加任务
+        taskQueue.enqueue("Task 1", 3); // 优先级为3
+        taskQueue.enqueue("Task 4", 4); // 优先级为3
+        taskQueue.enqueue("Task 2", 1); // 优先级为1
+        taskQueue.enqueue("Task 3", 2); // 优先级为2
+
+        // 执行任务
+        console.log(taskQueue.dequeue()); // 输出 "Task 2"，因为它有最高优先级
+        // console.log(taskQueue.dequeue()); // 输出 "Task 3"
+        // console.log(taskQueue.dequeue()); // 输出 "Task 1"
+
+    </script>
+</body>
+</html>
