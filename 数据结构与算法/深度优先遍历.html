@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深度优先</title>
+</head>
+<body>
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.children = [];
+            }
+
+            addChild(child) {
+                this.children.push(child);
+            }
+        }
+
+        // 创建一个示例树
+        const root = new TreeNode("A");
+        const nodeB = new TreeNode("B");
+        const nodeC = new TreeNode("C");
+        const nodeD = new TreeNode("D");
+        const nodeE = new TreeNode("E");
+
+        root.addChild(nodeB);
+        root.addChild(nodeC);
+        nodeB.addChild(nodeD);
+        nodeB.addChild(nodeE);
+        console.log(root, 'rooooooot')
+        // 深度优先遍历函数
+        function dfs(node) {
+            console.log(node.value); // 访问节点的值
+            for (const child of node.children) {
+                dfs(child); // 递归访问子节点
+            }
+        }
+
+        // 执行深度优先遍历
+        // dfs(root);
+
+    </script>
+    <script>
+        function dfsWithStack(root) {
+            const stack = [root];
+
+            while (stack.length > 0) {
+                const node = stack.pop();
+                console.log(node.value); // 访问节点的值
+
+                // 将子节点逆序入栈，以保持深度优先顺序
+                for (let i = node.children.length - 1; i >= 0; i--) {
+                    stack.push(node.children[i]);
+                }
+            }
+        }
+
+        // 执行深度优先遍历
+        dfsWithStack(root);
+
+    </script>
+</body>
+</html>

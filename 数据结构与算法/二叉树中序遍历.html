@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树中序遍历</title>
+</head>
+<body>
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        // 中序遍历函数（递归版本）
+        function inorderTraversal(root) {
+            if (root === null) {
+                return; // 如果节点为空，直接返回
+            }
+
+            inorderTraversal(root.left); // 递归遍历左子树
+            console.log(root.value); // 访问当前节点的值
+            inorderTraversal(root.right); // 递归遍历右子树
+        }
+
+        // 创建一个示例二叉树
+        const root = new TreeNode("A");
+        root.left = new TreeNode("B");
+        root.right = new TreeNode("C");
+        root.left.left = new TreeNode("D");
+        root.left.right = new TreeNode("E");
+
+        // 执行中序遍历
+        inorderTraversal(root);
+
+    </script>
+    <script>
+        function inorderTraversalIterative(root) {
+            const stack = [];
+            let current = root;
+
+            while (current !== null || stack.length > 0) {
+                // 将当前节点及其所有左子节点入栈
+                while (current !== null) {
+                    stack.push(current);
+                    current = current.left;
+                }
+
+                // 出栈并访问节点
+                current = stack.pop();
+                console.log(current.value);
+
+                // 将右子节点设为当前节点，继续下一轮循环
+                current = current.right;
+            }
+        }
+
+        // 执行迭代版本的中序遍历
+        inorderTraversalIterative(root);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树后序遍历</title>
+</head>
+<body>
+    <script>
+        
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        // 后序遍历函数（递归版本）
+        function postorderTraversal(root) {
+            if (root === null) {
+                return; // 如果节点为空，直接返回
+            }
+
+            postorderTraversal(root.left); // 递归遍历左子树
+            postorderTraversal(root.right); // 递归遍历右子树
+            console.log(root.value); // 访问当前节点的值
+        }
+
+        // 创建一个示例二叉树
+        const root = new TreeNode("A");
+        root.left = new TreeNode("B");
+        root.right = new TreeNode("C");
+        root.left.left = new TreeNode("D");
+        root.left.right = new TreeNode("E");
+
+        // 执行后序遍历
+        postorderTraversal(root);
+
+    </script>
+    <script>
+        function postorderTraversalIterative(root) {
+            const stack1 = [];
+            const stack2 = [];
+            stack1.push(root);
+
+            while (stack1.length > 0) {
+                const node = stack1.pop();
+                stack2.push(node);
+
+                if (node.left !== null) {
+                stack1.push(node.left);
+                }
+
+                if (node.right !== null) {
+                stack1.push(node.right);
+                }
+            }
+
+            // 打印结果
+            while (stack2.length > 0) {
+                const node = stack2.pop();
+                console.log(node.value);
+            }
+        }
+
+        // 执行迭代版本的后序遍历
+        postorderTraversalIterative(root);
+
+    </script>
+</body>
+</html>

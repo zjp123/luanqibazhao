@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树先序遍历</title>
+</head>
+<body>
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        // 先序遍历函数（递归版本）
+        function preorderTraversal(root) {
+            if (root === null) {
+                return; // 如果节点为空，直接返回
+            }
+
+            console.log(root.value); // 访问当前节点的值
+            preorderTraversal(root.left); // 递归遍历左子树
+            preorderTraversal(root.right); // 递归遍历右子树
+        }
+
+        // 创建一个示例二叉树
+        const root = new TreeNode("A");
+        root.left = new TreeNode("B");
+        root.right = new TreeNode("C");
+        root.left.left = new TreeNode("D");
+        root.left.right = new TreeNode("E");
+        console.log(root, 'rootroot')
+        // 执行先序遍历
+        preorderTraversal(root);
+
+    </script>
+</body>
+</html>

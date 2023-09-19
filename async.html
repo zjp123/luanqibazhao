@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async-fn</title>
+</head>
+<body>
+    <script>
+        // async function add() {
+        //     console.log(1)
+        //     // return 3
+        //     // Promise.reject(3)
+        //     await Promise.resolve(3)
+        //     console.log(4)
+        // }
+        // add().then(res => {
+        //     console.log(res);
+        // })
+        // console.log(2)
+
+        // async function foo() { 
+        //     console.log(1);
+        //     await Promise.reject(3);  // 如果是 await Promise.resolve(3） then的时候也拿不到值
+        //     console.log(4); // 这行代码不会执行
+        // }
+        // foo()
+        const arr = []
+
+        async function yibu() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(666)
+                }, 5000)
+            })
+        }
+        console.log(1)
+        const res = yibu()
+        arr.push(res)
+        console.log(3, arr)
+    </script>
+</body>
+</html>

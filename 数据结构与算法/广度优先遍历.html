@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广度优先</title>
+</head>
+<body>
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.children = [];
+            }
+
+            addChild(child) {
+                this.children.push(child);
+            }
+        }
+
+        // 创建一个示例树
+        const root = new TreeNode("A");
+        const nodeB = new TreeNode("B");
+        const nodeC = new TreeNode("C");
+        const nodeD = new TreeNode("D");
+        const nodeE = new TreeNode("E");
+        const nodeF = new TreeNode("F");
+
+        root.addChild(nodeB);
+        root.addChild(nodeC);
+        nodeB.addChild(nodeD);
+        nodeB.addChild(nodeE);
+        nodeC.addChild(nodeF);
+        console.log(root, 'rootrootroot')
+        // 广度优先遍历函数
+        function bfs(root) {
+            const queue = [root];
+
+            while (queue.length > 0) {
+                const node = queue.shift(); // 出队列
+                console.log(node.value); // 访问节点的值
+
+                // 将子节点入队列，以保持广度优先顺序
+                for (const child of node.children) {
+                    queue.push(child);
+                }
+            }
+        }
+
+        // 执行广度优先遍历
+        bfs(root);
+
+    </script>
+    <script>
+        /*在这个示例中，我们首先定义了一个简单的树结构，然后使用队列 queue 来进行广度优先遍历。我们从根节点开始，将根节点入队列，
+        然后在循环中依次出队列节点并访问其值，将子节点按顺序入队列，以确保按广度优先的顺序访问节点。
+        广度优先遍历是一个常用的算法，通常用于查找最短路径、层级遍历等问题。你可以根据实际需求，在树或图结构上应用这种算法。*/
+    </script>
+</body>
+</html>
