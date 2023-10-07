@@ -21,18 +21,16 @@
 
       function animateTranslate(element, targetX, targetY, duration) {
         const start = performance.now();
-
+        const { translateX, translateY } =
+            getTranslateValues(animatedElement);
         function update(time) {
           const elapsed = time - start;
           const progress = elapsed / duration;
 
-          const { translateX, translateY } =
-            getTranslateValues(animatedElement);
-
           if (progress < 1) {
-            const x = interpolate(0, targetX, progress);
-            const y = interpolate(0, targetY, progress);
-            console.log(x, y, elapsed, progress);
+            const x = interpolate(translateX, targetX, progress);
+            const y = interpolate(translateY, targetY, progress);
+            console.log(x, y, elapsed, progress, translateX, translateY);
             element.style.transform = `translate(${x}px, ${y}px)`;
 
             requestAnimationFrame(update);
@@ -68,9 +66,9 @@
 
       // 示例：在2秒内将元素移动到(200, 200)的位置
       animateTranslate(animatedElement, 200, 200, 2000);
-      //   setTimeout(() => {
-      //     animateTranslate(animatedElement, 400, 400, 2000);
-      //   }, 5000);
+      // setTimeout(() => {
+      //   animateTranslate(animatedElement, 400, 400, 2000);
+      // }, 5000);
 
       function getTranslateValues(element) {
         // 获取元素的样式
