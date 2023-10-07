@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* 八宫格样式 */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: repeat(3, 200px);
+        gap: 10px;
+        width: 620px;
+        height: 620px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      /* 格子样式 */
+      .grid-item {
+        width: 200px;
+        height: 200px;
+        background-color: #3498db;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+
+      /* 虚拟格子样式 */
+      .virtual-item {
+        width: 200px;
+        height: 200px;
+        background-color: #ff5722;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        position: absolute;
+        transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+      }
+
+      /* 抽奖按钮样式 */
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #ff5722;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="grid-item">奖品1</div>
+      <div class="grid-item">奖品2</div>
+      <div class="grid-item">奖品3</div>
+      <div class="grid-item">奖品4</div>
+      <div class="grid-item"></div>
+      <div class="grid-item">奖品5</div>
+      <div class="grid-item">奖品6</div>
+      <div class="grid-item">奖品7</div>
+      <div class="grid-item">奖品8</div>
+      <div class="virtual-item"></div>
+    </div>
+    <button onclick="startLottery()">开始抽奖</button>
+
+    <script>
+      let isLotteryRunning = false;
+      let direction = 1; // 初始方向：1表示向右，2表示向下，3表示向左，4表示向上
+      let rounds = 0;
+
+      function startLottery() {
+        if (isLotteryRunning) return;
+
+        isLotteryRunning = true;
+        rounds = 0;
+
+        const virtualItem = document.querySelector(".virtual-item");
+        const gridItems = document.querySelectorAll(".grid-item");
+        const parent = document.querySelector(".grid");
+        const moveDistance = parent.offsetWidth - virtualItem.offsetWidth;
+        const moveDistanceVertical =
+          parent.offsetHeight - virtualItem.offsetHeight;
+
+        // 设置虚拟格子的起始位置
+        virtualItem.style.transition = "none";
+        virtualItem.style.transform = "translate(0, 0)";
+        virtualItem.offsetHeight;
+
+        function animateVirtualItem() {
+          if (rounds >= 2) {
+            isLotteryRunning = false;
+            const stopAt = Math.floor(Math.random() * gridItems.length);
+            const targetGridItem = gridItems[stopAt];
+            alert(`恭喜你获得奖品: ${targetGridItem.textContent}`);
+            return;
+          }
+
+          if (direction === 1) {
+            virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
+            direction = 2;
+          } else if (direction === 2) {
+            virtualItem.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
+            direction = 3;
+          } else if (direction === 3) {
+            virtualItem.style.transform = `translate(0, ${moveDistanceVertical}px)`;
+            direction = 4;
+          } else if (direction === 4) {
+            virtualItem.style.transform = "translate(0, 0)";
+            direction = 1;
+            rounds++;
+          }
+
+          requestAnimationFrame(animateVirtualItem);
+        }
+
+        // 开始动画
+        requestAnimationFrame(animateVirtualItem);
+      }
+    </script>
+  </body>
+</html>

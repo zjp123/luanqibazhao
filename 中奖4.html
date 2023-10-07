@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* 父元素样式 */
+      .parent {
+        width: 500px;
+        height: 500px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* 子元素样式 */
+      .child {
+        width: 100px;
+        height: 100px;
+        background-color: #3498db;
+        position: absolute;
+        transition: transform 1s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      <div class="child"></div>
+    </div>
+
+    <script>
+      const parent = document.querySelector(".parent");
+      const child = document.querySelector(".child");
+      let isMoving = false;
+      let direction = 1; // 初始方向：1表示向右，2表示向下，3表示向左，4表示向上
+
+      function startAnimation() {
+        if (isMoving) return;
+        // isMoving = true;
+
+        const moveDistance = parent.offsetWidth - child.offsetWidth;
+        const moveDistanceVertical = parent.offsetHeight - child.offsetHeight;
+
+        if (direction === 1) {
+          child.style.transform = `translateX(${moveDistance}px)`;
+          direction = 2;
+        } else if (direction === 2) {
+          child.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
+          direction = 3;
+        } else if (direction === 3) {
+          child.style.transform = `translate(0, ${moveDistanceVertical}px)`;
+          direction = 4;
+        } else if (direction === 4) {
+          child.style.transform = `translateY(0)`;
+          direction = 1;
+        }
+      }
+      // 延迟1秒后停止
+      setInterval(() => {
+        // isMoving = false;
+        startAnimation();
+      }, 1000);
+      // startAnimation();
+    </script>
+  </body>
+</html>

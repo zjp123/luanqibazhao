@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translate Animation</title>
+    <style>
+      #animatedElement {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="animatedElement"></div>
+
+    <script>
+      const animatedElement = document.getElementById("animatedElement");
+
+      function animateTranslate(element, targetX, targetY, duration) {
+        const start = performance.now();
+
+        function update(time) {
+          const elapsed = time - start;
+          const progress = elapsed / duration;
+
+          const { translateX, translateY } =
+            getTranslateValues(animatedElement);
+
+          if (progress < 1) {
+            const x = interpolate(0, targetX, progress);
+            const y = interpolate(0, targetY, progress);
+            console.log(x, y, elapsed, progress);
+            element.style.transform = `translate(${x}px, ${y}px)`;
+
+            requestAnimationFrame(update);
+          } else {
+            element.style.transform = `translate(${targetX}px, ${targetY}px)`;
+            return;
+          }
+        }
+        // function update(time) {
+        //   const elapsed = time - start;
+        //   const { translateX, translateY } =
+        //     getTranslateValues(animatedElement);
+        //   if (elapsed < duration) {
+        //     const progress = elapsed / duration;
+
+        //     const x = interpolate(0, targetX, progress);
+        //     const y = interpolate(0, targetY, progress);
+        //     console.log(x, y, elapsed, progress);
+        //     element.style.transform = `translate(${x}px, ${y}px)`;
+
+        //     requestAnimationFrame(update);
+        //   } else {
+        //     element.style.transform = `translate(${targetX}px, ${targetY}px)`;
+        //   }
+        // }
+
+        function interpolate(start, end, progress) {
+          return start + (end - start) * progress;
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      // 示例：在2秒内将元素移动到(200, 200)的位置
+      animateTranslate(animatedElement, 200, 200, 2000);
+      //   setTimeout(() => {
+      //     animateTranslate(animatedElement, 400, 400, 2000);
+      //   }, 5000);
+
+      function getTranslateValues(element) {
+        // 获取元素的样式
+        const style = window.getComputedStyle(element);
+
+        // 获取transform属性的值
+        const transform =
+          style.getPropertyValue("transform") ||
+          style.getPropertyValue("-webkit-transform");
+
+        // 解析transform值，提取translateX和translateY的值
+        let translateX = 0;
+        let translateY = 0;
+
+        if (transform && transform !== "none") {
+          // 使用正则表达式提取translate的值
+          const match = transform.match(/matrix\(([^\)]+)\)/);
+          if (match) {
+            const matrixValues = match[1].split(", ");
+            translateX = parseFloat(matrixValues[4]);
+            translateY = parseFloat(matrixValues[5]);
+          }
+        }
+
+        return { translateX, translateY };
+      }
+
+      // 示例
+      //   const myElement = document.getElementById("myElement");
+      //   const { translateX, translateY } = getTranslateValues(myElement);
+
+      //   console.log("translateX:", translateX);
+      //   console.log("translateY:", translateY);
+    </script>
+  </body>
+</html>

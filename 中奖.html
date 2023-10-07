@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* 抽奖盘样式 */
+      .wheel-container {
+        width: 600px;
+        height: 600px;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: repeat(3, 200px);
+      }
+
+      .slot {
+        width: 200px;
+        height: 200px;
+        background-color: #3498db;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+
+      /* 虚拟格子样式 */
+      .virtual-slot {
+        width: 200px;
+        height: 200px;
+        background-color: #ff5722;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+
+      /* 抽奖按钮样式 */
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #ff5722;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wheel-container">
+      <div class="slot">奖品1</div>
+      <div class="slot">奖品2</div>
+      <div class="slot">奖品3</div>
+      <div class="slot">奖品4</div>
+      <div class="virtual-slot">虚拟格子</div>
+      <div class="slot">奖品5</div>
+      <div class="slot">奖品6</div>
+      <div class="slot">奖品7</div>
+      <div class="slot">奖品8</div>
+    </div>
+    <button onclick="startLottery()">开始抽奖</button>
+
+    <script>
+      let isLotteryRunning = false;
+
+      function startLottery() {
+        if (isLotteryRunning) return;
+
+        isLotteryRunning = true;
+
+        const virtualSlot = document.querySelector(".virtual-slot");
+        const slots = document.querySelectorAll(".slot");
+        const stopAt = Math.floor(Math.random() * slots.length);
+        const totalRotations = 5; // 旋转5圈
+
+        // 计算旋转角度
+        const degreePerRotation = 360;
+        const totalRotationDegrees = totalRotations * degreePerRotation;
+        const degreePerSlot = 360 / slots.length;
+        const initialRotation = 0;
+        const targetRotation = totalRotationDegrees + degreePerSlot * stopAt;
+        const animationDuration = 5000; // 5秒旋转
+
+        // 启动旋转动画
+        virtualSlot.style.transition = `transform ${animationDuration}ms cubic-bezier(0.17, 0.67, 0.83, 0.67)`;
+        virtualSlot.style.transform = `rotate(${targetRotation}deg)`;
+
+        // 停止动画
+        setTimeout(() => {
+          isLotteryRunning = false;
+          virtualSlot.style.transition = "";
+          virtualSlot.style.transform = "";
+
+          // 显示中奖结果
+          setTimeout(() => {
+            alert(`恭喜你获得奖品: ${slots[stopAt].textContent}`);
+          }, 500); // 停止后0.5秒显示中奖结果
+        }, animationDuration);
+      }
+    </script>
+  </body>
+</html>
