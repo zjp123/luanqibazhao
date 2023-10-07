@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* 八宫格样式 */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: repeat(3, 200px);
+        gap: 10px;
+        width: 620px;
+        height: 620px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      /* 格子样式 */
+      .grid-item {
+        width: 200px;
+        height: 200px;
+        background-color: #3498db;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+
+      /* 虚拟格子样式 */
+      .virtual-item {
+        width: 200px;
+        height: 200px;
+        background-color: #ff5722;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        position: absolute;
+        /* transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67); */
+      }
+
+      /* 抽奖按钮样式 */
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #ff5722;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="grid-item">奖品1</div>
+      <div class="grid-item">奖品2</div>
+      <div class="grid-item">奖品3</div>
+      <div class="grid-item">奖品4</div>
+      <div class="grid-item"></div>
+      <div class="grid-item">奖品5</div>
+      <div class="grid-item">奖品6</div>
+      <div class="grid-item">奖品7</div>
+      <div class="grid-item">奖品8</div>
+      <div class="virtual-item"></div>
+    </div>
+    <button onclick="startLottery()">开始抽奖</button>
+    <script>
+      function getTranslateValues(element) {
+        // 获取元素的样式
+        const style = window.getComputedStyle(element);
+
+        // 获取transform属性的值
+        const transform =
+          style.getPropertyValue("transform") ||
+          style.getPropertyValue("-webkit-transform");
+
+        // 解析transform值，提取translateX和translateY的值
+        let translateX = 0;
+        let translateY = 0;
+
+        if (transform && transform !== "none") {
+          // 使用正则表达式提取translate的值
+          const match = transform.match(/matrix\(([^\)]+)\)/);
+          if (match) {
+            const matrixValues = match[1].split(", ");
+            translateX = parseFloat(matrixValues[4]);
+            translateY = parseFloat(matrixValues[5]);
+          }
+        }
+
+        return { translateX, translateY };
+      }
+
+      function animateTranslate(element, targetX, targetY, duration) {
+        const start = performance.now();
+        const { translateX, translateY } =
+            getTranslateValues(element);
+        function update(time) {
+          const elapsed = time - start;
+          const progress = elapsed / duration;
+
+          if (progress < 1) {
+            const x = interpolate(translateX, targetX, progress);
+            const y = interpolate(translateY, targetY, progress);
+            console.log(x, y, elapsed, progress, translateX, translateY);
+            element.style.transform = `translate(${x}px, ${y}px)`;
+
+            requestAnimationFrame(update);
+          } else {
+            element.style.transform = `translate(${targetX}px, ${targetY}px)`;
+            return;
+          }
+        }
+
+        function interpolate(start, end, progress) {
+          return start + (end - start) * progress;
+        }
+
+        requestAnimationFrame(update);
+      }
+    </script>
+
+    <script>
+      let isLotteryRunning = false;
+      let rounds = 0;
+      let direction = "right";
+      let fastRounds = Math.floor(Math.random() * 3) + 3; // 3-5圈
+      let slowRounds = Math.floor(Math.random() * 2) + 1; // 1-3圈
+      // let slowCount = 0;
+      let isAccelerating = true;
+      let isDecelerating = false;
+      let targetCell;
+      let currentSpeed = 5; // 初始速度
+      const arrGrid = [0, 1, 2, 5, 8, 7, 6, 3];
+      /*
+      3-5圈加速  1-3圈减速  最后与随机数匹配，速度为0停止(弹出中奖)
+      */
+
+      const virtualItem = document.querySelector(".virtual-item");
+      const gridItems = document.querySelectorAll(".grid-item");
+      const parent = document.querySelector(".grid");
+      const moveDistance = parent.offsetWidth - virtualItem.offsetWidth;
+      const moveDistanceVertical =
+        parent.offsetHeight - virtualItem.offsetHeight;
+
+      function generateNewArrayByElements(arr, a, b) {
+        const indexOfA = arr.indexOf(a);
+        const indexOfB = arr.indexOf(b);
+
+        if (indexOfA < indexOfB) {
+          return arr.slice(indexOfA + 1, indexOfB + 1);
+        } else {
+          return arr.slice(indexOfA + 1).concat(arr.slice(0, indexOfB + 1));
+        }
+      }
+
+      function calcTranslateFn(num) {
+        const row = Math.floor(num / 3);
+        const col = num % 3;
+        // return { row: row + 1, col: col + 1 }; // 行列和坐标刚好相反
+        return {
+          x: col * 200 + col * 10,
+          y: row * 200 + row * 10,
+        };
+      }
+
+      function transSingleGridFn(pathArr, trasDis) {
+        for (let index = 0; index < pathArr.length; index++) {
+          const xyObj = calcTranslateFn(pathArr[index]);
+          // animateTranslate(virtualItem, xyObj.x, xyObj.y, 333, trasDis);
+          animateTranslate(virtualItem, xyObj.x, xyObj.y, 1000);
+
+        }
+        // animateTranslate(virtualItem, moveDistance, 0, 1000);
+
+        // return () => {
+        // if (
+        //   direction === "right" &&
+        //   virtualItem.style.transform !==
+        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
+        // ) {
+        //   // virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
+        //   animateTranslate(virtualItem, moveDistance, 0, 333);
+        //   direction = "down";
+        // } else if (
+        //   direction === "down" &&
+        //   virtualItem.style.transform !==
+        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
+        // ) {
+        //   // virtualItem.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
+        //   animateTranslate(virtualItem, moveDistance, 0, 333);
+        //   direction = "left";
+        // } else if (
+        //   direction === "left" &&
+        //   virtualItem.style.transform !==
+        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
+        // ) {
+        //   virtualItem.style.transform = `translate(0, ${moveDistanceVertical}px)`;
+        //   direction = "up";
+        // } else if (
+        //   direction === "up" &&
+        //   virtualItem.style.transform !==
+        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
+        // ) {
+        //   virtualItem.style.transform = "translate(0, 0)";
+        //   direction = "right";
+        // }
+        // };
+      }
+
+      function transFn() {
+        if (isAccelerating) {
+          if (direction === "right" && rounds < fastRounds) {
+            virtualItem.style.transition = "transform 0.1s linear";
+            virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
+            direction = "down";
+          } else if (direction === "down" && rounds < fastRounds) {
+            virtualItem.style.transition = "transform 0.1s linear";
+            virtualItem.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
+            direction = "left";
+          } else if (direction === "left" && rounds < fastRounds) {
+            virtualItem.style.transition = "transform 0.1s linear";
+            virtualItem.style.transform = `translate(0, ${moveDistanceVertical}px)`;
+            direction = "up";
+          } else if (direction === "up" && rounds < fastRounds) {
+            virtualItem.style.transition = "transform 0.1s linear";
+            virtualItem.style.transform = "translate(0, 0)";
+            direction = "right";
+            rounds++;
+          }
+          // return;
+        } else if (isDecelerating && rounds >= fastRounds) {
+          console.log(isDecelerating, rounds, fastRounds, 222);
+
+          isDecelerating = false;
+          virtualItem.style.transition = "transform 0.1s ease-in-out";
+        } else {
+          console.log(isDecelerating, rounds, fastRounds, 1111);
+          if (direction === "right" && rounds < fastRounds + slowRounds) {
+            virtualItem.style.transition = "transform 0.3s linear";
+            virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
+            direction = "down";
+          } else if (direction === "down" && rounds < fastRounds + slowRounds) {
+            virtualItem.style.transition = "transform 0.3s linear";
+            virtualItem.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
+            direction = "left";
+          } else if (direction === "left" && rounds < fastRounds + slowRounds) {
+            virtualItem.style.transition = "transform 0.3s linear";
+            virtualItem.style.transform = `translate(0, ${moveDistanceVertical}px)`;
+            direction = "up";
+          } else if (direction === "up" && rounds < fastRounds + slowRounds) {
+            virtualItem.style.transition = "transform 0.3s linear";
+            virtualItem.style.transform = "translate(0, 0)";
+            direction = "right";
+            rounds++;
+            // slowCount++; // 当slowCount = slowRounds时，代表可以与随机盒子匹配了，做速度为0运动
+          }
+        }
+
+        if (rounds === fastRounds) {
+          isAccelerating = false;
+        }
+      }
+
+      function getRandomIntExcluding(min, max, exclude) {
+        let randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        // 如果生成的随机数等于要排除的数字，则重新生成
+        while (randomNum === exclude) {
+          randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        return randomNum;
+      }
+
+      function startLottery() {
+        if (isLotteryRunning) return;
+
+        isLotteryRunning = true;
+        rounds = 0;
+        direction = "right";
+        isAccelerating = true;
+        isDecelerating = false;
+
+        virtualItem.style.transition = "none";
+        virtualItem.style.transform = "translate(0, 0)";
+        virtualItem.offsetHeight;
+
+        // 随机选择一个中奖格子
+        // targetCell = Math.floor(Math.random() * 8);
+        targetCell = getRandomIntExcluding(0, 8, 4);
+        virtualItem.style.transition = "transform 0.1s linear";
+        virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
+        direction = "down";
+
+        virtualItem.addEventListener("transitionend", transFn);
+
+        function animateVirtualItem() {
+          const trasDis = calcTranslateFn(targetCell);
+          console.log(
+            `translate(${trasDis.x}px, ${trasDis.y}px)`,
+            virtualItem.style.transform
+          );
+          if (
+            rounds >= fastRounds + slowRounds &&
+            virtualItem.style.transform ===
+              `translate(${trasDis.x}px, ${trasDis.y}px)`
+          ) {
+            virtualItem.style.transition = "none";
+            isLotteryRunning = false;
+            rounds = 0;
+            direction = "right";
+            fastRounds = Math.floor(Math.random() * 3) + 3;
+            slowRounds = Math.floor(Math.random() * 2) + 1;
+            isAccelerating = true;
+            isDecelerating = false;
+            targetCell = null;
+            return;
+          }
+
+          if (rounds >= fastRounds + slowRounds) {
+            console.log(
+              targetCell,
+              `${gridItems[targetCell].textContent}`,
+              calcTranslateFn(targetCell),
+              generateNewArrayByElements(arrGrid, 0, targetCell)
+            );
+            virtualItem.style.transition = "none";
+            virtualItem.removeEventListener("transitionend", transFn);
+
+            // return;
+            // 开始停在 随机产生的targetCell 中奖格子上
+            transSingleGridFn(
+              generateNewArrayByElements(arrGrid, 0, targetCell),
+              trasDis
+            );
+          }
+
+          requestAnimationFrame(animateVirtualItem);
+        }
+        requestAnimationFrame(animateVirtualItem);
+      }
+    </script>
+  </body>
+</html>
