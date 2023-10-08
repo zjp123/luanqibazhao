@@ -148,11 +148,12 @@
             if (pathArr.length > 0) {
               const xyObj = calcTranslateFn(pathArr[0]);
               pathArr.shift();
+              // 为什么是300毫秒，因为走完一个格子是300，相比较原来走完一个边长是900ms，
               animateTranslate(
                 virtualItem,
                 xyObj.x,
                 xyObj.y,
-                500,
+                300,
                 trasDis,
                 pathArr
               );
@@ -221,7 +222,7 @@
         // }
         const xyObj = calcTranslateFn(pathArr[0]);
         pathArr.shift();
-        animateTranslate(virtualItem, xyObj.x, xyObj.y, 1000, trasDis, pathArr);
+        animateTranslate(virtualItem, xyObj.x, xyObj.y, 300, trasDis, pathArr);
       }
 
       function transFn() {
