@@ -226,6 +226,13 @@
 
       function transFn() {
         if (rounds >= fastRounds + slowRounds) {
+          isLotteryRunning = false;
+          rounds = 0;
+          direction = "right";
+          fastRounds = Math.floor(Math.random() * 3) + 3;
+          slowRounds = Math.floor(Math.random() * 2) + 1;
+          isAccelerating = true;
+          isDecelerating = false;
           virtualItem.style.transition = "none";
           virtualItem.removeEventListener("transitionend", transFn);
           // animateTranslate(virtualItem, moveDistance, 0, 1000);
@@ -234,6 +241,7 @@
             generateNewArrayByElements(arrGrid, 0, targetCell),
             trasDis
           );
+
           return;
         }
         if (isAccelerating) {
@@ -351,14 +359,6 @@
               calcTranslateFn(targetCell),
               generateNewArrayByElements(arrGrid, 0, targetCell)
             );
-            isLotteryRunning = false;
-            rounds = 0;
-            direction = "right";
-            fastRounds = Math.floor(Math.random() * 3) + 3;
-            slowRounds = Math.floor(Math.random() * 2) + 1;
-            isAccelerating = true;
-            isDecelerating = false;
-            // targetCell = null;
 
             // virtualItem.removeEventListener("transitionend", transFn);
 
