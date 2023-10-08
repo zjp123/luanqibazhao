@@ -96,24 +96,68 @@
         return { translateX, translateY };
       }
 
-      function animateTranslate(element, targetX, targetY, duration) {
+      function animateTranslate(
+        element,
+        targetX,
+        targetY,
+        duration,
+        trasDis,
+        pathArr
+      ) {
         const start = performance.now();
-        const { translateX, translateY } =
-            getTranslateValues(element);
-        function update(time) {
-          const elapsed = time - start;
-          const progress = elapsed / duration;
+        const { translateX, translateY } = getTranslateValues(element);
+        // function update(time) {
+        //   const elapsed = time - start;
+        //   const progress = elapsed / duration;
 
-          if (progress < 1) {
+        //   if (progress < 1) {
+        //     const x = interpolate(translateX, targetX, progress);
+        //     const y = interpolate(translateY, targetY, progress);
+        //     console.log(x, y, elapsed, progress, translateX, translateY);
+        //     element.style.transform = `translate(${x}px, ${y}px)`;
+
+        //     requestAnimationFrame(update);
+        //   } else {
+        //     element.style.transform = `translate(${targetX}px, ${targetY}px)`;
+        //   }
+        // }
+        function update(time) {
+          if (
+            virtualItem.style.transform ===
+            `translate(${trasDis.x}px, ${trasDis.y}px)`
+          ) {
+            return;
+          }
+          // if (targetX === trasDis.x && targetY === trasDis.y) {
+          //   console.log("停止了......", targetX, targetY, trasDis);
+          //   targetCell = null;
+          //   return;
+          // }
+          const elapsed = time - start;
+          if (elapsed < duration) {
+            const progress = elapsed / duration;
+
             const x = interpolate(translateX, targetX, progress);
             const y = interpolate(translateY, targetY, progress);
-            console.log(x, y, elapsed, progress, translateX, translateY);
+            console.log(x, y, elapsed, translateX, translateY);
             element.style.transform = `translate(${x}px, ${y}px)`;
 
             requestAnimationFrame(update);
           } else {
             element.style.transform = `translate(${targetX}px, ${targetY}px)`;
-            return;
+            if (pathArr.length > 0) {
+              const xyObj = calcTranslateFn(pathArr[0]);
+              pathArr.shift();
+              animateTranslate(
+                virtualItem,
+                xyObj.x,
+                xyObj.y,
+                500,
+                trasDis,
+                pathArr
+              );
+            }
+            // return;
           }
         }
 
@@ -170,50 +214,28 @@
       }
 
       function transSingleGridFn(pathArr, trasDis) {
-        for (let index = 0; index < pathArr.length; index++) {
-          const xyObj = calcTranslateFn(pathArr[index]);
-          // animateTranslate(virtualItem, xyObj.x, xyObj.y, 333, trasDis);
-          animateTranslate(virtualItem, xyObj.x, xyObj.y, 1000);
-
-        }
-        // animateTranslate(virtualItem, moveDistance, 0, 1000);
-
-        // return () => {
-        // if (
-        //   direction === "right" &&
-        //   virtualItem.style.transform !==
-        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
-        // ) {
-        //   // virtualItem.style.transform = `translate(${moveDistance}px, 0)`;
-        //   animateTranslate(virtualItem, moveDistance, 0, 333);
-        //   direction = "down";
-        // } else if (
-        //   direction === "down" &&
-        //   virtualItem.style.transform !==
-        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
-        // ) {
-        //   // virtualItem.style.transform = `translate(${moveDistance}px, ${moveDistanceVertical}px)`;
-        //   animateTranslate(virtualItem, moveDistance, 0, 333);
-        //   direction = "left";
-        // } else if (
-        //   direction === "left" &&
-        //   virtualItem.style.transform !==
-        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
-        // ) {
-        //   virtualItem.style.transform = `translate(0, ${moveDistanceVertical}px)`;
-        //   direction = "up";
-        // } else if (
-        //   direction === "up" &&
-        //   virtualItem.style.transform !==
-        //     `translate(${trasDis.x}px, ${trasDis.y}px)`
-        // ) {
-        //   virtualItem.style.transform = "translate(0, 0)";
-        //   direction = "right";
+        console.log("开始执行落地操作..........", trasDis);
+        // for (let index = 0; index < pathArr.length; index++) {
+        //   const xyObj = calcTranslateFn(pathArr[index]);
+        //   animateTranslate(virtualItem, xyObj.x, xyObj.y, 1000, trasDis);
         // }
-        // };
+        const xyObj = calcTranslateFn(pathArr[0]);
+        pathArr.shift();
+        animateTranslate(virtualItem, xyObj.x, xyObj.y, 1000, trasDis, pathArr);
       }
 
       function transFn() {
+        if (rounds >= fastRounds + slowRounds) {
+          virtualItem.style.transition = "none";
+          virtualItem.removeEventListener("transitionend", transFn);
+          // animateTranslate(virtualItem, moveDistance, 0, 1000);
+          const trasDis = calcTranslateFn(targetCell);
+          transSingleGridFn(
+            generateNewArrayByElements(arrGrid, 0, targetCell),
+            trasDis
+          );
+          return;
+        }
         if (isAccelerating) {
           if (direction === "right" && rounds < fastRounds) {
             virtualItem.style.transition = "transform 0.1s linear";
@@ -301,25 +323,26 @@
         function animateVirtualItem() {
           const trasDis = calcTranslateFn(targetCell);
           console.log(
+            666,
             `translate(${trasDis.x}px, ${trasDis.y}px)`,
             virtualItem.style.transform
           );
-          if (
-            rounds >= fastRounds + slowRounds &&
-            virtualItem.style.transform ===
-              `translate(${trasDis.x}px, ${trasDis.y}px)`
-          ) {
-            virtualItem.style.transition = "none";
-            isLotteryRunning = false;
-            rounds = 0;
-            direction = "right";
-            fastRounds = Math.floor(Math.random() * 3) + 3;
-            slowRounds = Math.floor(Math.random() * 2) + 1;
-            isAccelerating = true;
-            isDecelerating = false;
-            targetCell = null;
-            return;
-          }
+          // if (
+          //   rounds >= fastRounds + slowRounds &&
+          //   virtualItem.style.transform ===
+          //     `translate(${trasDis.x}px, ${trasDis.y}px)`
+          // ) {
+          //   virtualItem.style.transition = "none";
+          //   isLotteryRunning = false;
+          //   rounds = 0;
+          //   direction = "right";
+          //   fastRounds = Math.floor(Math.random() * 3) + 3;
+          //   slowRounds = Math.floor(Math.random() * 2) + 1;
+          //   isAccelerating = true;
+          //   isDecelerating = false;
+          //   targetCell = null;
+          //   return;
+          // }
 
           if (rounds >= fastRounds + slowRounds) {
             console.log(
@@ -328,15 +351,23 @@
               calcTranslateFn(targetCell),
               generateNewArrayByElements(arrGrid, 0, targetCell)
             );
-            virtualItem.style.transition = "none";
-            virtualItem.removeEventListener("transitionend", transFn);
+            isLotteryRunning = false;
+            rounds = 0;
+            direction = "right";
+            fastRounds = Math.floor(Math.random() * 3) + 3;
+            slowRounds = Math.floor(Math.random() * 2) + 1;
+            isAccelerating = true;
+            isDecelerating = false;
+            // targetCell = null;
 
-            // return;
+            // virtualItem.removeEventListener("transitionend", transFn);
+
+            return;
             // 开始停在 随机产生的targetCell 中奖格子上
-            transSingleGridFn(
-              generateNewArrayByElements(arrGrid, 0, targetCell),
-              trasDis
-            );
+            // transSingleGridFn(
+            //   generateNewArrayByElements(arrGrid, 0, targetCell),
+            //   trasDis
+            // );
           }
 
           requestAnimationFrame(animateVirtualItem);

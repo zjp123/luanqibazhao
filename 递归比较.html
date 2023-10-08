@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>递归比较</title>
+  </head>
+  <body>
+    <script>
+      function recursivelyCheckEqual(x, ...rest) {
+        console.log(x, rest);
+        return (
+          //   x < rest[0] && (rest.length < 2 || recursivelyCheckEqual(...rest))
+          Object.is(x, rest[0]) &&
+          (rest.length < 2 || recursivelyCheckEqual(...rest))
+        );
+      }
+
+      console.log(recursivelyCheckEqual(0, 1, 2, 3, 4));
+    </script>
+  </body>
+</html>

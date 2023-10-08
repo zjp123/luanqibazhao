@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #slotMachine {
+        display: flex;
+        justify-content: space-around;
+        width: 300px;
+        margin: 50px auto;
+        font-size: 24px;
+      }
+
+      .slot {
+        width: 80px;
+        height: 120px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        line-height: 120px;
+      }
+
+      .symbols {
+        position: absolute;
+        top: 0;
+        transition: transform 2s ease-out;
+      }
+
+      #spinButton {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        background-color: #2ecc71;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slotMachine">
+      <div class="slot" id="slot1">
+        <div class="symbols">
+          <div>🍒</div>
+          <div>🍇</div>
+          <div>🍊</div>
+          <div>🍋</div>
+        </div>
+      </div>
+      <div class="slot" id="slot2">
+        <div class="symbols">
+          <div>🍒</div>
+          <div>🍇</div>
+          <div>🍊</div>
+          <div>🍋</div>
+        </div>
+      </div>
+      <div class="slot" id="slot3">
+        <div class="symbols">
+          <div>🍒</div>
+          <div>🍇</div>
+          <div>🍊</div>
+          <div>🍋</div>
+        </div>
+      </div>
+    </div>
+
+    <button id="spinButton" onclick="startSpin()">Spin</button>
+
+    <script>
+      let spinning = false;
+
+      function startSpin() {
+        if (!spinning) {
+          spinning = true;
+          const slots = document.querySelectorAll(".symbols");
+
+          // 随机生成每个老虎机的停止位置
+          const stops = [
+            Math.floor(Math.random() * 4),
+            Math.floor(Math.random() * 4),
+            Math.floor(Math.random() * 4),
+          ];
+
+          // 设置每个老虎机的停止位置
+          slots.forEach((slot, index) => {
+            const stopPosition = stops[index];
+            const distance = stopPosition * -120; // 每个符号的高度是120px
+            slot.style.transform = `translateY(${distance}px)`;
+          });
+
+          // 模拟老虎机滚动效果
+          setTimeout(() => {
+            spinning = false;
+          }, 2000);
+        }
+      }
+    </script>
+  </body>
+</html>
