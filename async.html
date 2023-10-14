@@ -34,10 +34,15 @@
                 }, 5000)
             })
         }
+        async function fn() {
+            // return 888
+            console.log(99)
+        }
         console.log(1)
+        
         const res = yibu()
         arr.push(res)
-        console.log(3, arr)
+        console.log(3, arr, fn())
     </script>
 </body>
 </html>
