@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .rating {
+        font-size: 0; /* Remove white space between inline-block elements */
+        cursor: pointer;
+      }
+
+      .star {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-image: url("./images/x1.png"); /* Replace 'star.png' with your star image */
+        background-size: cover;
+        transition: width 0.2s;
+        overflow: hidden;
+      }
+
+      .star:hover,
+      .star.active {
+        background-image: url("./images/x2.png"); /* Replace 'star.png' with your star image */
+        width: 25px; /* Adjust the width for half star */
+      }
+
+      .star[data-rating="1"] {
+        background-position: 0 -0px;
+      }
+
+      .star[data-rating="2"] {
+        background-position: 0 -50px;
+      }
+
+      .star[data-rating="3"] {
+        background-position: 0 -100px;
+      }
+
+      .star[data-rating="4"] {
+        background-position: 0 -150px;
+      }
+
+      .star[data-rating="5"] {
+        background-position: 0 -200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rating" id="rating">
+      <div class="star" data-rating="1"></div>
+      <div class="star" data-rating="2"></div>
+      <div class="star" data-rating="3"></div>
+      <div class="star" data-rating="4"></div>
+      <div class="star" data-rating="5"></div>
+    </div>
+    <div id="result"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll(".star");
+        const result = document.getElementById("result");
+
+        stars.forEach(function (star) {
+          star.addEventListener("click", function () {
+            const rating = this.getAttribute("data-rating");
+            result.innerHTML = "你的评分是：" + rating + "星";
+          });
+
+          star.addEventListener("mouseover", function () {
+            resetStars();
+            const rating = this.getAttribute("data-rating");
+            highlightStars(rating);
+          });
+
+          star.addEventListener("mouseout", function () {
+            resetStars();
+            const rating = result.innerHTML.split("星")[0];
+            if (rating) {
+              highlightStars(rating);
+            }
+          });
+        });
+
+        function resetStars() {
+          stars.forEach(function (star) {
+            star.classList.remove("active");
+          });
+        }
+
+        function highlightStars(rating) {
+          for (let i = 0; i < rating; i++) {
+            stars[i].classList.add("active");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
