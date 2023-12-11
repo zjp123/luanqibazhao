@@ -17,7 +17,7 @@
       }
 
       // 原始数据
-      const data = { text: "hello world" }; // 对原始数据的代理
+      const data = { ok: true, text: "hello world" }; // 对原始数据的代理
       const obj = new Proxy(data, {
         // 拦截读取操作
         get(target, key) {
@@ -57,10 +57,10 @@
       effect(() => {
         // effect 函数的执行会读取 obj.text
         console.log(111); // 执行两次
-        document.body.innerText = obj.text;
+        document.body.innerText = obj.ok ? obj.text : "not";
       });
       console.log(bucket);
-      obj.text = 888;
+      obj.ok = false;
     </script>
   </body>
 </html>
