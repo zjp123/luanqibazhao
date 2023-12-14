@@ -61,6 +61,7 @@
       });
       console.log(bucket);
       obj.ok = false;
+      obj.text = 666; // 这个时候因为ok为false  副作用函数不应该在执行了
     </script>
   </body>
 </html>
