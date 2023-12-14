@@ -38,6 +38,7 @@
           }
           // 最后将当前激活的副作用函数添加到“桶”里
           deps.add(activeEffect);
+          console.log(key, "---", deps);
           // 返回属性值
           return target[key];
         },
@@ -61,7 +62,7 @@
       });
       console.log(bucket);
       obj.ok = false;
-      obj.text = 666; // 这个时候因为ok为false  副作用函数不应该在执行了
+      obj.text = 666;
     </script>
   </body>
 </html>

@@ -25,7 +25,7 @@
         }
         // 最后将当前激活的副作用函数添加到“桶”里
         deps.add(activeEffect);
-
+        console.log(key, "---", deps);
         // deps 就是一个与当前副作用函数存在联系的依赖集合
         // 将其添加到 activeEffect.deps 数组中
         activeEffect.deps.push(deps); // 新增
@@ -91,6 +91,7 @@
         document.body.innerText = obj.ok ? obj.text : "not";
       });
       obj.ok = false;
+      // obj.text = 666;
       console.log(bucket, "bucket");
     </script>
   </body>
