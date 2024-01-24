@@ -38,7 +38,7 @@
           }
           // 最后将当前激活的副作用函数添加到“桶”里
           deps.add(activeEffect);
-          console.log(key, "---", deps);
+          // console.log(key, "---", deps);
           // 返回属性值
           return target[key];
         },
@@ -62,7 +62,7 @@
       });
       console.log(bucket);
       obj.ok = false;
-      obj.text = 666;
+      obj.text = 666; // 这时因为ok设置为false了，三元表达式取值not，无论怎么设置text值，副作用函数都不应该执行了
     </script>
   </body>
 </html>
