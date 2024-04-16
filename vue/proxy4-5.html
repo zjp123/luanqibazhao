@@ -88,12 +88,10 @@
         },
       });
       effect(() => {
-        // effect 函数的执行会读取 obj.text
-        // console.log(111); // 执行两次
-        document.body.innerText = obj.ok ? obj.text : "not";
+        
+        // obj.text = obj.text + 1 // 导致无限循环
       });
-      obj.ok = false;
-      // obj.text = 666;
+      
       console.log(bucket, "bucket");
     </script>
   </body>
