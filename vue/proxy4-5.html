@@ -25,11 +25,11 @@
         }
         // 最后将当前激活的副作用函数添加到“桶”里
         deps.add(activeEffect);
-        // console.log(key, "---", deps);
+        console.log(key, "---deps", deps);
         // deps 就是一个与当前副作用函数存在联系的依赖集合
         // 将其添加到 activeEffect.deps 数组中
-        activeEffect.deps.push(deps); // 新增
-        console.log("track");
+        activeEffect.deps.push(deps); // 新增 
+        // 作用是把与当前副作用函数相关的依赖集合，如这个例子中ok属性和text属性两个依赖的集合和这个副作用函数都有关
       }
       function trigger(target, key) {
         const depsMap = bucket.get(target);
@@ -38,10 +38,7 @@
         // effects && effects.forEach((fn) => fn());
         const effectsToRun = new Set(effects); // 新增
         effectsToRun.forEach((effectFn) => effectFn());
-        console.log("trigger");
       }
-      // cleanup 原理就是  每次设置，把之前收集的依赖清除，只在最后一次搜集对应状态的依赖，相当于每次状态变更时收集对应的
-      // 这样就保持最新了
       function cleanup(effectFn) {
         // 遍历 effectFn.deps 数组
         for (let i = 0; i < effectFn.deps.length; i++) {
@@ -63,7 +60,6 @@
         const effectFn = () => {
           // 当 effectFn 执行时，将其设置为当前激活的副作用函数
           // 调用 cleanup 函数完成清除工作
-          console.log("cleancleanclean");
           cleanup(effectFn); // 新增
           console.log(fn, activeEffect, 'cleanupcleanup')
           activeEffect = effectFn;
@@ -92,13 +88,11 @@
         },
       });
       effect(() => {
-        // effect 函数的执行会读取 obj.text
-        // console.log(111); // 执行两次
-        document.body.innerText = obj.ok ? obj.text : "not";
+        
+        // obj.text = obj.text + 1 // 导致无限循环
       });
-      obj.ok = false;
-      obj.text = 666;
-      // console.log(bucket, "bucket");
+      
+      console.log(bucket, "bucket");
     </script>
   </body>
 </html>

@@ -7,6 +7,31 @@
   </head>
   <body>
     <script>
+      // 全局变量
+      let temp1, temp2
+      // 存储副作用函数的桶
+      const bucket = new WeakMap();
+      let activeEffect = null;
+      const effectStack = [] // 新增
+      function effect(fn) {
+        const effectFn = () => {
+          // 当 effectFn 执行时，将其设置为当前激活的副作用函数
+          // 调用 cleanup 函数完成清除工作
+          cleanup(effectFn); // 新增
+          activeEffect = effectFn;
+          effectStack.push(effectFn) // 新增
+          fn();
+          effectStack.pop() // 新增
+          activeEffect = effectStack[effectStack.length - 1] // 新增
+          console.log(activeEffect, 'activeEffectactiveEffect')
+        };
+        // activeEffect.deps 用来存储所有与该副作用函数相关联的依赖集合
+        effectFn.deps = [];
+        // 执行副作用函数
+        effectFn();
+      }
+    </script>
+    <script>
       function track(target, key) {
         // 没有 activeEffect，直接 return
         if (!activeEffect) return target[key];
@@ -25,23 +50,25 @@
         }
         // 最后将当前激活的副作用函数添加到“桶”里
         deps.add(activeEffect);
-        // console.log(key, "---", deps);
+        console.log(key, "---", deps);
         // deps 就是一个与当前副作用函数存在联系的依赖集合
         // 将其添加到 activeEffect.deps 数组中
         activeEffect.deps.push(deps); // 新增
-        console.log("track");
       }
       function trigger(target, key) {
         const depsMap = bucket.get(target);
         if (!depsMap) return;
         const effects = depsMap.get(key);
         // effects && effects.forEach((fn) => fn());
-        const effectsToRun = new Set(effects); // 新增
+        const effectsToRun = new Set(); // 新增
+        effects && effects.forEach(effectFn => {
+          // 如果 trigger 触发执行的副作用函数与当前正在执行的副作用函数相同，则不触发执行
+          if (effectFn !== activeEffect) { // 新增
+            effectsToRun.add(effectFn)
+          }
+        })
         effectsToRun.forEach((effectFn) => effectFn());
-        console.log("trigger");
       }
-      // cleanup 原理就是  每次设置，把之前收集的依赖清除，只在最后一次搜集对应状态的依赖，相当于每次状态变更时收集对应的
-      // 这样就保持最新了
       function cleanup(effectFn) {
         // 遍历 effectFn.deps 数组
         for (let i = 0; i < effectFn.deps.length; i++) {
@@ -55,28 +82,9 @@
       }
     </script>
     <script>
-      // 存储副作用函数的桶
-      const bucket = new WeakMap();
-      let activeEffect = null;
-
-      function effect(fn) {
-        const effectFn = () => {
-          // 当 effectFn 执行时，将其设置为当前激活的副作用函数
-          // 调用 cleanup 函数完成清除工作
-          console.log("cleancleanclean");
-          cleanup(effectFn); // 新增
-          console.log(fn, activeEffect, 'cleanupcleanup')
-          activeEffect = effectFn;
-          fn(); // 执行cleanup完后fn还在  因为它是个闭包  它还可以依然执行
-        };
-        // activeEffect.deps 用来存储所有与该副作用函数相关联的依赖集合
-        effectFn.deps = [];
-        // 执行副作用函数
-        effectFn();
-      }
 
       // 原始数据
-      const data = { ok: true, text: "hello world" }; // 对原始数据的代理
+      const data = { foo: true, bar: "hello world" }; // 对原始数据的代理
       const obj = new Proxy(data, {
         // 拦截读取操作
         get(target, key) {
@@ -91,14 +99,19 @@
           trigger(target, key);
         },
       });
-      effect(() => {
-        // effect 函数的执行会读取 obj.text
-        // console.log(111); // 执行两次
-        document.body.innerText = obj.ok ? obj.text : "not";
-      });
-      obj.ok = false;
-      obj.text = 666;
-      // console.log(bucket, "bucket");
+       // effectFn1 嵌套了 effectFn2 10 
+      effect(function effectFn1() {
+        console.log(666)
+          obj.bar = obj.bar + 1
+          document.body.innerHTML = obj.foo
+
+      })
+      setTimeout(() => {
+        obj.bar = 99
+        console.log(console.dir(bucket), '...........')
+
+      }, 3000);
+
     </script>
   </body>
 </html>
