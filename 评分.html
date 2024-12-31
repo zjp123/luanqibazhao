@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const feedBack = (rate) => {
+            const [ rate1, rate2 = 0 ] = rate.toString().split('.')
+            let rateText = '★★★★★☆☆☆☆☆'.slice(5 - rate1, 10 - rate1)
+            if (rate2) {
+                const class1 = 'style="position: relative;"'
+                const class2 = `style="position: absolute; overflow: hidden; width:${rate2 * 10}%;"`
+                rateText = rateText.replace('☆', `<span ${class1}><span ${class2}>★</span>☆</span>`)
+            }
+            return rateText
+        }
+        document.body.innerHTML = `<div>${feedBack(4.6)}</div>`
+    </script>
+</body>
+</html>

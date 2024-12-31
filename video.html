@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>菜鸟教程(runoob.com)</title>
+    <style>
+      video {
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+        mix-blend-mode: screen;
+      }
+      video::-internal-media-controls-download-button {
+        display: none !important; /* 并非所有浏览器都支持这个伪元素 */
+      }
+      /* video::-webkit-media-controls-enclosure {
+        display: none !important;
+      } */
+    </style>
+  </head>
+  <body>
+    <p></p>
+    <p>该实例演示了如何向 video 元素添加 "onended" 事件。</p>
+    <p>按下播放按钮，等待音频播放结束。</p>
+    <div>
+      <!-- src="https://pub.xiuzhan365.com/resourceFiles/web/home/videos/xiuzhan_new.mp4" -->
+      <!-- onended="myFunction()" -->
+      <video
+        webkit-playsinline="true"
+        playsinline="true"
+        id="videoo"
+        poster="./images/ws512.png"
+        controls
+      ></video>
+    </div>
+    <script>
+      const videoEle = document.getElementById("videoo");
+      videoEle.setAttribute(
+        "src",
+        "https://sample-videos.com/video321/flv/240/big_buck_bunny_240p_1mb.flv"
+      );
+      function myFunction() {
+        alert("视频已播放结束");
+      }
+      videoEle.addEventListener("ended", () => {
+        console.log("视频播放完成");
+      });
+    </script>
+  </body>
+</html>
