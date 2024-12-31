@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Example - No Local Audio Playback</title>
+</head>
+<body>
+    <h2>WebRTC - No Local Audio Playback</h2>
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+
+    <script>
+        let localStream;
+        let remoteStream;
+        let peerConnection;
+
+        // STUN/TURN servers for peer-to-peer connection
+        const iceServers = {
+            iceServers: [{
+                urls: "stun:stun.l.google.com:19302"
+            }]
+        };
+
+        // Get user's media (audio and video)
+        async function getUserMedia() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                localStream = stream;
+                document.getElementById('localVideo').srcObject = localStream;
+
+                // Do not play local audio back to the user
+                const localAudioTracks = stream.getAudioTracks();
+                localAudioTracks.forEach(track => {
+                    track.enabled = true;
+                });
+
+                // Set up the peer connection
+                peerConnection = new RTCPeerConnection(iceServers);
+                peerConnection.addEventListener('icecandidate', handleICECandidate);
+                peerConnection.addEventListener('track', handleRemoteTrack);
+
+                // Add the local stream tracks to the peer connection
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+
+                // Create an offer to initiate the connection (for simplicity, no signaling logic here)
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // For demonstration, assume remote peer sends back an answer
+                // In a real-world scenario, you would need a signaling server to exchange these messages
+                setTimeout(() => {
+                    simulateRemoteAnswer(offer);
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error accessing media devices.', error);
+            }
+        }
+
+        // Handle ICE candidates (simplified signaling)
+        function handleICECandidate(event) {
+            if (event.candidate) {
+                console.log('ICE Candidate:', event.candidate);
+            }
+        }
+
+        // Handle incoming remote stream (audio and video from the other peer)
+        function handleRemoteTrack(event) {
+            console.log('Remote track received:', event);
+            if (event.track.kind === 'audio') {
+                remoteStream = event.streams[0];
+                const remoteAudio = document.createElement('audio');
+                remoteAudio.srcObject = remoteStream;
+                remoteAudio.play();
+            }
+            if (event.track.kind === 'video') {
+                document.getElementById('remoteVideo').srcObject = event.streams[0];
+            }
+        }
+
+        // Simulate receiving a remote answer from the other peer (for demo)
+        async function simulateRemoteAnswer(offer) {
+            try {
+                const remoteConnection = new RTCPeerConnection(iceServers);
+                remoteConnection.addEventListener('icecandidate', handleICECandidate);
+                remoteConnection.addEventListener('track', handleRemoteTrack);
+
+                // Set remote description and create an answer
+                await remoteConnection.setRemoteDescription(offer);
+                const answer = await remoteConnection.createAnswer();
+                await remoteConnection.setLocalDescription(answer);
+
+                // Send the answer back to the initiating peer (simulated here)
+                peerConnection.setRemoteDescription(answer);
+
+                // Simulate the remote peer sending their media stream
+                const remoteStream = new MediaStream();
+                remoteConnection.addTrack(new MediaStreamTrack(), remoteStream);  // Simulate remote stream
+
+            } catch (error) {
+                console.error('Error during the simulation of remote answer:', error);
+            }
+        }
+
+        // Start the process
+        getUserMedia();
+
+    </script>
+</body>
+</html>
